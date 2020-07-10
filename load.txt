@@ -1,0 +1,26 @@
+NSGAStartupMessage <- function()
+{
+  # Startup message obtained as
+  # > figlet GA
+  msg <- " ___    __  _____  ____     _
+          |   \  |  ||  ___|/ ___|   / \\     Non-Dominated
+          |    \ |  || |___ | |  _  / _ \\    Genetic
+          |  |\ \|  ||___  || |_| |/ ___ \\    Algorithms
+          |__| \____| ___|_|\\____/_/   \\_\\  version "
+  return(msg)
+}
+
+.onAttach <- function(lib, pkg)
+{
+  # unlock .ga.default variable allowing its modification
+  unlockBinding(".nsga.default", asNamespace("nsga3r"))
+  # startup message
+  msg <- GAStartupMessage()
+  #if(!interactive())
+  #  msg[1] <- paste("Package 'GA' version", packageVersion("GA"))
+  packageStartupMessage(msg)
+  invisible()
+}
+
+
+

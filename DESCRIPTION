@@ -1,0 +1,38 @@
+Package: nsga3r
+Title: Non-Dominated Genetic Algorithms - III
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Francisco",
+             family = "Benitez",
+             role = c("aut", "cre"),
+             email = "benitez.fj@hotmail.com"),
+      person(given = "Diego",
+             family = "Pinto Roa",
+             role = "aut",
+             email = "dpinto@pol.una.py",
+             comment = c(ORCID = "0000-0003-2479-9876")))
+Description: A multi-objective optimization package based on the
+    algorithm of K. Deb and H. Jain.
+License: GPL (>= 2)
+Encoding: UTF-8
+Language: es
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+Collate: 
+    'crowding_distance.R'
+    'generate_reference_points.R'
+    'geneticoperator.R'
+    'get_fixed_rowsum_integer_matrix.R'
+    'miscfun.R'
+    'non_dominated_fronts.R'
+    'numberOrNAOrMatrix-class.R'
+    'nsga-class.R'
+    'nsga.R'
+    'nsga2-class.R'
+    'nsga2.R'
+    'nsga3-class.R'
+    'nsga3.R'
+    'nsgaControl.R'
+    'sharing.R'
+    'zzz.R'
