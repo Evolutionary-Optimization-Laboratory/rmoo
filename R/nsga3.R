@@ -57,41 +57,44 @@
 #'
 #' @return Returns an object of class nsga-class. See [nsga-class] for a description of available slots information.
 nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
-  algorithm = c("NSGA",  "NSGA-II", "NSGA-III"),
-  fitness, ...,
-  optimal,
-  lower, upper, nBits,
-  population = generate_population_real,
-  selection = ga_tourSelection_R,
-  crossover = gareal_laCrossover_R,
-  mutation = gareal_raMutation_R,
-  popSize = 50,
-  nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
-  dshare,
-  pcrossover = 0.8,
-  pmutation = 0.1,
-  elitism = 0,
-  updatePop = FALSE,
-  postFitness = NULL,
-  maxiter = 100,
-  run = maxiter,
-  maxFitness = Inf,
-  names = NULL,
-  suggestions = NULL,
-  optim = FALSE,
-  optimArgs = list(method = "L-BFGS-B",
-    poptim = 0.05,
-    pressel = 0.5,
-    control = list(fnscale = -1, maxit = 100)),
-  keepBest = FALSE,
-  parallel = FALSE,
-  monitor = if (interactive()) nsgaMonitor else FALSE,
-  seed = NULL)
+                   fitness, ..., #optimal,
+                   lower, upper, nBits,
+                   population = nsgaControl(type)$population, #generate_population_real,
+                   selection = nsgaControl(type)$selection, #ga_tourSelection_R,
+                   crossover = nsgaControl(type)$crossover, #gareal_laCrossover_R,
+                   mutation = nsgaControl(type)$mutation, #gareal_raMutation_R,
+                   popSize = 50,
+                   nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
+                   n_partitions,
+                   # dshare,
+                   pcrossover = 0.8,
+                   pmutation = 0.1,
+                   reference_dirs = generate_reference_points(),
+                   # elitism = 0,
+                   # updatePop = FALSE,
+                   # postFitness = NULL,
+                   maxiter = 100,
+                   run = maxiter,
+                   maxFitness = Inf,
+                   names = NULL,
+                   suggestions = NULL,
+                   # optim = FALSE,
+                   # optimArgs = list(method = "L-BFGS-B",
+                   #                  poptim = 0.05,
+                   #                  pressel = 0.5,
+                   #                  control = list(fnscale = -1, maxit = 100)),
+                   # keepBest = FALSE,
+                   # parallel = FALSE,
+                   monitor = if (interactive()) nsgaMonitor else FALSE,
+                   seed = NULL)
 {
   #nsgaMonitor
   call <- match.call()
 
-  type <- type;
+  #type <- type
+  type <- match.arg(type, choices = eval(formals(nsga2)$type))
+
+  algorithm <- "NSGA-III"
 
   #Validaciones
   if (!is.function(population))
@@ -115,9 +118,9 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   if (maxiter < 1) {
     stop("The maximum number of iterations must be at least 1.")
   }
-  if (elitism > popSize) {
-    stop("The elitism cannot be larger that population size.")
-  }
+  # if (elitism > popSize) {
+  #   stop("The elitism cannot be larger that population size.")
+  # }
   if (pcrossover < 0 | pcrossover > 1) {
     stop("Probability of crossover must be between 0 and 1.")
   }
@@ -129,39 +132,33 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
       stop("pmutation must be a numeric value in (0,1) or a function.")
     }
   }
-
-  if(algorithm != "NSGA"){
-    DumFitness <- FALSE;
-    initialDummy <- FALSE;
-    delta_dum <- 0;
-    dShare <- 0;
-  }else{
-    DumFitness <- matrix(NA, nrow = popSize, ncol = nObj); #Solo se utilizara en el NSGA-I
-    initialDummy <- popSize; #Se pasa como argumento del main
-    delta_dum <- 0.1*initialDummy;
+  if (!is.function(reference_dirs)) {
+    stop("A Determination of Reference Points function must be provided")
   }
 
-  callArgs <- list(...)
-  if (any("min" %in% names(callArgs))) {
-    lower <- callArgs$min
-    callArgs$min <- NULL
-    warning("'min' arg is deprecated. Use 'lower' instead.")
-  }
-  if (any("max" %in% names(callArgs))) {
-    upper <- callArgs$max
-    callArgs$max <- NULL
-    warning("'max' arg is deprecated. Use 'upper' instead.")
-  }
+  # # check for min and max arguments instead of lower and upper
+  # callArgs <- list(...)
+  # if (any("min" %in% names(callArgs))) {
+  #   lower <- callArgs$min
+  #   callArgs$min <- NULL
+  #   warning("'min' arg is deprecated. Use 'lower' instead.")
+  # }
+  # if (any("max" %in% names(callArgs))) {
+  #   upper <- callArgs$max
+  #   callArgs$max <- NULL
+  #   warning("'max' arg is deprecated. Use 'upper' instead.")
+  # }
 
   if (missing(lower) & missing(upper) & missing(nBits)) {
     stop("A lower and upper range of values (for 'real-valued' or 'permutation' GA) or nBits (for 'binary' GA) must be provided!")
   }
-  if(is.null(nObj)){
+
+  if (is.null(nObj)) {
     nObj <- ncol(fitness(matrix(10000, ncol = 100, nrow = 100)))
   }
 
-  if((length(lower) != nObj) & (length(upper) != nObj)){
-    stop("Los minimos y maximos deben coincidir con la cantidad de objetivos!")
+  if ((length(lower) != nObj) & (length(upper) != nObj)) {
+    stop("The lower and upper limits must be vector of the same number of objectives")
   }
 
   switch(type,
@@ -171,7 +168,6 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
       nvars <- nBits
       if (is.null(names)) names <- paste0("x", 1:nvars)
     },
-
     `real-valued` = {
       lnames <- names(lower)
       unames <- names(upper)
@@ -188,7 +184,6 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
       if (is.null(names))
         names <- paste0("x", 1:nvars)
     },
-
     permutation = {
       lower <- as.vector(lower)[1]
       upper <- as.vector(upper)[1]
@@ -201,8 +196,8 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
 
   if (is.null(suggestions)){
     suggestions <- matrix(nrow = 0, ncol = nvars)
-  }else{
-    if (is.vector(suggestions)){
+  } else {
+    if (is.vector(suggestions)) {
       if (nvars > 1)
         suggestions <- matrix(suggestions, nrow = 1)
       else suggestions <- matrix(suggestions, ncol = 1)
@@ -215,37 +210,38 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   }
 
   # check monitor arg
-  if (is.logical(monitor))
-  {
+  if (is.logical(monitor)) {
     if (monitor)  monitor <- nsgaMonitor
   }
   if (is.null(monitor))  monitor <- FALSE
 
-  # if optim merge provided and default args for optim()
-  if (optim) { # merge default and provided parameters
-    optimArgs.default <- eval(formals(nsga)$optimArgs)
-    optimArgs.default$control[names(optimArgs$control)] <- optimArgs$control
-    optimArgs$control <- NULL
-    optimArgs.default[names(optimArgs)] <- optimArgs
-    optimArgs <- optimArgs.default
-    rm(optimArgs.default)
-    if (any(optimArgs$method == c("L-BFGS-B", "Brent"))) {
-      optimArgs$lower <- lower
-      optimArgs$upper <- upper
-    }
-    else {
-      optimArgs$lower <- -Inf
-      optimArgs$upper <- Inf
-    }
-    optimArgs$poptim <- min(max(0, optimArgs$poptim), 1)
-    optimArgs$pressel <- min(max(0, optimArgs$pressel), 1)
-    optimArgs$control$maxit <- as.integer(optimArgs$control$maxit)
-    # ensure that optim maximise the fitness
-    if (is.null(optimArgs$control$fnscale))
-      optimArgs$control$fnscale <- -1
-    if (optimArgs$control$fnscale > 0)
-      optimArgs$control$fnscale <- -1 * optimArgs$control$fnscale
-  }
+  ref_dirs <- reference_dirs(nObj, n_partitions)
+
+  # # if optim merge provided and default args for optim()
+  # if (optim) { # merge default and provided parameters
+  #   optimArgs.default <- eval(formals(nsga)$optimArgs)
+  #   optimArgs.default$control[names(optimArgs$control)] <- optimArgs$control
+  #   optimArgs$control <- NULL
+  #   optimArgs.default[names(optimArgs)] <- optimArgs
+  #   optimArgs <- optimArgs.default
+  #   rm(optimArgs.default)
+  #   if (any(optimArgs$method == c("L-BFGS-B", "Brent"))) {
+  #     optimArgs$lower <- lower
+  #     optimArgs$upper <- upper
+  #   }
+  #   else {
+  #     optimArgs$lower <- -Inf
+  #     optimArgs$upper <- Inf
+  #   }
+  #   optimArgs$poptim <- min(max(0, optimArgs$poptim), 1)
+  #   optimArgs$pressel <- min(max(0, optimArgs$pressel), 1)
+  #   optimArgs$control$maxit <- as.integer(optimArgs$control$maxit)
+  #   # ensure that optim maximise the fitness
+  #   if (is.null(optimArgs$control$fnscale))
+  #     optimArgs$control$fnscale <- -1
+  #   if (optimArgs$control$fnscale > 0)
+  #     optimArgs$control$fnscale <- -1 * optimArgs$control$fnscale
+  # }
 
   # set seed for reproducibility
   if (!is.null(seed))
@@ -254,49 +250,46 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   i. <- NULL #dummy to trick R CMD check
 
 
-  fitnessSummary <- matrix(as.double(NA), nrow = maxiter, ncol = 6)
-  colnames(fitnessSummary) <- names(nsgaSummary(rnorm(10)))
-
-  bestSol <- if (keepBest){
-    vector(mode = "list", length = maxiter)
-  }else{
-    list()
-  }
+  # fitnessSummary <- matrix(as.double(NA), nrow = maxiter, ncol = 6)
+  # colnames(fitnessSummary) <- names(nsgaSummary(rnorm(10)))
+  #
+  # bestSol <- if (keepBest){
+  #   vector(mode = "list", length = maxiter)
+  # }else{
+  #   list()
+  # }
 
   Fitness <- PFit <- QFit <- matrix(NA, nrow = popSize, ncol = nObj);
   #Front <- vector("list", popSize);
 
+  fitnessSummary <- vector("list", maxiter)
+
   #Creacion del objetivo tipo nsga
-  object <- new("nsga",
-    call = call,
-    type = type,
-    lower = lower,
-    upper = upper,
-    nBits = nBits,
-    names = if (is.null(names))
-      character()
-    else names,
-    popSize = popSize,
-    front = matrix(), #Front
-    f = list(),
-    iter = 0,
-    run = 1,
-    maxiter = maxiter,
-    suggestions = suggestions,
-    population = matrix(),
-    elitism = elitism,
-    pcrossover = pcrossover,
-    pmutation = if (is.numeric(pmutation))
-      pmutation
-    else NA,
-    optim = optim,
-    dumFitness = DumFitness,
-    dShare = dShare,
-    deltaDummy = delta_dum,
-    crowdingDistance = matrix(),
-    fitness = Fitness,
-    summary = fitnessSummary,
-    bestSol = bestSol)
+  object <- new("nsga3",
+                call = call,
+                type = type,
+                lower = lower,
+                upper = upper,
+                nBits = nBits,
+                names = if (is.null(names))
+                  character()
+                else names,
+                popSize = popSize,
+                front = matrix(), #Front
+                f = list(),
+                iter = 0,
+                run = 1,
+                maxiter = maxiter,
+                suggestions = suggestions,
+                population = matrix(),
+                pcrossover = pcrossover,
+                pmutation = if (is.numeric(pmutation))
+                  pmutation
+                else NA,
+                reference_points = ref_dirs,
+                fitness = Fitness,
+                summary = fitnessSummary,
+                bestSol = bestSol)
 
   #---------------------------Generate initial population------------------------------
   if (maxiter == 0)

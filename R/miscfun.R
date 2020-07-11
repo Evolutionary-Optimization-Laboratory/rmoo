@@ -55,6 +55,9 @@ nsgaMonitor <- function(object, number_objective, ...) {
 
 
 nsgaSummary <- function(object, ...) {
+  if (class(object)[1] == "nsga") {
+
+  }
   if (class(object)[1] == "nsga2") {
     first <- object@f[[1]]
     first_front_fit <- object@fitness[first, ]
@@ -64,5 +67,8 @@ nsgaSummary <- function(object, ...) {
     data.frame(first_front_fit = first_front_fit,
                first_front_pop = first_front_pop,
                crowding_dist = first_cd)
+  }
+  if (class(object)[1] == "nsga3") {
+
   }
 }
