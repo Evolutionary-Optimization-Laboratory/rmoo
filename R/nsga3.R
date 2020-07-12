@@ -25,23 +25,15 @@
 #' @param mutation an R function performing mutation, i.e. a function which randomly alters the values of some genes in a parent chromosome. See [nsga_Mutation()] for available functions.
 #' @param popSize the population size.
 #' @param nObj number of objective in the fitness function.
-#' @param dshare the maximun phenotypic distance allowed between any two individuals to become members of a niche.
+#' @param n_partitions
 #' @param pcrossover the probability of crossover between pairs of chromosomes. Typically this is a large value and by default is set to 0.8.
 #' @param pmutation the probability of mutation in a parent chromosome. Usually mutation occurs with a small probability, and by default is set to 0.1.
-#' @param elitism the number of best fitness individuals to survive at each generation. By default the top 5% individuals will survive at each iteration.
-#' @param updatePop a logical defaulting to FALSE. If set at TRUE the first attribute attached to the value returned by the user-defined fitness function is used to update the population.
-#' Be careful though, this is an experimental feature!
-#' @param postFitness a user-defined function which, if provided, receives the current nsga-class object as input, performs post fitness-evaluation steps, then returns an updated version of the object which is used to update the NSGA search.
-#' Be careful though, this is an experimental feature!
+#' @param reference_dirs
 #' @param maxiter the maximum number of iterations to run before the NSGA search is halted.
 #' @param run the number of consecutive generations without any improvement in the best fitness value before the NSGA is stopped
 #' @param maxFitness the upper bound on the fitness function after that the NSGA search is interrupted.
 #' @param names a vector of character strings providing the names of decision variables.
 #' @param suggestions a matrix of solutions strings to be included in the initial population. If provided the number of columns must match the number of decision variables.
-#' @param optim a logical defaulting to FALSE determining whether or not a local search using general-purpose optimisation algorithms should be used. See argument optimArgs for further details and finer control.
-#' @param optimArgs a list controlling the local search algorithm with the following components:
-#' @param keepBest a logical argument specifying if best solutions at each iteration should be saved in a slot called bestSol. See [nsga-class].
-#' @param parallel An optional argument which allows to specify if the Genetic Algorithm should be run sequentially or in parallel.
 #' @param monitor a logical or an R function which takes as input the current state of the nsga-class object and show the evolution of the search. By default, for interactive sessions the function nsgaMonitor prints the average and best fitness values at each iteration. If set to plot these information are plotted on a graphical device. Other functions can be written by the user and supplied as argument. In non interactive sessions, by default monitor = FALSE so any output is suppressed.
 #' @param seed an integer value containing the random number generator state. This argument can be used to replicate the results of a NSGA search. Note that if parallel computing is required, the doRNG package must be installed.
 #'
@@ -53,9 +45,9 @@
 #' Scrucca L. (2013). GA: A Package for Genetic Algorithms in R. Journal of Statistical Software, 53(4), 1-37,
 #' \url{http://www.jstatsoft.org/v53/i04/}.
 #'
-#' @seealso [nsga()], [nsga3()]
+#' @seealso [nsga()], [nsga2()]
 #'
-#' @return Returns an object of class nsga-class. See [nsga-class] for a description of available slots information.
+#' @return Returns an object of class nsga-class. See [nsga3-class] for a description of available slots information.
 nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                    fitness, ..., #optimal,
                    lower, upper, nBits,

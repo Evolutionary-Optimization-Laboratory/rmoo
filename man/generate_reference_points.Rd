@@ -7,7 +7,7 @@
 generate_reference_points(m, h)
 }
 \arguments{
-\item{m, h}{Number of reference points 'h' in an M-objective problemas}
+\item{m, h}{Number of reference points 'h' in M-objective problems}
 }
 \value{
 A matrix with the reference points uniformly distributed.

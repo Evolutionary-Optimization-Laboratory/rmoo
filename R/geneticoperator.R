@@ -188,7 +188,7 @@ nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
 # }
 
 #1 OK
-nsgareal_polMutation_R <- function(object, parent, nm = 0.20){
+nsgareal_polMutation <- function(object, parent, nm = 0.20){
   mutate <- parent <- as.vector(object@population[parent, ])
   n <- length(parent)
   upper <- object@upper
@@ -268,7 +268,7 @@ nsgareal_polMutation_R <- function(object, parent, nm = 0.20){
 # }
 
 
-nsgareal_raMutation_R <- mutation <- function(object, parent){
+nsgareal_raMutation <- mutation <- function(object, parent){
   mutate <- parent <- as.vector(object@population[parent,])
   n <- length(parent)
   j <- sample(1:n, size = 1)

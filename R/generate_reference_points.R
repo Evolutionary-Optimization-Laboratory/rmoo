@@ -6,7 +6,7 @@
 #' that places points on a normalized hyper-plane which is equally inclined to all objective axes
 #' and has an intercept of one on each axis.
 #'
-#' @param m,h Number of reference points 'h' in an M-objective problemas
+#' @param m,h Number of reference points 'h' in M-objective problems
 #'
 #' @author Francisco Benitez
 #'

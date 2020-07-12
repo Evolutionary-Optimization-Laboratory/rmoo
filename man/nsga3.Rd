@@ -6,35 +6,26 @@
 \usage{
 nsga3(
   type = c("binary", "real-valued", "permutation"),
-  algorithm = c("NSGA", "NSGA-II", "NSGA-III"),
   fitness,
   ...,
-  optimal,
   lower,
   upper,
   nBits,
-  population = generate_population_real,
-  selection = ga_tourSelection_R,
-  crossover = gareal_laCrossover_R,
-  mutation = gareal_raMutation_R,
+  population = nsgaControl(type)$population,
+  selection = nsgaControl(type)$selection,
+  crossover = nsgaControl(type)$crossover,
+  mutation = nsgaControl(type)$mutation,
   popSize = 50,
   nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
-  dshare,
+  n_partitions,
   pcrossover = 0.8,
   pmutation = 0.1,
-  elitism = 0,
-  updatePop = FALSE,
-  postFitness = NULL,
+  reference_dirs = generate_reference_points(),
   maxiter = 100,
   run = maxiter,
   maxFitness = Inf,
   names = NULL,
   suggestions = NULL,
-  optim = FALSE,
-  optimArgs = list(method = "L-BFGS-B", poptim = 0.05, pressel = 0.5, control =
-    list(fnscale = -1, maxit = 100)),
-  keepBest = FALSE,
-  parallel = FALSE,
   monitor = if (interactive()) nsgaMonitor else FALSE,
   seed = NULL
 )
@@ -70,19 +61,9 @@ Possible values are:
 
 \item{nObj}{number of objective in the fitness function.}
 
-\item{dshare}{the maximun phenotypic distance allowed between any two individuals to become members of a niche.}
-
 \item{pcrossover}{the probability of crossover between pairs of chromosomes. Typically this is a large value and by default is set to 0.8.}
 
 \item{pmutation}{the probability of mutation in a parent chromosome. Usually mutation occurs with a small probability, and by default is set to 0.1.}
-
-\item{elitism}{the number of best fitness individuals to survive at each generation. By default the top 5\% individuals will survive at each iteration.}
-
-\item{updatePop}{a logical defaulting to FALSE. If set at TRUE the first attribute attached to the value returned by the user-defined fitness function is used to update the population.
-Be careful though, this is an experimental feature!}
-
-\item{postFitness}{a user-defined function which, if provided, receives the current nsga-class object as input, performs post fitness-evaluation steps, then returns an updated version of the object which is used to update the NSGA search.
-Be careful though, this is an experimental feature!}
 
 \item{maxiter}{the maximum number of iterations to run before the NSGA search is halted.}
 
@@ -94,20 +75,12 @@ Be careful though, this is an experimental feature!}
 
 \item{suggestions}{a matrix of solutions strings to be included in the initial population. If provided the number of columns must match the number of decision variables.}
 
-\item{optim}{a logical defaulting to FALSE determining whether or not a local search using general-purpose optimisation algorithms should be used. See argument optimArgs for further details and finer control.}
-
-\item{optimArgs}{a list controlling the local search algorithm with the following components:}
-
-\item{keepBest}{a logical argument specifying if best solutions at each iteration should be saved in a slot called bestSol. See \linkS4class{nsga}.}
-
-\item{parallel}{An optional argument which allows to specify if the Genetic Algorithm should be run sequentially or in parallel.}
-
 \item{monitor}{a logical or an R function which takes as input the current state of the nsga-class object and show the evolution of the search. By default, for interactive sessions the function nsgaMonitor prints the average and best fitness values at each iteration. If set to plot these information are plotted on a graphical device. Other functions can be written by the user and supplied as argument. In non interactive sessions, by default monitor = FALSE so any output is suppressed.}
 
 \item{seed}{an integer value containing the random number generator state. This argument can be used to replicate the results of a NSGA search. Note that if parallel computing is required, the doRNG package must be installed.}
 }
 \value{
-Returns an object of class nsga-class. See \linkS4class{nsga} for a description of available slots information.
+Returns an object of class nsga-class. See \linkS4class{nsga3} for a description of available slots information.
 }
 \description{
 Minimization of a fitness function using non-dominated sorting genetic algorithms - III (NSGA-IIIs).
@@ -124,7 +97,7 @@ Scrucca L. (2013). GA: A Package for Genetic Algorithms in R. Journal of Statist
 \url{http://www.jstatsoft.org/v53/i04/}.
 }
 \seealso{
-\code{\link[=nsga]{nsga()}}, \code{\link[=nsga3]{nsga3()}}
+\code{\link[=nsga]{nsga()}}, \code{\link[=nsga2]{nsga2()}}
 }
 \author{
 Francisco Benitez
