@@ -15,7 +15,28 @@
   invisible()
 }
 
+NSGAStartupMessage <- function() {
 
+  msg <- paste0(
+    "____    _
+    / ___|  / \\    Non-Dominated
+    | |  _  / _ \\   Genetic
+    | |_| |/ ___ \\   Algorithms-III
+    \\____/_/   \\_\\  version ",
+    packageVersion("nsga3r"))
+  return(msg)
+}
+
+.onAttach <- function(lib, pkg) {
+  # unlock .nsga.default variable allowing its modification
+  unlockBinding(".nsga.default", asNamespace("nsga3r"))
+  # startup message
+  msg <- NSGAStartupMessage()
+  if(!interactive())
+    msg[1] <- paste("Package 'nsga3r' version", packageVersion("nsga3r"))
+  packageStartupMessage(msg)
+  invisible()
+}
 
 options(
   usethis.description = list(

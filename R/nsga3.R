@@ -278,7 +278,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                 pmutation = if (is.numeric(pmutation))
                   pmutation
                 else NA,
-                reference_points = ref_dirs,
+                reference_points = ref_dirs, #
                 fitness = Fitness,
                 summary = fitnessSummary,
                 bestSol = bestSol)
@@ -326,7 +326,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   out <- nondominatedfronts(object);
   object@f <- out$f
   object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE);
-  object@crowdingDistance <- matrix(as.double(NA), nrow = popSize);
+  #object@crowdingDistance <- matrix(as.double(NA), nrow = popSize);
 
   #------------------------------Iteraciones--------------------------------------
   for (iter in seq_len(maxiter)) {
