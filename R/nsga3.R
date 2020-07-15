@@ -251,7 +251,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   #   list()
   # }
 
-  Fitness <- PFit <- QFit <- matrix(NA, nrow = popSize, ncol = nObj);
+  Fitness <- p_fit <- q_fit <- matrix(NA, nrow = popSize, ncol = nObj);
   #Front <- vector("list", popSize);
 
   fitnessSummary <- vector("list", maxiter)
@@ -267,7 +267,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                   character()
                 else names,
                 popSize = popSize,
-                front = matrix(), #Front
+                front = matrix(),
                 f = list(),
                 iter = 0,
                 run = 1,
@@ -280,14 +280,15 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                 else NA,
                 reference_points = ref_dirs, #
                 fitness = Fitness,
-                summary = fitnessSummary,
-                bestSol = bestSol)
+                summary = fitnessSummary)
 
   #---------------------------Generate initial population------------------------------
   if (maxiter == 0)
     return(object)
+
   Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
   ng <- min(nrow(suggestions), popSize)
+
   if (ng > 0) {
     Pop[1:ng, ] <- suggestions
   }
@@ -300,32 +301,20 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
 
   #------------------------------Evaluate function fitness---------------------------------
-  if (!parallel) {
-    #Evaluacion del fitness, a modificar por una matrix, luego del object
-    for (i in seq_len(popSize)){
-      if (is.na(Fitness[i])){
-        fit <- do.call(fitness, c(list(Pop[i, ])))
-        if (updatePop)
-          Pop[i, ] <- attributes(fit)[[1]]
-        Fitness[i,] <- fit
-      }
-    }
-  }else {
-    Fitness <- foreach(i. = seq_len(popSize), .combine = "c") %DO%
-    {
-      if (is.na(Fitness[i.]))
-        do.call(fitness, c(list(Pop[i., ])))
-      else Fitness[i.,]
+  for (i in seq_len(popSize)) {
+    if (is.na(Fitness[i])) {
+      fit <- do.call(fitness, c(list(Pop[i, ])))
+      Fitness[i,] <- fit
     }
   }
 
   object@population <- P <- Pop
-  object@fitness <- PFit <- Fitness
+  object@fitness <- p_fit <- Fitness
 
   #---------------------------First Non-dominated Ranking-------------------------#
-  out <- nondominatedfronts(object);
-  object@f <- out$f
-  object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE);
+  out <- non_dominated_fronts(object)
+  object@f <- out$fit
+  object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
   #object@crowdingDistance <- matrix(as.double(NA), nrow = popSize);
 
   #------------------------------Iteraciones--------------------------------------
@@ -338,8 +327,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
       sel <- selection(object, nObj)
       Pop <- sel$population
       Fitness <- sel$fitness
-    }
-    else {
+    } else {
       sel <- sample(1:popSize, size = popSize, replace = TRUE);
       Pop <- object@population[sel,];
       Fitness <- object@fitness[sel,];
@@ -364,7 +352,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     object@fitness <- Fitness
 
     #------------------------------Mutacion---------------------------------------
-    pm <- if (is.function(pmutation)){
+    pm <- if (is.function(pmutation)) {
       pmutation(object)
     }else{pmutation}
     if (is.function(mutation) & pm > 0) {
@@ -377,34 +365,22 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
       }
     }
     object@population <- Q <- Pop
-    object@fitness <- QFit <- Fitness
+    object@fitness <- q_fit <- Fitness
 
     #---------------------------------Evaluate Fitness----------------------------
-
-    if (!parallel){
-      ##Evaluacion del fitness, a modificar por una matrix, luego del object
-      for (i in seq_len(popSize)) if (is.na(Fitness[i])) {
+    for (i in seq_len(popSize)) {
+      if (is.na(Fitness[i])) {
         fit <- do.call(fitness, c(list(Pop[i, ])))
-        if (updatePop)
-          Pop[i, ] <- attributes(fit)[[1]]
         Fitness[i,] <- fit
-      }
-    }
-    else {
-      Fitness <- foreach(i. = seq_len(popSize), .combine = "c") %DO%
-      {
-        if (is.na(Fitness[i.]))
-          do.call(fitness, c(list(Pop[i., ])))
-        else Fitness[i.,]
       }
     }
 
     object@population <- Q <- Pop
-    object@fitness <- QFit <- Fitness
+    object@fitness <- q_fit <- Fitness
 
     #R = P U Q
     object@population <- Pop <- rbind(P,Q);
-    object@fitness <- rbind(PFit, QFit);
+    object@fitness <- rbind(p_fit, q_fit);
 
 
     out <- nondominatedfronts(object);
@@ -420,107 +396,108 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
 
     #Select de first N element
     object@population <- P <-  populationsorted[1:popSize,]
-    object@fitness <- PFit <- fitnesssorted[1:popSize,]
+    object@fitness <- p_fit <- fitnesssorted[1:popSize,]
 
-    out <- nondominatedfronts(object);
-    object@f <- out$f
-    object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE);
+    out <- non_dominated_fronts(object)
+    object@f <- out$fit
+    object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
 
-    cd <- crowdingdistance(object,nObj);
-    object@crowdingDistance <- cd;
+    #cd <- crowdingdistance(object,nObj);
+    #object@crowdingDistance <- cd;
 
     #------------------------------------Monitor------------------------------------
     #Mudar a una funcion
-    if(nObj==3){
-      X <-  object@fitness
-      Y <- object@f[[1]]
-      Xnd <- object@fitness[Y,]
-      rgl::plot3d(X)
-      rgl::plot3d(Xnd, col="red", size=8, add=TRUE)
-      rgl::plot3d(x=min(Xnd[,1]), y=min(Xnd[,2]), z=min(Xnd[,3]), col="green", size=8, add=TRUE)
-      rgl::bgplot3d({plot.new(); title(main = iter, line = 3);});
-      X.range <- diff(apply(X,2,range))
-      #bounds <- rbind(apply(X,2,min)-0.1*X.range,apply(X,2,max)+0.1*X.range)
-      #GPareto::plotParetoEmp(nondominatedPoints = Xnd, add=TRUE, bounds=bounds, alpha=0.5)
-
-      #Sys.sleep(0.2)
-    }else if (nObj==2) {
-      X <- object@fitness
-      Y <- X[object@f[[1]],]
-      plot(X[,1], X[,2], col = "green", pch = 20, main= paste("Iter: ", object@iter ), xlim = c(0,1), ylim=c(0,1))
-      lines(optimal[,1][order(optimal[,1])], optimal[,2][order(optimal[,1])],  xlim=range(optimal[,1]),
-        ylim=range(optimal[,2]), xlab="f1", ylab="f2", col = "red", type="l" ,pch = 12 ,main= "Pareto Front")
-      legend(2,1,c("Population","Pareto Optimal"), lwd=c(5,2), col=c("green","red"), y.intersp=1.5)
-      #GPareto::plotParetoEmp(cbind(Y[,1], Y[,2]), col = "red", max = TRUE)
-      Sys.sleep(0.25)
-    }
+    # if(nObj==3){
+    #   X <-  object@fitness
+    #   Y <- object@f[[1]]
+    #   Xnd <- object@fitness[Y,]
+    #   rgl::plot3d(X)
+    #   rgl::plot3d(Xnd, col="red", size=8, add=TRUE)
+    #   rgl::plot3d(x=min(Xnd[,1]), y=min(Xnd[,2]), z=min(Xnd[,3]), col="green", size=8, add=TRUE)
+    #   rgl::bgplot3d({plot.new(); title(main = iter, line = 3);});
+    #   X.range <- diff(apply(X,2,range))
+    #   #bounds <- rbind(apply(X,2,min)-0.1*X.range,apply(X,2,max)+0.1*X.range)
+    #   #GPareto::plotParetoEmp(nondominatedPoints = Xnd, add=TRUE, bounds=bounds, alpha=0.5)
+    #
+    #   #Sys.sleep(0.2)
+    # }else if (nObj==2) {
+    #   X <- object@fitness
+    #   Y <- X[object@f[[1]],]
+    #   plot(X[,1], X[,2], col = "green", pch = 20, main= paste("Iter: ", object@iter ), xlim = c(0,1), ylim=c(0,1))
+    #   lines(optimal[,1][order(optimal[,1])], optimal[,2][order(optimal[,1])],  xlim=range(optimal[,1]),
+    #     ylim=range(optimal[,2]), xlab="f1", ylab="f2", col = "red", type="l" ,pch = 12 ,main= "Pareto Front")
+    #   legend(2,1,c("Population","Pareto Optimal"), lwd=c(5,2), col=c("green","red"), y.intersp=1.5)
+    #   #GPareto::plotParetoEmp(cbind(Y[,1], Y[,2]), col = "red", max = TRUE)
+    #   Sys.sleep(0.25)
+    # }
 
 
     #-----------------------------------------------------------------
     #Cambiar por una lista, ya que los valores serán en 2 dimensiones#
-    first <- object@f[[1]]
-    fitnessSummary[iter, ] <- nsgaSummary(object@fitness[first,])
+    #first <- object@f[[1]]
+    fitnessSummary[[iter]] <- nsgaSummary(object)
     object@summary <- fitnessSummary
 
     #Evaluar por iteracion/aplicar tambien al nondominatedfronts
-    #if (is.function(monitor)) {
-    #  monitor(object)
-    #}
+    if (is.function(monitor)) {
+      monitor(object = object, number_objective = nObj)
+    }
     #-----------------------------------------------------------------
 
     #Imprime el optimo local por iteración //Cambiar para que imprima el primer frente en cada iteración
-    if (optim & (type == "real-valued")) {
-      if (optimArgs$poptim > runif(1)) {
-        i <- sample(1:popSize, size = 1, prob = optimProbsel(Fitness, q = optimArgs$pressel))
-        opt <- try(suppressWarnings(do.call(stats::optim,
-          c(list(fn = fitness,
-            par = Pop[i, ],
-            method = optimArgs$method,
-            lower = optimArgs$lower,
-            upper = optimArgs$upper,
-            control = optimArgs$control)))),
-          silent = TRUE)
-        if (is.function(monitor)) {
-          if (!inherits(opt, "try-error"))
-            cat("\b | Local search =", format(opt$value, digits = getOption("digits")))
-          else cat("\b |", opt[1])
-          cat("\n")
-        }
-        if (!inherits(opt, "try-error")) {
-          Pop[i, ] <- opt$par
-          Fitness[i] <- opt$value
-        }
-        object@population <- Pop
-        object@fitness <- Fitness
+    # if (optim & (type == "real-valued")) {
+    #   if (optimArgs$poptim > runif(1)) {
+    #     i <- sample(1:popSize, size = 1, prob = optimProbsel(Fitness, q = optimArgs$pressel))
+    #     opt <- try(suppressWarnings(do.call(stats::optim,
+    #       c(list(fn = fitness,
+    #         par = Pop[i, ],
+    #         method = optimArgs$method,
+    #         lower = optimArgs$lower,
+    #         upper = optimArgs$upper,
+    #         control = optimArgs$control)))),
+    #       silent = TRUE)
+    #     if (is.function(monitor)) {
+    #       if (!inherits(opt, "try-error"))
+    #         cat("\b | Local search =", format(opt$value, digits = getOption("digits")))
+    #       else cat("\b |", opt[1])
+    #       cat("\n")
+    #     }
+    #     if (!inherits(opt, "try-error")) {
+    #       Pop[i, ] <- opt$par
+    #       Fitness[i] <- opt$value
+    #     }
+    #     object@population <- Pop
+    #     object@fitness <- Fitness
+    #
+    #     #NSGA-I
+    #     #out <- nondominatedfronts(object);
+    #     #object@f <- out$f
+    #     #object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE);
+    #     #object@dumFitness <- sharing(object)
+    #
+    #     #cd <- crowdingdistance(object,nObj);
+    #     #object@crowdingDistance <- cd;
+    #
+    #
+    #     fitnessSummary[iter, ] <- gaSummary(object@fitness)
+    #     object@summary <- fitnessSummary
+    #   }
+    # }
 
-        #NSGA-I
-        #out <- nondominatedfronts(object);
-        #object@f <- out$f
-        #object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE);
-        #object@dumFitness <- sharing(object)
+    # if (keepBest) {
+    #   object@bestSol[[iter]] <- unique(Pop[Fitness == max(Fitness, na.rm = TRUE), , drop = FALSE])
+    # }
+    #
+    # if (is.function(postFitness)) {
+    #   object <- do.call(postFitness, c(object, callArgs)) #Evaluar callArgs
+    #   Fitness <- object@fitness
+    #   Pop <- object@population
+    # }
+    # if (iter > 1)
+    #   object@run <- garun(fitnessSummary[seq(iter), 1])
+    # if (object@run >= run)
+    #   break
 
-        #cd <- crowdingdistance(object,nObj);
-        #object@crowdingDistance <- cd;
-
-
-        fitnessSummary[iter, ] <- gaSummary(object@fitness)
-        object@summary <- fitnessSummary
-      }
-    }
-
-    if (keepBest) {
-      object@bestSol[[iter]] <- unique(Pop[Fitness == max(Fitness, na.rm = TRUE), , drop = FALSE])
-    }
-
-    if (is.function(postFitness)) {
-      object <- do.call(postFitness, c(object, callArgs)) #Evaluar callArgs
-      Fitness <- object@fitness
-      Pop <- object@population
-    }
-    if (iter > 1)
-      object@run <- garun(fitnessSummary[seq(iter), 1])
-    if (object@run >= run)
-      break
     if (max(Fitness, na.rm = TRUE) >= maxFitness)
       break
     if (object@iter == maxiter)
@@ -528,27 +505,27 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   }
 
   #Luego de realizar la selección, cruce y mutación, vuelve a imprimir el optimo local
-  if (optim & (type == "real-valued")) {
-    optimArgs$control$maxit <- rev(optimArgs$control$maxit)[1]
-    i <- which.max(object@fitness)
-    opt <- try(suppressWarnings(do.call(stats::optim, c(list(fn = fitness,
-      par = object@population[i, ],
-      method = optimArgs$method,
-      lower = optimArgs$lower,
-      upper = optimArgs$upper,
-      control = optimArgs$control)))),
-      silent = TRUE)
-    if (is.function(monitor)) {
-      if (!inherits(opt, "try-error"))
-        cat("\b | Final local search =", format(opt$value,
-          digits = getOption("digits")))
-      else cat("\b |", opt[1])
-    }
-    if (!inherits(opt, "try-error")) {
-      object@population[i, ] <- opt$par
-      object@fitness[i] <- opt$value
-    }
-  }
+  # if (optim & (type == "real-valued")) {
+  #   optimArgs$control$maxit <- rev(optimArgs$control$maxit)[1]
+  #   i <- which.max(object@fitness)
+  #   opt <- try(suppressWarnings(do.call(stats::optim, c(list(fn = fitness,
+  #     par = object@population[i, ],
+  #     method = optimArgs$method,
+  #     lower = optimArgs$lower,
+  #     upper = optimArgs$upper,
+  #     control = optimArgs$control)))),
+  #     silent = TRUE)
+  #   if (is.function(monitor)) {
+  #     if (!inherits(opt, "try-error"))
+  #       cat("\b | Final local search =", format(opt$value,
+  #         digits = getOption("digits")))
+  #     else cat("\b |", opt[1])
+  #   }
+  #   if (!inherits(opt, "try-error")) {
+  #     object@population[i, ] <- opt$par
+  #     object@fitness[i] <- opt$value
+  #   }
+  # }
 
 
   solution <- list(Front = object@front,

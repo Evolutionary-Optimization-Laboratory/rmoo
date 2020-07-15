@@ -445,7 +445,7 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
 
     #Evaluar por iteracion/aplicar tambien al non_dominated_fronts
     if (is.function(monitor)) {
-     monitor(object)
+     monitor(object = object, number_objective = nObj)
     }
     #-----------------------------------------------------------------
 
@@ -541,7 +541,7 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
     Fitness = object@fitness,
     cd = object@crowdingDistance)
 
-  object <- object@solution
-
-  return(object)
+  # object@solution <- solution
+  # return(object)
+  return(solution)
 }
