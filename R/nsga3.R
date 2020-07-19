@@ -274,11 +274,17 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                 maxiter = maxiter,
                 suggestions = suggestions,
                 population = matrix(),
+                ideal_point = c(), #Agregar en nsga3-class
+                worst_point = c(), #Agregar en nsga3-class
+                extreme_points = matrix(), #Agregar en nsga3-class
+                worst_of_population = c(), #Agregar en nsga3-class
+                worst_of_front = c(), #Agregar en nsga3-class
+                nadir_point = c()
                 pcrossover = pcrossover,
                 pmutation = if (is.numeric(pmutation))
                   pmutation
                 else NA,
-                reference_points = ref_dirs, #
+                reference_points = ref_dirs, #Agregar en nsga3-class
                 fitness = Fitness,
                 summary = fitnessSummary)
 
@@ -297,7 +303,8 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   }
   object@population <- Pop
 
-  #================================INICIA LA ITERACION==================================#
+  #================================INICIALIZACION DE LA ITERACION==================================#
+  #Generacion de matrices para padres(P) e hijos(q)
   P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
 
   #------------------------------Evaluate function fitness---------------------------------
@@ -387,12 +394,38 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     object@f <- out$f
     object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE);
 
+
+    ideal_point <- c()
+    ideal_point <- UpdateIdealPoint(object, nObj)
+
+    worst_point <- c()
+    worst_point <- UpdateWorstPoint(object, nObj)
+
+    object@idealpoint <- ideal_point
+    object@worstpoint <- worst_point
+
+    fp <-  sweep(fitness,2,ideal_point)
+
+    ps <- PerformScalarizing(object, fp)
+
+    object@extremepoints = ps$extremepoint
+    object@smin <- ps$indexmin
+
+    worst_of_population <- worst_of_front <- c()
+
+    for (i in 1:nObj) {
+      worst_of_population[i] <- max(object@fitness[,i])
+    }
+
+    for (i in 1:nObj) {
+      worst_of_front[i] <- max(object@fitness[object@f[[1]],][,i])
+    }
     #cd <- crowdingdistance(object,nObj);
     #object@crowdingDistance <- cd
 
     #Sorted porpulation and fitness by front and crowding distance
-    populationsorted <- object@population[order(object@front, -object@crowdingDistance),]
-    fitnesssorted <- object@fitness[order(object@front, -object@crowdingDistance),]
+    #populationsorted <- object@population[order(object@front, -object@crowdingDistance),]
+    #fitnesssorted <- object@fitness[order(object@front, -object@crowdingDistance),]
 
     #Select de first N element
     object@population <- P <-  populationsorted[1:popSize,]
