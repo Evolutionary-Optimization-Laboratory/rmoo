@@ -128,6 +128,10 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     stop("A Determination of Reference Points function must be provided")
   }
 
+  if (ncol(reference_dirs) != nObj) {
+    stop("Dimensionality of reference points must be equal to the number of objectives")
+  }
+
   # # check for min and max arguments instead of lower and upper
   # callArgs <- list(...)
   # if (any("min" %in% names(callArgs))) {
@@ -279,7 +283,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                 extreme_points = matrix(), #Agregar en nsga3-class
                 worst_of_population = c(), #Agregar en nsga3-class
                 worst_of_front = c(), #Agregar en nsga3-class
-                nadir_point = c()
+                nadir_point = c(),
                 pcrossover = pcrossover,
                 pmutation = if (is.numeric(pmutation))
                   pmutation
@@ -393,7 +397,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     out <- nondominatedfronts(object);
     object@f <- out$f
     object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE);
-
+    rm(out)
 
     ideal_point <- c()
     ideal_point <- UpdateIdealPoint(object, nObj)
@@ -420,6 +424,32 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     for (i in 1:nObj) {
       worst_of_front[i] <- max(object@fitness[object@f[[1]],][,i])
     }
+
+    nadir_point <- get_nadir_point(object)
+
+
+    outniches <- associate_to_niches(object)
+
+    niche_of_individuals <- outniches$niches
+    dist_to_niche <- outniches$distance
+    rm(outniches)
+
+    last_front <- tail(object@f[[1]], n = 1)
+
+    if (nrow(pop)>popSize) {
+      if (length(object@front) == 1) {
+          until_last_front <- c()
+          niche_count <- rep(0, nrow(object@reference_directions))
+          n_remaining <- popSize
+      } else {
+          until_last_front <- 1:(length(object@front)-1)
+          niche_count <- compute_niche_count(nrow(reference_directions),
+                                             niche_of_individuals[until_last_front])
+          n_remaining <- popSize - length(until_last_front)
+      }
+    }
+
+    last_front = max(1:(length(front)))
     #cd <- crowdingdistance(object,nObj);
     #object@crowdingDistance <- cd
 
