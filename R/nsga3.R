@@ -359,7 +359,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
         }
       }
     }
-    object@population <-  Pop
+    object@population <- Pop
     object@fitness <- Fitness
 
     #------------------------------Mutacion---------------------------------------
@@ -399,6 +399,26 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE);
     rm(out)
 
+    i <- 1
+    st <-c()
+    repeat {
+        st <- rbind(st, object@population[object@f[[i]],])
+        i <- i + 1
+      if (nrow(st) >= popSize){
+        break
+      }
+    }
+
+    if(nrow(nrow(st) == popSize)){
+      object@population <- st
+      break
+    } else {
+
+
+
+    }
+
+
     ideal_point <- c()
     ideal_point <- UpdateIdealPoint(object, nObj)
 
@@ -434,15 +454,15 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     dist_to_niche <- outniches$distance
     rm(outniches)
 
-    last_front <- tail(object@f[[1]], n = 1)
-
+    #last_front <- tail(object@f[[1]], n = 1)
+    last_front <- max(1:(length(object@f)))
     if (nrow(pop)>popSize) {
-      if (length(object@front) == 1) {
+      if (length(object@f) == 1) {
           until_last_front <- c()
           niche_count <- rep(0, nrow(object@reference_directions))
           n_remaining <- popSize
       } else {
-          until_last_front <- 1:(length(object@front)-1)
+          until_last_front <- 1:(length(object@f)-1)
           niche_count <- compute_niche_count(nrow(reference_directions),
                                              niche_of_individuals[until_last_front])
           n_remaining <- popSize - length(until_last_front)
