@@ -409,13 +409,20 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
       }
     }
 
-    if(nrow(nrow(st) == popSize)){
-      object@population <- st
-      break
-    } else {
 
+    if (nrow(st)>popSize) {
 
+      if (length(objecto@f) == 1) {
+        until_last_front <- c()
+        niche_count <- rep(0, nrow(objecto@reference_points))
+        n_remaining <- popSize
+      }else{
+        until_last_front <- 1:(length(front)-1)
+        niche_count <- compute_niche_count(nrow(reference_points),
+                                           niche_of_individuals[until_last_front])
+        n_remaining = popSize - length(until_last_front)
 
+      }
     }
 
 
