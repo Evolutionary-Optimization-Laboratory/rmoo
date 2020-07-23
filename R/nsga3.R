@@ -260,6 +260,8 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
 
   fitnessSummary <- vector("list", maxiter)
 
+  n_remaining <- popSize
+
   #Creacion del objetivo tipo nsga
   object <- new("nsga3",
                 call = call,
@@ -399,19 +401,9 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE);
     rm(out)
 
-    i <- 1
-    st <-c()
-    repeat {
-        st <- rbind(st, object@population[object@f[[i]],])
-        i <- i + 1
-      if (nrow(st) >= popSize){
-        break
-      }
-    }
 
 
-    if (nrow(st)>popSize) {
-
+    if (nrow(object@population) > popSize) {
       if (length(objecto@f) == 1) {
         until_last_front <- c()
         niche_count <- rep(0, nrow(objecto@reference_points))
