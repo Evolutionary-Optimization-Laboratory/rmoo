@@ -6,6 +6,7 @@ niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to
   mask <- rep(TRUE, nrow(pop))
   #Numero de individuos a seleccionar en la iteración
   while (length(survivors)<n_remaining) {
+
     n_select <- n_remaining - length(survivors)
 
     next_niches_list <- unique(niche_of_individuals[mask])
@@ -19,7 +20,7 @@ niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to
     next_niches <- next_niches[sample(length(next_niches))[n_select]]
 
     for (i in next_niches) {
-      next_ind <- which(((niche_of_individuals == next_niches[4])==mask))
+      next_ind <- which(((niche_of_individuals == next_niches[i]) == mask))
 
       if (length(next_ind)>1) {
           next_ind <- sample(next_ind)
@@ -27,11 +28,9 @@ niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to
 
       if (niche_count[next_niche] == 0) {
           next_ind <- next_ind[np.argmin(dist_to_niche[next_ind])]
-          is_closest <- T
       }else{
         #Ya randomizado
         next_ind = next_ind[0]
-        is_closest = F
       }
       mask[next_ind] = F
 
