@@ -430,7 +430,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     I <- unlist(object@f)
     object@population = object@population[I, ]
     object@front =  object@front[I, ]
-    object@fitness = object@fitness[I, ]
+    object@fitness = object@fitness[I, ] #Redundante si luego realizamos el ordenamiento no dominado
 
     out <- non_dominated_fronts(object)
     object@f <- out$f
