@@ -20,11 +20,13 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Collate: 
+    'associate.R'
     'crowding_distance.R'
     'generate_reference_points.R'
     'geneticoperator.R'
     'get_fixed_rowsum_integer_matrix.R'
     'miscfun.R'
+    'niching.R'
     'non_dominated_fronts.R'
     'numberOrNAOrMatrix-class.R'
     'nsga-class.R'
@@ -35,4 +37,5 @@ Collate:
     'nsga3.R'
     'nsgaControl.R'
     'sharing.R'
+    'update_points.R'
     'zzz.R'

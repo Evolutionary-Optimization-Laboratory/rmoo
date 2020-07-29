@@ -473,6 +473,13 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     # }
 
     last_front <- x$F[[length(x$F)]]
+
+
+    s_idx  <- niching(pop=pop[last_front, ],
+                      n_remaining=n_remaining,
+                      niche_count=niche_count,
+                      niche_of_individuals=niche_of_individuals[last_front],
+                      dist_to_niche=dist_to_niche[last_front])
     #cd <- crowdingdistance(object,nObj);
     #object@crowdingDistance <- cd
 
