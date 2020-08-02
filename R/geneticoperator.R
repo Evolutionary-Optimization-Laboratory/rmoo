@@ -19,7 +19,7 @@ nsgareal_Population <- function(object) {
 #   return(population)
 # }
 
-#1
+#1 For NSGA-II
 nsgareal_tourSelection <- function(object, k = 3, ...) {
   popSize <- object@popSize
   front <- object@front
@@ -35,9 +35,29 @@ nsgareal_tourSelection <- function(object, k = 3, ...) {
     }
   }
   out <- list(population = object@population[sel, ],
-              fitness = object@fitness[sel,])
+    fitness = object@fitness[sel,])
   return(out)
 }
+
+#2 For all
+# nsgareal_tourSelection <- function(object, k = 3, ...) {
+#   popSize <- object@popSize
+#   front <- object@front
+#   fit <- object@fitness
+#   sel <- rep(NA, popSize)
+#   for (i in 1:popSize) {
+#     s <- sample(1:popSize, size = k)
+#     s <- s[which(front[s,]==min(front[s, ]))]
+#     if(length(s)>1 & !anyNA(fit[s,])){
+#       sel[i] <- s[which(fit[s, ] == max(fit[s]))]
+#     } else {
+#       sel[i] <- s[which.min(front[s, ])]
+#     }
+#   }
+#   out <- list(population = object@population[sel, ],
+#     fitness = object@fitness[sel,])
+#   return(out)
+# }
 #2
 # function(popSize, front, cd, fitness, population, k = 3, ...) {
 #   sel <- rep(NA, popSize)

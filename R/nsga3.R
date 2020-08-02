@@ -55,7 +55,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                    selection = nsgaControl(type)$selection, #ga_tourSelection_R,
                    crossover = nsgaControl(type)$crossover, #gareal_laCrossover_R,
                    mutation = nsgaControl(type)$mutation, #gareal_raMutation_R,
-                   popSize = 50,
+                   popSize = NULL,
                    nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
                    n_partitions,
                    # dshare,
@@ -84,7 +84,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   call <- match.call()
 
   #type <- type
-  type <- match.arg(type, choices = eval(formals(nsga2)$type))
+  type <- match.arg(type, choices = eval(formals(nsga3)$type))
 
   algorithm <- "NSGA-III"
 
@@ -97,6 +97,10 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     crossover <- get(crossover)
   if (!is.function(mutation))
     mutation <- get(mutation)
+
+  if (is.null(popSize)) {
+    popSize <- nrow(reference_dirs(nObj, n_partitions))
+  }
 
   if (missing(fitness)) {
     stop("A fitness function must be provided")
@@ -128,9 +132,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     stop("A Determination of Reference Points function must be provided")
   }
 
-  if (ncol(reference_dirs) != nObj) {
-    stop("Dimensionality of reference points must be equal to the number of objectives")
-  }
+
 
   # # check for min and max arguments instead of lower and upper
   # callArgs <- list(...)
@@ -157,6 +159,11 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     stop("The lower and upper limits must be vector of the same number of objectives")
   }
 
+  ref_dirs <- reference_dirs(nObj, n_partitions)
+
+  if (ncol(ref_dirs) != nObj) {
+    stop("Dimensionality of reference points must be equal to the number of objectives")
+  }
   switch(type,
     binary = {
       nBits <- as.vector(nBits)[1]
@@ -211,7 +218,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   }
   if (is.null(monitor))  monitor <- FALSE
 
-  ref_dirs <- reference_dirs(nObj, n_partitions)
+
 
   # # if optim merge provided and default args for optim()
   # if (optim) { # merge default and provided parameters
@@ -244,7 +251,6 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     set.seed(seed)
 
   i. <- NULL #dummy to trick R CMD check
-
 
   # fitnessSummary <- matrix(as.double(NA), nrow = maxiter, ncol = 6)
   # colnames(fitnessSummary) <- names(nsgaSummary(rnorm(10)))
@@ -280,12 +286,13 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                 maxiter = maxiter,
                 suggestions = suggestions,
                 population = matrix(),
-                ideal_point = c(), #Agregar en nsga3-class
-                worst_point = c(), #Agregar en nsga3-class
+                ideal_point = NULL, #Agregar en nsga3-class
+                worst_point = NULL, #Agregar en nsga3-class
+                smin = NULL,
                 extreme_points = matrix(), #Agregar en nsga3-class
-                worst_of_population = c(), #Agregar en nsga3-class
-                worst_of_front = c(), #Agregar en nsga3-class
-                nadir_point = c(),
+                worst_of_population = matrix(), #Agregar en nsga3-class
+                worst_of_front = matrix(), #Agregar en nsga3-class
+                nadir_point = matrix(),
                 pcrossover = pcrossover,
                 pmutation = if (is.numeric(pmutation))
                   pmutation
@@ -392,23 +399,25 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     object@fitness <- q_fit <- Fitness
 
     #R = P U Q
-    object@population <- Pop <- rbind(P,Q);
-    object@fitness <- rbind(p_fit, q_fit);
+    object@population <- Pop <- rbind(P,Q)
+    object@fitness <- rbind(p_fit, q_fit)
 
-    out <- nondominatedfronts(object)
-    object@f <- out$f
-    object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE)
+    out <- non_dominated_fronts(object)
+    object@f <- out$fit
+    object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
     rm(out)
 
-#    ideal_point <- c()
-#    worst_point <- c()
+
+    #Comienzan los operadores del NSGA-II
+    #ideal_point <- c()
+    #worst_point <- c()
     ideal_point <- UpdateIdealPoint(object, nObj)
     worst_point <- UpdateWorstPoint(object, nObj)
 
     object@idealpoint <- ideal_point
     object@worstpoint <- worst_point
 
-    fp <-  sweep(fitness,2,ideal_point)
+    fp <- sweep(object@fitness,2,ideal_point)
 
     ps <- PerformScalarizing(object, fp)
 
@@ -446,7 +455,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
 
     #last_front <- tail(object@f[[1]], n = 1)
     #last_front <- max(1:(length(object@f)))
-    if (nrow(pop)>popSize) {
+    if (nrow(Pop)>popSize) {
       if (length(object@f) == 1) {
           until_last_front <- c()
           niche_count <- rep(0, nrow(object@reference_directions))
