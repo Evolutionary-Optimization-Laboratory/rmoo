@@ -15,7 +15,7 @@ nsga3(
   selection = nsgaControl(type)$selection,
   crossover = nsgaControl(type)$crossover,
   mutation = nsgaControl(type)$mutation,
-  popSize = 50,
+  popSize = NULL,
   nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
   n_partitions,
   pcrossover = 0.8,

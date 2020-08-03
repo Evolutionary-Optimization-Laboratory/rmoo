@@ -1,3 +1,9 @@
+#Population
+##
+## Real Value NSGA operators  ----
+##
+
+# Generate a real random population ----
 #1
 nsgareal_Population <- function(object) {
   lower <- object@lower
@@ -9,6 +15,23 @@ nsgareal_Population <- function(object) {
   }
   return(population)
 }
+
+##
+## Binary GA operators  ----
+##
+
+# Generate a binary random population ----
+nsgabin_Population <- function(object)
+{
+  population <- matrix(as.double(NA),
+    nrow = object@popSize,
+    ncol = object@nBits)
+  for(j in 1:object@nBits)
+  { population[,j] <- round(runif(object@popSize)) }
+  storage.mode(population) <- "integer"
+  return(population)
+}
+
 #2
 # function(lower, upper, popSize){
 #   nvars <- length(lower)
@@ -19,6 +42,7 @@ nsgareal_Population <- function(object) {
 #   return(population)
 # }
 
+#Selection
 #1 For NSGA-II
 nsgareal_tourSelection <- function(object, k = 3, ...) {
   popSize <- object@popSize
@@ -38,6 +62,22 @@ nsgareal_tourSelection <- function(object, k = 3, ...) {
     fitness = object@fitness[sel,])
   return(out)
 }
+
+nsga_lrSelection_R <- function(object, r, q)
+{
+  if(missing(r)) r <- 2/(object@popSize * (object@popSize - 1))
+  if(missing(q)) q <- 2/object@popSize
+  rank <- (object@popSize+1) - rank(object@fitness, ties.method = "min")
+  prob <- 1 + q - (rank-1)*r
+  prob <- pmin(pmax(0, prob/sum(prob)), 1, na.rm = TRUE)
+  sel <- sample(1:object@popSize, size = object@popSize,
+    prob = prob, replace = TRUE)
+  out <- list(population = object@population[sel,,drop=FALSE],
+    fitness = object@fitness[sel])
+  return(out)
+}
+
+nsgabin_lrSelection <- nsga_lrSelection_R
 
 #2 For all
 # nsgareal_tourSelection <- function(object, k = 3, ...) {
@@ -75,6 +115,8 @@ nsgareal_tourSelection <- function(object, k = 3, ...) {
 #   return(out)
 # }
 
+
+#Crossover
 #1
 nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
   parents <- object@population[parents, ]
@@ -207,6 +249,33 @@ nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
 #   return(out)
 # }
 
+nsga_spCrossover_R <- function(object, parents) {
+  fitness <- object@fitness[parents]
+  parents <- object@population[parents,,drop = FALSE]
+  n <- ncol(parents)
+  children <- matrix(as.double(NA), nrow = 2, ncol = n)
+  fitnessChildren <- rep(NA, 2)
+  crossOverPoint <- sample(0:n, size = 1)
+  if (crossOverPoint == 0) {
+    children[1:2,] <- parents[2:1,]
+    fitnessChildren[1:2] <- fitness[2:1]
+  } else if(crossOverPoint == n) {
+    children <- parents
+    fitnessChildren <- fitness
+  } else {
+    children[1,] <- c(parents[1,1:crossOverPoint],
+                      parents[2,(crossOverPoint+1):n])
+    children[2,] <- c(parents[2,1:crossOverPoint],
+                      parents[1,(crossOverPoint+1):n])
+  }
+  out <- list(children = children, fitness = fitnessChildren)
+  return(out)
+}
+
+nsgabin_spCrossover <- nsga_spCrossover_R
+
+
+#Mutation
 #1 OK
 nsgareal_polMutation <- function(object, parent, nm = 0.20){
   mutate <- parent <- as.vector(object@population[parent, ])
@@ -288,10 +357,19 @@ nsgareal_polMutation <- function(object, parent, nm = 0.20){
 # }
 
 
-nsgareal_raMutation <- mutation <- function(object, parent){
+nsgareal_raMutation <- mutation <- function(object, parent) {
   mutate <- parent <- as.vector(object@population[parent,])
   n <- length(parent)
   j <- sample(1:n, size = 1)
   mutate[j] <- runif(1, object@lower[j], object@upper[j])
   return(mutate)
 }
+
+nsgabin_raMutation <- function(object, parent) {
+  mutate <- parent <- as.vector(object@population[parent,])
+  n <- length(parent)
+  j <- sample(1:n, size = 1)
+  mutate[j] <- abs(mutate[j]-1)
+  return(mutate)
+}
+

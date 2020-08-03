@@ -1,4 +1,3 @@
-#' @include numberOrNAOrMatrix-class.R
 #' Virtual Class "nsga - Simple Class for subassigment Values"
 #'
 #' The class "nsga" is a simple class union ([setClassUnion()]) of "numeric", "logical" and "matrix".
@@ -6,7 +5,6 @@
 #' @section Objects from the Class
 #' Since it is a virtual Class, no objects may be created from it.
 #'
-#' @section Slots
 #' @slot call an object of class "call" representing the matched call
 #' @slot type a character string specifying the type of genetic algorithm used
 #' @slot lower a vector providing for each decision variable the lower bounds of the search space in case of real-valued or permutation encoded optimisations. Formerly this slot was named min
