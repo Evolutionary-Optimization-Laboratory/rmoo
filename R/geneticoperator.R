@@ -63,7 +63,7 @@ nsgareal_tourSelection <- function(object, k = 3, ...) {
   return(out)
 }
 
-nsga_lrSelection_R <- function(object, r, q)
+nsga_lrSelection_R <- function(object, nObj, r, q)
 {
   if(missing(r)) r <- 2/(object@popSize * (object@popSize - 1))
   if(missing(q)) q <- 2/object@popSize

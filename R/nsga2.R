@@ -141,10 +141,6 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
     nObj <- ncol(fitness(matrix(10000, ncol = 100, nrow = 100)))
   }
 
-  if ((length(lower) != nObj) & (length(upper) != nObj)) {
-    stop("The lower and upper limits must be vector of the same number of objectives")
-  }
-
   switch(type,
     binary = {
       nBits <- as.vector(nBits)[1]
@@ -160,6 +156,8 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
       nBits <- NA
       if (length(lower) != length(upper))
         stop("lower and upper must be vector of the same length")
+      if ((length(lower) != nObj) & (length(upper) != nObj))
+        stop("The lower and upper limits must be vector of the same number of objectives")
       nvars <- length(upper)
       if (is.null(names) & !is.null(lnames))
         names <- lnames
@@ -277,7 +275,21 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
   if (maxiter == 0)
     return(object)
 
-  Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+  switch(type,
+    binary = {
+      Pop <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
+      P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
+    },
+    `real-valued` = {
+      Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+      P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+    },
+    permutation = {
+      Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+      P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+    }
+  )
+
   ng <- min(nrow(suggestions), popSize)
 
   if (ng > 0) {
@@ -290,7 +302,7 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
 
 
   #================================INICIA LA ITERACION==================================#
-  P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+
 
   #------------------------------Evaluate function fitness---------------------------------
   #Evaluacion del fitness, a modificar por una matrix, luego del object
