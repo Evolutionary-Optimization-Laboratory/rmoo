@@ -98,6 +98,8 @@ nsgabin_lrSelection <- nsga_lrSelection_R
 #     fitness = object@fitness[sel,])
 #   return(out)
 # }
+nsgareal_tourSelection <- nsga_tourSelection
+nsgabin_tourSelection <- nsga_tourSelection
 #2
 # function(popSize, front, cd, fitness, population, k = 3, ...) {
 #   sel <- rep(NA, popSize)
@@ -250,19 +252,20 @@ nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
 # }
 
 nsga_spCrossover_R <- function(object, parents) {
-  fitness <- object@fitness[parents]
-  parents <- object@population[parents,,drop = FALSE]
+  fitness <- object@fitness[parents, ]
+  parents <- object@population[parents, ]
   n <- ncol(parents)
   children <- matrix(as.double(NA), nrow = 2, ncol = n)
-  fitnessChildren <- rep(NA, 2)
   crossOverPoint <- sample(0:n, size = 1)
   if (crossOverPoint == 0) {
+    fitnessChildren <- matrix(as.double(NA), nrow = 2, ncol = 2)
     children[1:2,] <- parents[2:1,]
-    fitnessChildren[1:2] <- fitness[2:1]
+    fitnessChildren[1:2,] <- fitness[2:1,]
   } else if(crossOverPoint == n) {
     children <- parents
     fitnessChildren <- fitness
   } else {
+    fitnessChildren <- rep(NA, 2)
     children[1,] <- c(parents[1,1:crossOverPoint],
                       parents[2,(crossOverPoint+1):n])
     children[2,] <- c(parents[2,1:crossOverPoint],

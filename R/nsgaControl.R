@@ -37,7 +37,7 @@ nsgaControl <- function(...){
 
 
 .nsga.default <- list("binary" = list(population = "nsgabin_Population",
-                                      selection  = "nsgabin_lrSelection",
+                                      selection  = "nsgabin_tourSelection",
                                       crossover  = "nsgabin_spCrossover",
                                       mutation   = "nsgabin_raMutation"),
                       "real-valued" = list(population = "nsgareal_Population",

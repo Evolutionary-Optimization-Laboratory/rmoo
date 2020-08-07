@@ -238,7 +238,7 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
   #   list()
   # }
 
-  Fitness <- p_fit <- q_fit <- matrix(NA, nrow = popSize, ncol = nObj);
+  Fitness <- matrix(NA, nrow = popSize, ncol = nObj);
   #Front <- vector("list", popSize);
 
   fitnessSummary <- vector("list", maxiter)
@@ -277,16 +277,16 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
 
   switch(type,
     binary = {
-      Pop <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
-      P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
+      Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
+      p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     },
     `real-valued` = {
-      Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
-      P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+      Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+      p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     },
     permutation = {
-      Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
-      P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+      Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+      p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     }
   )
 
@@ -312,6 +312,7 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
       Fitness[i,] <- fit
     }
   }
+  # fit <- fitness(Pop)
 
   object@population <- P <- Pop
   object@fitness <- p_fit <- Fitness
@@ -379,6 +380,8 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
         Fitness[i,] <- fit
       }
     }
+    # fit <- fitness(Pop)
+
     # }
     # else {
     #   Fitness <- foreach(i. = seq_len(popSize), .combine = "c") %DO%
