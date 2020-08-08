@@ -44,6 +44,10 @@ nsgaControl <- function(...){
                                            selection  = "nsgareal_tourSelection",
                                            crossover  = "nsgareal_sbxCrossover",
                                            mutation   = "nsgareal_polMutation"),
+                      "permutation" = list(population = "nsgaperm_Population",
+                                           selection  = "nsgaperm_tourSelection",
+                                           crossover  = "nsgaperm_oxCrossover",
+                                           mutation   = "nsgaperm_simMutation"),
                       "eps" = sqrt(.Machine$double.eps),
                       "useRcpp" = FALSE
 )

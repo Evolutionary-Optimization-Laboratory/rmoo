@@ -17,7 +17,7 @@ nsgareal_Population <- function(object) {
 }
 
 ##
-## Binary GA operators  ----
+## Binary NSGA operators  ----
 ##
 
 # Generate a binary random population ----
@@ -32,6 +32,19 @@ nsgabin_Population <- function(object)
   return(population)
 }
 
+##
+## Permutation NSGA operators  ----
+##
+
+nsgaperm_Population <- function(object)
+{
+  int <- seq.int(object@lower, object@upper)
+  n <- length(int)
+  population <- matrix(NA, nrow = object@popSize, ncol = n)
+  for(i in 1:object@popSize)
+    population[i,] <- sample(int, replace = FALSE)
+  return(population)
+}
 #2
 # function(lower, upper, popSize){
 #   nvars <- length(lower)
@@ -78,7 +91,7 @@ nsga_lrSelection_R <- function(object, nObj, r, q)
 }
 
 nsgabin_lrSelection <- nsga_lrSelection_R
-
+nsgaperm_lrSelection <- nsga_lrSelection_R
 #2 For all
 # nsgareal_tourSelection <- function(object, k = 3, ...) {
 #   popSize <- object@popSize
@@ -100,6 +113,7 @@ nsgabin_lrSelection <- nsga_lrSelection_R
 # }
 nsgareal_tourSelection <- nsga_tourSelection
 nsgabin_tourSelection <- nsga_tourSelection
+nsgaperm_tourSelection <- nsga_tourSelection
 #2
 # function(popSize, front, cd, fitness, population, k = 3, ...) {
 #   sel <- rep(NA, popSize)
@@ -277,6 +291,28 @@ nsga_spCrossover_R <- function(object, parents) {
 
 nsgabin_spCrossover <- nsga_spCrossover_R
 
+nsgaperm_oxCrossover <- function(object, parents)
+{
+  parents <- object@population[parents,,drop = FALSE]
+  n <- ncol(parents)
+  #
+  cxPoints <- sample(seq(2,n-1), size = 2)
+  cxPoints <- seq(min(cxPoints), max(cxPoints))
+  children <- matrix(as.double(NA), nrow = 2, ncol = n)
+  children[,cxPoints] <- parents[,cxPoints]
+  #
+  for(j in 1:2)
+  { pos <- c((max(cxPoints)+1):n, 1:(max(cxPoints)))
+  val <- setdiff(parents[-j,pos], children[j,cxPoints])
+  ival <- intersect(pos, which(is.na(children[j,])))
+  children[j,ival] <- val
+  }
+  #
+  out <- list(children = children, fitness = rep(NA,2))
+  return(out)
+}
+
+
 
 #Mutation
 #1 OK
@@ -376,3 +412,19 @@ nsgabin_raMutation <- function(object, parent) {
   return(mutate)
 }
 
+nsgaperm_simMutation <- function(object, parent)
+{
+  parent <- as.vector(object@population[parent,])
+  n <- length(parent)
+  m <- sort(sample(1:n, size = 2))
+  m <- seq(m[1], m[2], by = 1)
+  if(min(m)==1 & max(m)==n)
+    i <- rev(m)
+  else if(min(m)==1)
+    i <- c(rev(m), seq(max(m)+1, n, by = 1))
+  else if(max(m)==n)
+    i <- c(seq(1, min(m)-1, by = 1), rev(m))
+  else i <- c(seq(1, min(m)-1, by = 1), rev(m), seq(max(m)+1, n, by = 1))
+  mutate <- parent[i]
+  return(mutate)
+}
