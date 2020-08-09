@@ -285,7 +285,7 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
       p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     },
     permutation = {
-      Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+      Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
       p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     }
   )

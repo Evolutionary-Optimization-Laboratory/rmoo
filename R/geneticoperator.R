@@ -291,21 +291,20 @@ nsga_spCrossover_R <- function(object, parents) {
 
 nsgabin_spCrossover <- nsga_spCrossover_R
 
-nsgaperm_oxCrossover <- function(object, parents)
-{
-  parents <- object@population[parents,,drop = FALSE]
+nsgaperm_oxCrossover <- function(object, parents) {
+  parents <- object@population[parents, ]
   n <- ncol(parents)
   #
-  cxPoints <- sample(seq(2,n-1), size = 2)
+  cxPoints <- sample(seq(2, n-1), size = 2)
   cxPoints <- seq(min(cxPoints), max(cxPoints))
   children <- matrix(as.double(NA), nrow = 2, ncol = n)
-  children[,cxPoints] <- parents[,cxPoints]
+  children[, cxPoints] <- parents[, cxPoints]
   #
-  for(j in 1:2)
-  { pos <- c((max(cxPoints)+1):n, 1:(max(cxPoints)))
-  val <- setdiff(parents[-j,pos], children[j,cxPoints])
-  ival <- intersect(pos, which(is.na(children[j,])))
-  children[j,ival] <- val
+  for (j in 1:2) {
+    pos <- c((max(cxPoints)+1):n, 1:(max(cxPoints)))
+    val <- setdiff(parents[-j, pos], children[j, cxPoints])
+    ival <- intersect(pos, which(is.na(children[j, ])))
+    children[j, ival] <- val
   }
   #
   out <- list(children = children, fitness = rep(NA,2))
