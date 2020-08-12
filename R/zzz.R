@@ -16,13 +16,12 @@
 }
 
 NSGAStartupMessage <- function() {
-
   msg <- paste0(
-    "____    _
-    / ___|  / \\    Non-Dominated
-    | |  _  / _ \\   Genetic
-    | |_| |/ ___ \\   Algorithms-III
-    \\____/_/   \\_\\  version ",
+      "__   _   ____  ____    _
+      |   \\ | ||  __|/ ___|  / \\  Non-Dominated
+      | |\\ \\| ||__|  | |  _  / _ \\  Genetic
+      | | \\ \\ | __| || |_| |/ ___ \\  Algorithms-III
+      |_| \\__||____|\\____/_/   \\_\\  version ",
     packageVersion("nsga3r"))
   return(msg)
 }
@@ -48,5 +47,3 @@ options(
     Language = "es"
   )
 )
-
-

@@ -212,7 +212,9 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
 
   n_remaining <- popSize
 
-  ideal <- rep(is.numeric(NA), nObj)
+  #ideal <- rep(Inf, nObj)
+  #worst <- rep(-Inf, nObj)
+
   #Creacion del objetivo tipo nsga
   object <- new("nsga3",
                 call = call,
@@ -231,13 +233,13 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                 maxiter = maxiter,
                 suggestions = suggestions,
                 population = matrix(),
-                ideal_point = c(), #Agregar en nsga3-class
-                worst_point = c(), #Agregar en nsga3-class
-                smin = c(),
+                ideal_point = NA, #Agregar en nsga3-class
+                worst_point = NA, #Agregar en nsga3-class
+                smin = rep(NA, nObj),
                 extreme_points = matrix(), #Agregar en nsga3-class
-                worst_of_population = c(), #Agregar en nsga3-class
-                worst_of_front = c(), #Agregar en nsga3-class
-                nadir_point = c(),
+                worst_of_population = rep(NA, nObj), #Agregar en nsga3-class
+                worst_of_front = rep(NA, nObj), #Agregar en nsga3-class
+                nadir_point = rep(NA, nObj),
                 pcrossover = pcrossover,
                 pmutation = if (is.numeric(pmutation))
                   pmutation
@@ -367,14 +369,14 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     ideal_point <- UpdateIdealPoint(object, nObj)
     worst_point <- UpdateWorstPoint(object, nObj)
 
-    object@idealpoint <- ideal_point
-    object@worstpoint <- worst_point
+    object@ideal_point <- ideal_point
+    object@worst_point <- worst_point
 
     fp <- sweep(object@fitness,2,ideal_point)
 
-    ps <- PerformScalarizing(object, fp)
+    ps <- PerformScalarizing(object)
 
-    object@extremepoints = ps$extremepoint
+    object@extreme_points = ps$extremepoint
     object@smin <- ps$indexmin
 
     worst_of_population <- worst_of_front <- c()
@@ -387,7 +389,11 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
       worst_of_front[i] <- max(object@fitness[object@f[[1]],][,i])
     }
 
+    object@worst_of_population <- worst_of_population
+    object@worst_of_front <- worst_of_front
     nadir_point <- get_nadir_point(object)
+
+    object@nadir_point <- nadir_point
 
     I <- unlist(object@f)
     object@population = object@population[I, ]
@@ -395,9 +401,9 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     object@fitness = object@fitness[I, ] #Redundante si luego realizamos el ordenamiento no dominado
 
     out <- non_dominated_fronts(object)
-    object@f <- out$f
-    object@front <- matrix(unlist(out$front), ncol = 1, byrow = TRUE)
-    last_front <- out$F[[max(length(out$F))]]
+    object@f <- out$fit
+    object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
+    last_front <- out$fit[[max(length(out$fit))]]
     rm(out)
 
     outniches <- associate_to_niches(object)
@@ -415,7 +421,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
           n_remaining <- popSize
       } else {
           until_last_front <- unlist(object@f[1:(length(object@f)-1)])
-          niche_count <- compute_niche_count(nrow(reference_directions),
+          niche_count <- compute_niche_count(nrow(object@reference_points),
                                              niche_of_individuals[until_last_front])
           n_remaining <- popSize - length(until_last_front)
       }
@@ -436,10 +442,10 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     #last_front <- x$F[[length(x$F)]]
 
 
-    s_idx  <- niching(pop=pop[last_front, ],
-                      n_remaining=n_remaining,
-                      niche_count=niche_count,
-                      niche_of_individuals=niche_of_individuals[last_front],
+    s_idx  <- niching(pop = Pop[last_front, ],
+                      n_remaining = n_remaining,
+                      niche_count = niche_count,
+                      niche_of_individuals = niche_of_individuals[last_front],
                       dist_to_niche=dist_to_niche[last_front])
 
     survivors <- append(until_last_front, last_front[s_idx])

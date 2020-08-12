@@ -20,7 +20,7 @@ nsga3(
   n_partitions,
   pcrossover = 0.8,
   pmutation = 0.1,
-  reference_dirs = generate_reference_points(),
+  reference_dirs = generate_reference_points,
   maxiter = 100,
   run = maxiter,
   maxFitness = Inf,

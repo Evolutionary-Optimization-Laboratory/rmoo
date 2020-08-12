@@ -57,7 +57,7 @@ nsgaperm_Population <- function(object)
 
 #Selection
 #1 For NSGA-II
-nsgareal_tourSelection <- function(object, k = 3, ...) {
+nsga_tourSelection <- function(object, k = 3, ...) {
   popSize <- object@popSize
   front <- object@front
   cd <- object@crowdingDistance

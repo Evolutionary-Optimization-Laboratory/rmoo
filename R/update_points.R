@@ -8,7 +8,7 @@ UpdateIdealPoint <- function(object, nObj) {
     for (i in 1:nObj) {
       ideal_point[i] <- min(cost[,i])
     }
-  }else{
+  } else {
     ideal_point <- object@ideal_point
     cost <- rbind(ideal_point, cost)
     for (i in 1:nObj) {
@@ -37,17 +37,17 @@ UpdateWorstPoint <- function(object, nObj){
 }
 
 #extreme_points
-PerformScalarizing <- function(object){
-  nPop <- object@popSize;
-  smin <- object@smin;
-  extreme_points <- object@extreme_points;
-  nObj <- ncol(object@popSize)
-  ideal_point <- object@idealpoint;
-  if(!is.null(object@smin)){
-    extreme_points <- object@extreme_points;
-    smin <- object@smin;
-    F <- rbind(object@extreme_points, object@fitness);
-  }else{
+PerformScalarizing <- function(object) {
+  nPop <- object@popSize
+  smin <- object@smin
+  extreme_points <- object@extreme_points
+  nObj <- ncol(object@fitness)
+  ideal_point <- object@ideal_point
+  if (!is.null(object@smin)){
+    extreme_points <- object@extreme_points
+    smin <- object@smin
+    F <- rbind(object@extreme_points, object@fitness)
+  } else {
     extreme_points <-  matrix(0, nObj, nObj)
     smin <-  rep(Inf,nObj)
     F <- object@fitness
@@ -56,28 +56,28 @@ PerformScalarizing <- function(object){
   w = diag(1, nObj)
   w[which(w==0)] = 1*10^(-6)
   for (j in 1:nObj) {
-    s <- rep(0, nPop);
+    s <- rep(0, nPop)
     for (i in 1:nPop) {
-      s[i] <- max(fp[i,]/w[j,]);
+      s[i] <- max(fp[i,]/w[j,])
     }
-    sminj <- min(s);
-    ind <- which(s == sminj);
-    if (sminj < smin[j]){
-      extreme_points[j,] <- F[ind,];
-      smin[j] <- sminj;
+    sminj <- min(s)
+    ind <- which(s == sminj)
+    if (sminj < smin[j]) {
+      extreme_points[j, ] <- F[ind, ]
+      smin[j] <- sminj
     }
   }
   out <- list(extremepoint = extreme_points,
-    indexmin = smin)
+              indexmin = smin)
   return(out)
 }
 
 #nadir_point
 get_nadir_point <- function(object) {
-  extreme_point <- object@extremepoint
-  ideal_point <- object@idealpoint
-  worst_point <- object@worstpoint
-  nObj <- object@nObj
+  extreme_point <- object@extreme_points
+  ideal_point <- object@ideal_point
+  worst_point <- object@worst_point
+  nObj <- ncol(object@fitness)
   worst_of_front <- object@worst_of_front
   worst_of_population <- object@worst_of_population
   out <- tryCatch({
@@ -90,8 +90,7 @@ get_nadir_point <- function(object) {
       stop()
     }
     nadir_point
-  },error = function(e)
-  {
+  }, error = function(e) {
     nadir_point <- worst_of_front
     return(nadir_point)
   }
