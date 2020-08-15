@@ -38,7 +38,7 @@ UpdateWorstPoint <- function(object, nObj){
 
 #extreme_points
 PerformScalarizing <- function(object) {
-  nPop <- object@popSize
+  nPop <- nrow(object@population)
   smin <- object@smin
   extreme_points <- object@extreme_points
   nObj <- ncol(object@fitness)
@@ -54,7 +54,7 @@ PerformScalarizing <- function(object) {
   }
   fp = sweep(F,2,ideal_point)
   w = diag(1, nObj)
-  w[which(w==0)] = 1*10^(-6)
+  w[which(w==0)] = 1e-6
   for (j in 1:nObj) {
     s <- rep(0, nPop)
     for (i in 1:nPop) {
@@ -62,6 +62,9 @@ PerformScalarizing <- function(object) {
     }
     sminj <- min(s)
     ind <- which(s == sminj)
+
+    if (length(ind)>1) ind <- sample(ind, 1)
+
     if (sminj < smin[j]) {
       extreme_points[j, ] <- F[ind, ]
       smin[j] <- sminj
@@ -71,6 +74,44 @@ PerformScalarizing <- function(object) {
               indexmin = smin)
   return(out)
 }
+
+# get_extreme_points <- function(object) {
+#   nObj <- ncol(object@fitness)
+#   nPop <- nrow(object@population)
+#   w <- diag(1, nObj)
+#   w[which(w==0)] = 1e-6
+#   extreme_points <- object@extreme_points
+#   if (!is.na(extreme_points)) {
+#     smin <- object@smin
+#     F <- rbind(object@extreme_points, object@fitness)
+#   } else {
+#     extreme_points <-  matrix(0, nObj, nObj)
+#     smin <-  rep(Inf,nObj)
+#     F <- object@fitness
+#   }
+#   fp = sweep(F,2,ideal_point)
+#   fp[which(fp<(1e-3))] <- 0
+#
+#   for (j in 1:nObj) {
+#     s <- rep(0, nPop)
+#     for (i in 1:nPop) {
+#       s[i] <- max(fp[i,]*w[j,])
+#     }
+#     sminj <- min(s)
+#     ind <- which(s == sminj)
+#
+#     if (length(ind)>1) ind <- sample(ind, 1)
+#
+#     if (sminj <= smin[j]) {
+#       extreme_points[j, ] <- F[ind, ]
+#       smin[j] <- sminj
+#     }
+#   }
+#   out <- list(extremepoint = extreme_points,
+#               indexmin = smin)
+#   return(out)
+# }
+
 
 #nadir_point
 get_nadir_point <- function(object) {
@@ -99,3 +140,5 @@ get_nadir_point <- function(object) {
   out[b] <- worst_of_population[b]
   return(out)
 }
+
+

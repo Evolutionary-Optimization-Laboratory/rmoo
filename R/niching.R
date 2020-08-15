@@ -41,9 +41,10 @@ niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to
 
     #Traemos todos los nichos con el recuento minimo
     next_niches <- next_niches_list[which(next_niche_count == min_niche_count)]
-    if(length(next_niches) > 1){
-      next_niches <- next_niches[seq(length(next_niches))[n_select]]
-    }
+    next_niches <- as.vector(na.omit(next_niches[seq(length(next_niches))[1:n_select]]))
+    # if(length(next_niches) > 1){
+    #   next_niches <- next_niches[seq(length(next_niches))[n_select]]
+    # }
 
     for (i in next_niches) {
       next_ind <- which(((niche_of_individuals == i) == mask))
@@ -58,7 +59,7 @@ niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to
         #Ya randomizado
         next_ind = next_ind[1]
       }
-      mask[next_ind] = FALSE
+      mask[next_ind] <- FALSE
 
       survivors <- c(survivors,next_ind)
 

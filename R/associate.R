@@ -53,6 +53,7 @@ compute_perpendicular_distance <- function(N, ref_dirs) {
 compute_niche_count <- function(n_niches, niche_of_individuals){
   niche_count <- rep(0, n_niches)
   test <- split(seq_along(niche_of_individuals), niche_of_individuals)
+  #as.data.frame(table(niche_of_individuals))
   #index <- unlist(lapply(test,length))
   a <- rbind(as.numeric(names(test)),unlist(lapply(test,length), use.names = FALSE))
   niche_count[a[1,]] <- a[2,]
