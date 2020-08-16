@@ -445,7 +445,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     survivors <- append(until_last_front, last_front[s_idx])
 
     object@population <- P <-  object@population[survivors, ]
-    object@fitness <- p_fit <- object@population[survivors, ]
+    object@fitness <- p_fit <- object@fitness[survivors, ]
 
     #cd <- crowdingdistance(object,nObj);
     #object@crowdingDistance <- cd
@@ -460,7 +460,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     out <- non_dominated_fronts(object)
     object@f <- out$fit
     object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
-
+    rm(out)
     #cd <- crowdingdistance(object,nObj);
     #object@crowdingDistance <- cd;
 

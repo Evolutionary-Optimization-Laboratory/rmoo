@@ -2,7 +2,7 @@
 #ideal_point
 UpdateIdealPoint <- function(object, nObj) {
   cost <- object@fitness
-  if (is.null(object@ideal_point)) {
+  if (anyNA(object@ideal_point)) {
     ideal_point <- c()
     #nObj <- ncol(cost)
     for (i in 1:nObj) {
@@ -21,7 +21,7 @@ UpdateIdealPoint <- function(object, nObj) {
 #worst_point
 UpdateWorstPoint <- function(object, nObj){
   cost <- object@fitness
-  if(is.null(object@worst_point)){
+  if (anyNA(object@worst_point)) {
     worst_point <- c()
     for (i in 1:nObj) {
       worst_point[i] <- max(cost[,i])
@@ -43,7 +43,7 @@ PerformScalarizing <- function(object) {
   extreme_points <- object@extreme_points
   nObj <- ncol(object@fitness)
   ideal_point <- object@ideal_point
-  if (!is.null(object@smin)){
+  if (!anyNA(smin)) {
     extreme_points <- object@extreme_points
     smin <- object@smin
     F <- rbind(object@extreme_points, object@fitness)
