@@ -425,7 +425,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     if (nrow(object@population) > popSize) {
       if (length(object@f) == 1) {
           until_last_front <- c()
-          niche_count <- rep(0, nrow(object@reference_directions))
+          niche_count <- rep(0, nrow(object@reference_points))
           n_remaining <- popSize
       } else {
           until_last_front <- unlist(object@f[1:(length(object@f)-1)])
