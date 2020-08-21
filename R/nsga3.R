@@ -444,7 +444,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
 
     survivors <- append(until_last_front, last_front[s_idx])
 
-    object@population <- P <-  object@population[survivors, ]
+    object@population <- P <- Pop <- object@population[survivors, ]
     object@fitness <- p_fit <- object@fitness[survivors, ]
 
     #cd <- crowdingdistance(object,nObj);

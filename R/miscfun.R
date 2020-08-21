@@ -58,15 +58,15 @@ nsgaMonitor <- function(object, number_objectives, ...) {
   if (number_objectives == 3) {
     # Y <- object@f[[1]]
     # first_front <- fitness[Y,]
-    # rgl::plot3d(fitness)
+    rgl::plot3d(fitness)
     # rgl::plot3d(first_front, col="red", size=8, add=TRUE)
     # rgl::plot3d(x = min(first_front[,1]),
     #             y = min(first_front[,2]),
     #             z = min(first_front[,3]),
     #   col="green", size=8, add=TRUE)
-    # rgl::bgplot3d({plot.new(); title(main = paste("Iter: ", iter), line = 3);});
+    rgl::bgplot3d({plot.new(); title(main = paste("Iter: ", iter), line = 3);});
     # fitness.range <- diff(apply(fitness,2,range))
-    scatterplot3d::scatterplot3d(fitness, main = paste("Iter: ", iter), highlight.3d = TRUE, pch = 20)
+    #scatterplot3d::scatterplot3d(fitness, main = paste("Iter: ", iter), highlight.3d = TRUE, pch = 20)
     #Sys.sleep(0.2)
   } else if (number_objectives == 2) {
     first_front <- fitness[object@f[[1]],]

@@ -337,7 +337,7 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
     fitnesssorted <- object@fitness[order(object@front, -object@crowdingDistance), ]
 
     #Select de first N element
-    object@population <- P <-  populationsorted[1:popSize, ]
+    object@population <- P <- Pop <- populationsorted[1:popSize, ]
     object@fitness <- p_fit <- fitnesssorted[1:popSize, ]
 
     out <- non_dominated_fronts(object)
