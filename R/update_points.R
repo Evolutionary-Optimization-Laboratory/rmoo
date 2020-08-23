@@ -37,20 +37,15 @@ UpdateWorstPoint <- function(object, nObj){
 }
 
 #extreme_points
-PerformScalarizing <- function(object) {
-  nPop <- nrow(object@population)
-  smin <- object@smin
-  extreme_points <- object@extreme_points
-  nObj <- ncol(object@fitness)
-  ideal_point <- object@ideal_point
-  if (!anyNA(smin)) {
-    extreme_points <- object@extreme_points
-    smin <- object@smin
-    F <- rbind(object@extreme_points, object@fitness)
+PerformScalarizing <- function(population, fitness, smin, extreme_points, ideal_point) {
+  nPop <- nrow(population)
+  nObj <- ncol(fitness)
+  if (!anyNA(smin)){
+    F <- rbind(extreme_points, fitness)
   } else {
     extreme_points <-  matrix(0, nObj, nObj)
     smin <-  rep(Inf,nObj)
-    F <- object@fitness
+    F <- fitness
   }
   fp = sweep(F,2,ideal_point)
   w = diag(1, nObj)
@@ -74,6 +69,44 @@ PerformScalarizing <- function(object) {
               indexmin = smin)
   return(out)
 }
+
+# PerformScalarizing <- function(object) {
+#   nPop <- nrow(object@population)
+#   smin <- object@smin
+#   extreme_points <- object@extreme_points
+#   nObj <- ncol(object@fitness)
+#   ideal_point <- object@ideal_point
+#   if (!anyNA(smin)) {
+#     extreme_points <- object@extreme_points
+#     smin <- object@smin
+#     F <- rbind(object@extreme_points, object@fitness)
+#   } else {
+#     extreme_points <-  matrix(0, nObj, nObj)
+#     smin <-  rep(Inf,nObj)
+#     F <- object@fitness
+#   }
+#   fp = sweep(F,2,ideal_point)
+#   w = diag(1, nObj)
+#   w[which(w==0)] = 1e-6
+#   for (j in 1:nObj) {
+#     s <- rep(0, nPop)
+#     for (i in 1:nPop) {
+#       s[i] <- max(fp[i,]/w[j,])
+#     }
+#     sminj <- min(s)
+#     ind <- which(s == sminj)
+#
+#     if (length(ind)>1) ind <- sample(ind, 1)
+#
+#     if (sminj < smin[j]) {
+#       extreme_points[j, ] <- F[ind, ]
+#       smin[j] <- sminj
+#     }
+#   }
+#   out <- list(extremepoint = extreme_points,
+#               indexmin = smin)
+#   return(out)
+# }
 
 # get_extreme_points <- function(object) {
 #   nObj <- ncol(object@fitness)

@@ -357,6 +357,13 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     object@population <- Pop <- rbind(P,Q)
     object@fitness <- rbind(p_fit, q_fit)
 
+    #NSGA-III Operator
+    ideal_point <- UpdateIdealPoint(object, nObj)
+    worst_point <- UpdateWorstPoint(object, nObj)
+
+    object@ideal_point <- ideal_point
+    object@worst_point <- worst_point
+
     out <- non_dominated_fronts(object)
     con <- 0
     for (i in 1:length(out$fit)) {
@@ -368,19 +375,11 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
     rm(out)
 
+    #fp <- sweep(object@fitness,2,ideal_point)
 
-    #NSGA-III Operator
-    #ideal_point <- c()
-    #worst_point <- c()
-    ideal_point <- UpdateIdealPoint(object, nObj)
-    worst_point <- UpdateWorstPoint(object, nObj)
-
-    object@ideal_point <- ideal_point
-    object@worst_point <- worst_point
-
-    fp <- sweep(object@fitness,2,ideal_point)
-
-    ps <- PerformScalarizing(object)
+    ps <- PerformScalarizing(object@population[unlist(object@f), ],
+                             object@fitness[unlist(object@f), ],
+                             object@smin, object@extreme_points, object@ideal_point)
 
     object@extreme_points = ps$extremepoint
     object@smin <- ps$indexmin
