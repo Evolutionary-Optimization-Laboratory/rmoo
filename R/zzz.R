@@ -17,7 +17,8 @@
 
 NSGAStartupMessage <- function() {
   msg <- paste0(
-      "__   _   ____  ____    _
+      "
+       __   _   ____  ____    _
       |   \\ | ||  __|/ ___|  / \\  Non-Dominated
       | |\\ \\| ||__|  | |  _  / _ \\  Genetic
       | | \\ \\ | __| || |_| |/ ___ \\  Algorithms-III

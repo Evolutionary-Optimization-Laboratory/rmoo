@@ -432,40 +432,21 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
                                              niche_of_individuals[until_last_front])
           n_remaining <- popSize - length(until_last_front)
       }
+      s_idx  <- niching(pop = object@population[last_front, ],
+                        n_remaining = n_remaining,
+                        niche_count = niche_count,
+                        niche_of_individuals = niche_of_individuals[last_front],
+                        dist_to_niche=dist_to_niche[last_front])
+      survivors <- append(until_last_front, last_front[s_idx])
+      object@population <- P <- Pop <- object@population[survivors, ]
+      object@fitness <- p_fit <- object@fitness[survivors, ]
     }
-
-
-    s_idx  <- niching(pop = object@population[last_front, ],
-                      n_remaining = n_remaining,
-                      niche_count = niche_count,
-                      niche_of_individuals = niche_of_individuals[last_front],
-                      dist_to_niche=dist_to_niche[last_front])
-
-    survivors <- append(until_last_front, last_front[s_idx])
-
-    object@population <- P <- Pop <- object@population[survivors, ]
-    object@fitness <- p_fit <- object@fitness[survivors, ]
-
-    #cd <- crowdingdistance(object,nObj);
-    #object@crowdingDistance <- cd
-
-    #Sorted porpulation and fitness by front and crowding distance
-    #populationsorted <- object@population[order(object@front, -object@crowdingDistance),]
-    #fitnesssorted <- object@fitness[order(object@front, -object@crowdingDistance),]
-    #Select de first N element
-    #object@population <- P <-  populationsorted[1:popSize,]
-    #object@fitness <- p_fit <- fitnesssorted[1:popSize,]
 
     out <- non_dominated_fronts(object)
     object@f <- out$fit
     object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
     rm(out)
-    #cd <- crowdingdistance(object,nObj);
-    #object@crowdingDistance <- cd;
 
-    #-----------------------------------------------------------------
-    #Cambiar por una lista, ya que los valores serán en 2 dimensiones#
-    #first <- object@f[[1]]
     fitnessSummary[[iter]] <- nsgaSummary(object)
     object@summary <- fitnessSummary
 
@@ -475,14 +456,11 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     }
     #-----------------------------------------------------------------
 
-
     if (max(Fitness, na.rm = TRUE) >= maxFitness)
       break
     if (object@iter == maxiter)
       break
   }
-
-
 
   solution <- list(Rank = object@front,
                    Front = object@f,
