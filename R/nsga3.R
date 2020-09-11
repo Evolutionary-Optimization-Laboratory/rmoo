@@ -386,13 +386,8 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
 
     worst_of_population <- worst_of_front <- c()
 
-    for (i in 1:nObj) {
-      worst_of_population[i] <- max(object@fitness[,i])
-    }
-
-    for (i in 1:nObj) {
-      worst_of_front[i] <- max(object@fitness[object@f[[1]],][,i])
-    }
+    worst_of_population <- apply(object@fitness, 2, max) #max(object@fitness[,i])
+    worst_of_front <- apply(object@fitness[object@f[[1]],], 2, max);
 
     object@worst_of_population <- worst_of_population
     object@worst_of_front <- worst_of_front

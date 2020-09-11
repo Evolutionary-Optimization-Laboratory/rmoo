@@ -4,16 +4,11 @@ UpdateIdealPoint <- function(object, nObj) {
   cost <- object@fitness
   if (anyNA(object@ideal_point)) {
     ideal_point <- c()
-    #nObj <- ncol(cost)
-    for (i in 1:nObj) {
-      ideal_point[i] <- min(cost[,i])
-    }
+    ideal_point <- apply(object@fitness, 2, min)
   } else {
     ideal_point <- object@ideal_point
     cost <- rbind(ideal_point, cost)
-    for (i in 1:nObj) {
-      ideal_point[i] <- min(cost[,i])
-    }
+    ideal_point <- apply(cost, 2, min)
   }
   return(ideal_point)
 }
@@ -23,15 +18,11 @@ UpdateWorstPoint <- function(object, nObj){
   cost <- object@fitness
   if (anyNA(object@worst_point)) {
     worst_point <- c()
-    for (i in 1:nObj) {
-      worst_point[i] <- max(cost[,i])
-    }
+    worst_point <- apply(object@fitness, 2, max)
   }else{
     worst_point <- object@worst_point
     cost <- rbind(worst_point, cost)
-    for (i in 1:nObj) {
-      worst_point[i] <- max(cost[,i])
-    }
+    worst_point <- apply(cost, 2, max)
   }
   return(worst_point);
 }
