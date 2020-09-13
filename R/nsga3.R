@@ -48,31 +48,29 @@
 #' @seealso [nsga()], [nsga2()]
 #'
 #' @return Returns an object of class nsga-class. See [nsga3-class] for a description of available slots information.
-nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
-                   fitness, ...,
-                   lower, upper, nBits,
-                   population = nsgaControl(type)$population,
-                   selection = nsgaControl(type)$selection,
-                   crossover = nsgaControl(type)$crossover,
-                   mutation = nsgaControl(type)$mutation,
-                   popSize = NULL,
-                   nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
-                   n_partitions,
-                   pcrossover = 0.8,
-                   pmutation = 0.1,
-                   reference_dirs = generate_reference_points,
-                   maxiter = 100,
-                   run = maxiter,
-                   maxFitness = Inf,
-                   names = NULL,
-                   suggestions = NULL,
-                   monitor = if (interactive()) nsgaMonitor else FALSE,
-                   seed = NULL)
+nsga3 <- function(type = c("binary", "real-valued", "permutation"),
+  fitness, ...,
+  lower, upper, nBits,
+  population = nsgaControl(type)$population,
+  selection = nsgaControl(type)$selection,
+  crossover = nsgaControl(type)$crossover,
+  mutation = nsgaControl(type)$mutation,
+  popSize = NULL,
+  nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
+  n_partitions,
+  pcrossover = 0.8,
+  pmutation = 0.1,
+  reference_dirs = generate_reference_points,
+  maxiter = 100,
+  run = maxiter,
+  maxFitness = Inf,
+  names = NULL,
+  suggestions = NULL,
+  monitor = if (interactive()) nsgaMonitor else FALSE,
+  seed = NULL)
 {
-  #nsgaMonitor
   call <- match.call()
 
-  #type <- type
   type <- match.arg(type, choices = eval(formals(nsga3)$type))
 
   algorithm <- "NSGA-III"
@@ -197,58 +195,46 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
 
   i. <- NULL #dummy to trick R CMD check
 
-  # fitnessSummary <- matrix(as.double(NA), nrow = maxiter, ncol = 6)
-  # colnames(fitnessSummary) <- names(nsgaSummary(rnorm(10)))
-  #
-  # bestSol <- if (keepBest){
-  #   vector(mode = "list", length = maxiter)
-  # }else{
-  #   list()
-  # }
-
   Fitness <- matrix(NA, nrow = popSize, ncol = nObj)
 
   fitnessSummary <- vector("list", maxiter)
 
   n_remaining <- popSize
 
-  #ideal <- rep(Inf, nObj)
-  #worst <- rep(-Inf, nObj)
-
   #Creacion del objetivo tipo nsga
   object <- new("nsga3",
-                call = call,
-                type = type,
-                lower = lower,
-                upper = upper,
-                nBits = nBits,
-                names = if (is.null(names))
-                  character()
-                else names,
-                popSize = popSize,
-                front = matrix(),
-                f = list(),
-                iter = 0,
-                run = 1,
-                maxiter = maxiter,
-                suggestions = suggestions,
-                population = matrix(),
-                ideal_point = NA, #Agregar en nsga3-class
-                worst_point = NA, #Agregar en nsga3-class
-                smin = rep(NA, nObj),
-                extreme_points = matrix(), #Agregar en nsga3-class
-                worst_of_population = rep(NA, nObj), #Agregar en nsga3-class
-                worst_of_front = rep(NA, nObj), #Agregar en nsga3-class
-                nadir_point = rep(NA, nObj),
-                pcrossover = pcrossover,
-                pmutation = if (is.numeric(pmutation))
-                  pmutation
-                else NA,
-                reference_points = ref_dirs, #Agregar en nsga3-class
-                fitness = Fitness,
-                summary = fitnessSummary)
+    call = call,
+    type = type,
+    lower = lower,
+    upper = upper,
+    nBits = nBits,
+    names = if (is.null(names))
+      character()
+    else names,
+    popSize = popSize,
+    front = matrix(),
+    f = list(),
+    iter = 0,
+    run = 1,
+    maxiter = maxiter,
+    suggestions = suggestions,
+    population = matrix(),
+    ideal_point = NA, #Agregar en nsga3-class
+    worst_point = NA, #Agregar en nsga3-class
+    smin = rep(NA, nObj),
+    extreme_points = matrix(), #Agregar en nsga3-class
+    worst_of_population = rep(NA, nObj), #Agregar en nsga3-class
+    worst_of_front = rep(NA, nObj), #Agregar en nsga3-class
+    nadir_point = rep(NA, nObj),
+    pcrossover = pcrossover,
+    pmutation = if (is.numeric(pmutation))
+      pmutation
+    else NA,
+    reference_points = ref_dirs, #Agregar en nsga3-class
+    fitness = Fitness,
+    summary = fitnessSummary)
 
-  #---------------------------Generate initial population------------------------------
+  #Generate initial population
   if (maxiter == 0)
     return(object)
 
@@ -256,15 +242,12 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   switch(type,
     binary = {
       Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
-      #p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     },
     `real-valued` = {
       Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
-      #p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     },
     permutation = {
       Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
-      #p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     }
   )
 
@@ -288,11 +271,10 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   object@population <- P <- Pop
   object@fitness <- p_fit <- Fitness
 
-  #---------------------------First Non-dominated Ranking-------------------------#
+  #First Non-dominated Ranking
   out <- non_dominated_fronts(object)
   object@f <- out$fit
   object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
-  #object@crowdingDistance <- matrix(as.double(NA), nrow = popSize);
 
   for (iter in seq_len(maxiter)) {
     object@iter <- iter
@@ -375,19 +357,17 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
     rm(out)
 
-    #fp <- sweep(object@fitness,2,ideal_point)
-
     ps <- PerformScalarizing(object@population[unlist(object@f), ],
-                             object@fitness[unlist(object@f), ],
-                             object@smin, object@extreme_points, object@ideal_point)
+      object@fitness[unlist(object@f), ],
+      object@smin, object@extreme_points, object@ideal_point)
 
     object@extreme_points = ps$extremepoint
     object@smin <- ps$indexmin
 
     worst_of_population <- worst_of_front <- c()
 
-    worst_of_population <- apply(object@fitness, 2, max) #max(object@fitness[,i])
-    worst_of_front <- apply(object@fitness[object@f[[1]],], 2, max);
+    worst_of_population <- apply(object@fitness, 2, max)
+    worst_of_front <- apply(object@fitness[object@f[[1]],], 2, max)
 
     object@worst_of_population <- worst_of_population
     object@worst_of_front <- worst_of_front
@@ -399,7 +379,7 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     I <- unlist(object@f)
     object@population = object@population[I, ]
     object@front =  object@front[I, ]
-    object@fitness = object@fitness[I, ] #Redundante si luego realizamos el ordenamiento no dominado
+    object@fitness = object@fitness[I, ]
 
     out <- non_dominated_fronts(object)
     object@f <- out$fit
@@ -408,30 +388,27 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     rm(out)
 
     outniches <- associate_to_niches(object)
-
     niche_of_individuals <- outniches$niches
     dist_to_niche <- outniches$distance
     rm(outniches)
 
-    #last_front <- tail(object@f[[1]], n = 1)
-    #last_front <- max(1:(length(object@f)))
     #Generate the next generation
     if (nrow(object@population) > popSize) {
       if (length(object@f) == 1) {
-          until_last_front <- c()
-          niche_count <- rep(0, nrow(object@reference_points))
-          n_remaining <- popSize
+        until_last_front <- c()
+        niche_count <- rep(0, nrow(object@reference_points))
+        n_remaining <- popSize
       } else {
-          until_last_front <- unlist(object@f[1:(length(object@f)-1)])
-          niche_count <- compute_niche_count(nrow(object@reference_points),
-                                             niche_of_individuals[until_last_front])
-          n_remaining <- popSize - length(until_last_front)
+        until_last_front <- unlist(object@f[1:(length(object@f)-1)])
+        niche_count <- compute_niche_count(nrow(object@reference_points),
+          niche_of_individuals[until_last_front])
+        n_remaining <- popSize - length(until_last_front)
       }
       s_idx  <- niching(pop = object@population[last_front, ],
-                        n_remaining = n_remaining,
-                        niche_count = niche_count,
-                        niche_of_individuals = niche_of_individuals[last_front],
-                        dist_to_niche=dist_to_niche[last_front])
+        n_remaining = n_remaining,
+        niche_count = niche_count,
+        niche_of_individuals = niche_of_individuals[last_front],
+        dist_to_niche=dist_to_niche[last_front])
       survivors <- append(until_last_front, last_front[s_idx])
       object@population <- P <- Pop <- object@population[survivors, ]
       object@fitness <- p_fit <- object@fitness[survivors, ]
@@ -445,11 +422,10 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
     fitnessSummary[[iter]] <- nsgaSummary(object)
     object@summary <- fitnessSummary
 
-    #Evaluar por iteracion/aplicar tambien al nondominatedfronts
+    #Plot front non-dominated by iteration
     if (is.function(monitor)) {
       monitor(object = object, number_objective = nObj)
     }
-    #-----------------------------------------------------------------
 
     if (max(Fitness, na.rm = TRUE) >= maxFitness)
       break
@@ -458,13 +434,14 @@ nsga3 <-  function(type = c("binary", "real-valued", "permutation"),
   }
 
   solution <- list(Rank = object@front,
-                   Front = object@f,
-                   Extreme_Points = object@extreme_points,
-                   Nadir_Point = object@nadir_point,
-                   Ideal_Point = object@ideal_point,
-                   Worst_Point = object@worst_point,
-                   Population = object@population,
-                   Fitness = object@fitness)
+    Front = object@f,
+    Extreme_Points = object@extreme_points,
+    Nadir_Point = object@nadir_point,
+    Ideal_Point = object@ideal_point,
+    Worst_Point = object@worst_point,
+    Population = object@population,
+    Fitness = object@fitness,
+    Summary = object@summary)
 
   return(solution)
 }

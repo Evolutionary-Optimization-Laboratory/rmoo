@@ -46,24 +46,24 @@
 #' @seealso [nsga()], [nsga3()]
 #'
 #' @return Returns an object of class nsga-class. See [nsga-class] for a description of available slots information.
-nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
-                   fitness, ...,
-                   lower, upper, nBits,
-                   population = nsgaControl(type)$population,
-                   selection = nsgaControl(type)$selection,
-                   crossover = nsgaControl(type)$crossover,
-                   mutation = nsgaControl(type)$mutation,
-                   popSize = 50,
-                   nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
-                   pcrossover = 0.8,
-                   pmutation = 0.1,
-                   maxiter = 100,
-                   run = maxiter,
-                   maxFitness = Inf,
-                   names = NULL,
-                   suggestions = NULL,
-                   monitor = if (interactive()) nsgaMonitor else FALSE,
-                   seed = NULL)
+nsga2 <- function(type = c("binary", "real-valued", "permutation"),
+  fitness, ...,
+  lower, upper, nBits,
+  population = nsgaControl(type)$population,
+  selection = nsgaControl(type)$selection,
+  crossover = nsgaControl(type)$crossover,
+  mutation = nsgaControl(type)$mutation,
+  popSize = 50,
+  nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
+  pcrossover = 0.8,
+  pmutation = 0.1,
+  maxiter = 100,
+  run = maxiter,
+  maxFitness = Inf,
+  names = NULL,
+  suggestions = NULL,
+  monitor = if (interactive()) nsgaMonitor else FALSE,
+  seed = NULL)
 {
 
   call <- match.call()
@@ -175,14 +175,6 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
 
   i. <- NULL #dummy to trick R CMD check
 
-  # fitnessSummary <- matrix(as.double(NA), nrow = maxiter, ncol = 6)
-  # colnames(fitnessSummary) <- names(nsgaSummary(rnorm(10)))
-  #
-  # bestSol <- if (keepBest){
-  #   vector(mode = "list", length = maxiter)
-  # }else{
-  #   list()
-  # }
 
   Fitness <- matrix(NA, nrow = popSize, ncol = nObj)
 
@@ -190,31 +182,31 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
 
   #Creacion del objetivo tipo nsga
   object <- new("nsga2",
-                call = call,
-                type = type,
-                lower = lower,
-                upper = upper,
-                nBits = nBits,
-                names = if (is.null(names))
-                  character()
-                else names,
-                popSize = popSize,
-                front = matrix(),
-                f = list(),
-                iter = 0,
-                run = 1,
-                maxiter = maxiter,
-                suggestions = suggestions,
-                population = matrix(),
-                pcrossover = pcrossover,
-                pmutation = if (is.numeric(pmutation))
-                  pmutation
-                else NA,
-                crowdingDistance = matrix(),
-                fitness = Fitness,
-                summary = fitnessSummary)
+    call = call,
+    type = type,
+    lower = lower,
+    upper = upper,
+    nBits = nBits,
+    names = if (is.null(names))
+      character()
+    else names,
+    popSize = popSize,
+    front = matrix(),
+    f = list(),
+    iter = 0,
+    run = 1,
+    maxiter = maxiter,
+    suggestions = suggestions,
+    population = matrix(),
+    pcrossover = pcrossover,
+    pmutation = if (is.numeric(pmutation))
+      pmutation
+    else NA,
+    crowdingDistance = matrix(),
+    fitness = Fitness,
+    summary = fitnessSummary)
 
-  #---------------------------Generate initial population------------------------------
+  #Generate initial population
   if (maxiter == 0)
     return(object)
 
@@ -222,15 +214,12 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
   switch(type,
     binary = {
       Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
-      #p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     },
     `real-valued` = {
       Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
-      #p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     },
     permutation = {
       Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
-      #p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
     }
   )
 
@@ -250,12 +239,11 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
       Fitness[i,] <- fit
     }
   }
-  # fit <- fitness(Pop)
 
   object@population <- P <- Pop
   object@fitness <- p_fit <- Fitness
 
-  #---------------------------First Non-dominated Ranking-------------------------#
+  #First Non-dominated Ranking
   out <- non_dominated_fronts(object)
   object@f <- out$fit
   object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
@@ -316,7 +304,6 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
         Fitness[i,] <- fit
       }
     }
-    # fit <- fitness(Pop)
 
     object@population <- Q <- Pop
     object@fitness <- q_fit <- Fitness
@@ -350,9 +337,9 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
     fitnessSummary[[iter]] <- nsgaSummary(object)
     object@summary <- fitnessSummary
 
-    #Evaluar por iteracion/aplicar tambien al non_dominated_fronts
+    #Plot front non-dominated by iteration
     if (is.function(monitor)) {
-     monitor(object = object, number_objective = nObj)
+      monitor(object = object, number_objective = nObj)
     }
 
     if (max(Fitness, na.rm = TRUE) >= maxFitness)
@@ -361,11 +348,12 @@ nsga2 <-  function(type = c("binary", "real-valued", "permutation"),
       break
   }
 
-  solution <- list(Front = object@front,
-    f = object@f,
-    pop = object@population,
+  solution <- list(Rank = object@front,
+    Front = object@f,
+    Population = object@population,
     Fitness = object@fitness,
-    cd = object@crowdingDistance)
+    Crowding = object@crowdingDistance,
+    Summary = object@summary)
 
   return(solution)
 }

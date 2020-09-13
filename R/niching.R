@@ -24,54 +24,98 @@
 #'
 #' @return Returns the association of reference points to each individual in the population.
 
+
 niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to_niche){
   survivors <- c()
-
   mask <- rep(TRUE, nrow(pop))
-
   while (length(survivors) < n_remaining) {
+    n <- n_remaining - length(survivors)
 
-    n_select <- n_remaining - length(survivors)
+    available_niches <- rep(FALSE, length(niche_count))
+    available_niches[unique(niche_of_individuals[mask])] <- TRUE
 
-    next_niches_list <- unique(niche_of_individuals[mask])
-    next_niche_count <- niche_count[next_niches_list]
+    min_count <- min(niche_count[available_niches])
 
+    selected_niches <- which("&"((niche_count == min_count), available_niches))
 
-    min_niche_count <- min(next_niche_count)
+    if (length(selected_niches)>1) {
+      selected_niches <- sample(selected_niches)
+    }
+    selected_niches <- as.vector(na.omit(selected_niches[1:n]))
 
-    #Traemos todos los nichos con el recuento minimo
-    next_niches <- next_niches_list[which(next_niche_count == min_niche_count)]
-    next_niches <- as.vector(na.omit(next_niches[sample(length(next_niches))[1:n_select]]))
-    # if(length(next_niches) > 1){
-    #   next_niches <- next_niches[seq(length(next_niches))[n_select]]
-    # }
-
-    for (i in next_niches) {
-      #next_ind <- which(((niche_of_individuals == i) == mask))
-      next_ind <- which("&"((niche_of_individuals == i),mask))
-
-      if (length(next_ind)>1) {
-        next_ind <- sample(next_ind)
+    for (i in selected_niches) {
+      niche_of_individual <- which("&"((niche_of_individuals == i), mask))
+      if (length(niche_of_individual) > 1) {
+        niche_of_individual <- sample(niche_of_individual)
       }
 
-      if (niche_count[i] == 0) {
-        next_ind <- next_ind[which.min(dist_to_niche[next_ind] == min(dist_to_niche[next_ind]))]
+      if(niche_count[i] == 0){
+        s <- niche_of_individual[which.min(dist_to_niche[niche_of_individual])]
       } else {
-        #Ya randomizado
-        next_ind = next_ind[1]
+        s <- niche_of_individual[1]
       }
-      mask[next_ind] <- FALSE
 
-      survivors <- c(survivors,next_ind)
-
-      niche_count[i] = niche_count[i] + 1
+      mask[s] <- FALSE
+      niche_count[i] <- niche_count[i] + 1
+      survivors <- c(survivors, s)
 
     }
-
   }
   return(survivors)
-
 }
+
+
+
+
+
+# niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to_niche){
+#   survivors <- c()
+#
+#   mask <- rep(TRUE, nrow(pop))
+#
+#   while (length(survivors) < n_remaining) {
+#
+#     n_select <- n_remaining - length(survivors)
+#
+#     next_niches_list <- unique(niche_of_individuals[mask])
+#     next_niche_count <- niche_count[next_niches_list]
+#
+#
+#     min_niche_count <- min(next_niche_count)
+#
+#     #Traemos todos los nichos con el recuento minimo
+#     next_niches <- next_niches_list[which(next_niche_count == min_niche_count)]
+#     next_niches <- as.vector(na.omit(next_niches[sample(length(next_niches))[1:n_select]]))
+#     # if(length(next_niches) > 1){
+#     #   next_niches <- next_niches[seq(length(next_niches))[n_select]]
+#     # }
+#
+#     for (i in next_niches) {
+#       #next_ind <- which(((niche_of_individuals == i) == mask))
+#       next_ind <- which("&"((niche_of_individuals == i),mask))
+#
+#       if (length(next_ind)>1) {
+#         next_ind <- sample(next_ind)
+#       }
+#
+#       if (niche_count[i] == 0) {
+#         next_ind <- next_ind[which.min(dist_to_niche[next_ind] == min(dist_to_niche[next_ind]))]
+#       } else {
+#         #Ya randomizado
+#         next_ind = next_ind[1]
+#       }
+#       mask[next_ind] <- FALSE
+#
+#       survivors <- c(survivors,next_ind)
+#
+#       niche_count[i] = niche_count[i] + 1
+#
+#     }
+#
+#   }
+#   return(survivors)
+#
+# }
 
 
 #
