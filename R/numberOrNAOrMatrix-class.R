@@ -10,5 +10,3 @@
 
 # Creamos una nueva clase de la union de numeric, logical y matrix
 setClassUnion("numberOrNAOrMatrix", members = c("numeric", "logical", "matrix", "NULL"))
-
-

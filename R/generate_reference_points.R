@@ -19,6 +19,6 @@
 #'
 #' @return A matrix with the reference points uniformly distributed.
 generate_reference_points <- function(m, h) {
-    zr <- (get_fixed_rowsum_integer_matrix(m, h)/h)
+    zr <- (get_fixed_rowsum_integer_matrix(m, h) / h)
     return(zr)
 }

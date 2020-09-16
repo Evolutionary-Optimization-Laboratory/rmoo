@@ -38,9 +38,9 @@ PerformScalarizing <- function(population, fitness, smin, extreme_points, ideal_
         smin <- rep(Inf, nObj)
         F <- fitness
     }
-    fp = sweep(F, 2, ideal_point)
-    w = diag(1, nObj)
-    w[which(w == 0)] = 1e-06
+    fp <- sweep(F, 2, ideal_point)
+    w <- diag(1, nObj)
+    w[which(w == 0)] <- 1e-06
     for (j in 1:nObj) {
         s <- rep(0, nPop)
         for (i in 1:nPop) {
@@ -48,10 +48,10 @@ PerformScalarizing <- function(population, fitness, smin, extreme_points, ideal_
         }
         sminj <- min(s)
         ind <- which(s == sminj)
-        
-        if (length(ind) > 1) 
+
+        if (length(ind) > 1)
             ind <- sample(ind, 1)
-        
+
         if (sminj < smin[j]) {
             extreme_points[j, ] <- F[ind, ]
             smin[j] <- sminj

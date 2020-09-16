@@ -11,7 +11,7 @@ generational_distance <- function(fitness, reference_points) {
         }
         aux <- c()
     }
-    distances <- sum(distances)/nrow(reference_points)
-    
+    distances <- sum(distances) / nrow(reference_points)
+
     return(distances)
 }

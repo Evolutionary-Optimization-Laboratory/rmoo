@@ -34,7 +34,7 @@ crowding_distance <- function(object, nObj) {
                 d[ord[1], j] <- Inf
                 if (n > 2) {
                   for (k in 2:(n - 1)) {
-                    d[ord[k], j] = abs(srt[(k + 1), j] - srt[(k - 1), j])/abs(deltaf[j])
+                    d[ord[k], j] <- abs(srt[(k + 1), j] - srt[(k - 1), j]) / abs(deltaf[j])
                   }
                 }
                 d[ord[n], j] <- Inf

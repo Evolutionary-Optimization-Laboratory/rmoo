@@ -96,13 +96,13 @@ nsga_tourSelection <- function(object, k = 3, ...) {
 # object@population[sel, ], fitness = object@fitness[sel,]) return(out) }
 
 nsga_lrSelection_R <- function(object, nObj, r, q) {
-    if (missing(r)) 
-        r <- 2/(object@popSize * (object@popSize - 1))
-    if (missing(q)) 
-        q <- 2/object@popSize
+    if (missing(r))
+        r <- 2 / (object@popSize * (object@popSize - 1))
+    if (missing(q))
+        q <- 2 / object@popSize
     rank <- (object@popSize + 1) - rank(object@fitness, ties.method = "min")
     prob <- 1 + q - (rank - 1) * r
-    prob <- pmin(pmax(0, prob/sum(prob)), 1, na.rm = TRUE)
+    prob <- pmin(pmax(0, prob / sum(prob)), 1, na.rm = TRUE)
     sel <- sample(1:object@popSize, size = object@popSize, prob = prob, replace = TRUE)
     out <- list(population = object@population[sel, , drop = FALSE], fitness = object@fitness[sel])
     return(out)
@@ -145,19 +145,19 @@ nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
                   y1 <- parent2
                 }
                 if ((y1 - yl) > (yu - y2)) {
-                  beta <- 1 + (2 * (yu - y2)/(y2 - y1))
+                  beta <- 1 + (2 * (yu - y2) / (y2 - y1))
                 } else {
-                  beta <- 1 + (2 * (y1 - yl)/(y2 - y1))
+                  beta <- 1 + (2 * (y1 - yl) / (y2 - y1))
                 }
                 alpha <- 2 - (beta^(-(1 + nc)))
                 rnd <- runif(1)
-                if (rnd <= 1/alpha) {
+                if (rnd <= 1 / alpha) {
                   alpha <- alpha * rnd
-                  betaq <- alpha^(1/(1 + nc))
+                  betaq <- alpha^(1 / (1 + nc))
                 } else {
                   alpha <- alpha * rnd
-                  alpha <- 1/(2 - alpha)
-                  betaq <- alpha^(1/(1 + nc))
+                  alpha <- 1 / (2 - alpha)
+                  betaq <- alpha^(1 / (1 + nc))
                 }
                 child1 <- 0.5 * ((y1 + y2) - betaq * (y2 - y1))
                 child2 <- 0.5 * ((y1 + y2) + betaq * (y2 - y1))
@@ -229,19 +229,19 @@ nsgabin_spCrossover <- nsga_spCrossover_R
 nsgaperm_oxCrossover <- function(object, parents) {
     parents <- object@population[parents, ]
     n <- ncol(parents)
-    # 
+    #
     cxPoints <- sample(seq(2, n - 1), size = 2)
     cxPoints <- seq(min(cxPoints), max(cxPoints))
     children <- matrix(as.double(NA), nrow = 2, ncol = n)
     children[, cxPoints] <- parents[, cxPoints]
-    # 
+    #
     for (j in 1:2) {
         pos <- c((max(cxPoints) + 1):n, 1:(max(cxPoints)))
         val <- setdiff(parents[-j, pos], children[j, cxPoints])
         ival <- intersect(pos, which(is.na(children[j, ])))
         children[j, ival] <- val
     }
-    # 
+    #
     out <- list(children = children, fitness = rep(NA, 2))
     return(out)
 }
@@ -255,8 +255,8 @@ nsgareal_polMutation <- function(object, parent, nm = 0.2) {
     upper <- object@upper
     lower <- object@lower
     delta <- upper - lower
-    delta1 <- (mutate - lower)/(upper - lower)
-    delta2 <- (upper - mutate)/(upper - lower)
+    delta1 <- (mutate - lower) / (upper - lower)
+    delta2 <- (upper - mutate) / (upper - lower)
     mut_pow <- 1/(nm + 1)
     u <- runif(1)
     if (u <= 0.5) {
@@ -264,9 +264,9 @@ nsgareal_polMutation <- function(object, parent, nm = 0.2) {
         val <- 2 * u + (1 - 2 * u) * (xy^(nm + 1))
         deltaq <- (val^mut_pow) - 1
     } else {
-        xy = 1 - delta2
-        val = 2 * (1 - u) + 2 * (u - 0.5) * (xy^(nm + 1))
-        deltaq = 1 - (val^mut_pow)
+        xy <- 1 - delta2
+        val <- 2 * (1 - u) + 2 * (u - 0.5) * (xy^(nm + 1))
+        deltaq <- 1 - (val^mut_pow)
     }
     mutate <- deltaq * delta
     for (i in 1:n) {
@@ -314,9 +314,9 @@ nsgaperm_simMutation <- function(object, parent) {
     n <- length(parent)
     m <- sort(sample(1:n, size = 2))
     m <- seq(m[1], m[2], by = 1)
-    if (min(m) == 1 & max(m) == n) 
-        i <- rev(m) else if (min(m) == 1) 
-        i <- c(rev(m), seq(max(m) + 1, n, by = 1)) else if (max(m) == n) 
+    if (min(m) == 1 & max(m) == n)
+        i <- rev(m) else if (min(m) == 1)
+        i <- c(rev(m), seq(max(m) + 1, n, by = 1)) else if (max(m) == n)
         i <- c(seq(1, min(m) - 1, by = 1), rev(m)) else i <- c(seq(1, min(m) - 1, by = 1), rev(m), seq(max(m) + 1, n, by = 1))
     mutate <- parent[i]
     return(mutate)

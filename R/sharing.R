@@ -60,7 +60,7 @@ sharing <- function(object) {
             }
             minimum_dum <- min(object@dumFitness[ind, ])
         }
-        front_count = front_count + 1
+        front_count <- front_count + 1
     }
     return(object@dumFitness)
 }

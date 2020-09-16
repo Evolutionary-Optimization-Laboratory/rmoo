@@ -23,8 +23,8 @@ non_dominated_fronts <- function(object) {
     front <- vector("list", pop_size)
     fitness <- object@fitness
     q <- c()
-    front_index = 1
-    
+    front_index <- 1
+
     for (i in seq_len(pop_size)) {
         dominated_count[[i]] <- 0
     }
@@ -34,7 +34,7 @@ non_dominated_fronts <- function(object) {
                 if (all(fitness[i, ] <= fitness[j, ]) && any(fitness[i, ] < fitness[j, ])) {
                   domination_set[[i]] <- c(domination_set[[i]], j)
                   dominated_count[[j]] <- dominated_count[[j]] + 1
-                  
+
                 }
                 if (all(fitness[j, ] <= fitness[i, ]) && any(fitness[j, ] < fitness[i, ])) {
                   domination_set[[j]] <- c(domination_set[[j]], i)
@@ -42,7 +42,7 @@ non_dominated_fronts <- function(object) {
                 }
             }
         }
-        
+
         if (dominated_count[[i]] == 0) {
             q <- c(q, i)
             front[[i]] <- front_index
@@ -51,12 +51,12 @@ non_dominated_fronts <- function(object) {
     }
     f <- list()
     f[front_index] <- list(sort(q))
-    
+
     while (TRUE) {
         q <- c()
         for (i in f[[front_index]]) {
             for (j in domination_set[[i]]) {
-                dominated_count[[j]] = dominated_count[[j]] - 1
+                dominated_count[[j]] <- dominated_count[[j]] - 1
                 if (dominated_count[j] == 0) {
                   q <- c(q, j)
                   front[[j]] <- front_index + 1
@@ -64,7 +64,7 @@ non_dominated_fronts <- function(object) {
                 }
             }
         }
-        if (is.null(q)) 
+        if (is.null(q))
             break
         front_index <- front_index + 1
         f[front_index] <- list(sort(q))

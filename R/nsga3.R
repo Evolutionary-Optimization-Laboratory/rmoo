@@ -266,7 +266,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
   for (i in seq_len(popSize)) {
     if (is.na(Fitness[i])) {
       fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
-      Fitness[i,] <- fit
+      Fitness[i, ] <- fit
     }
   }
 
@@ -296,14 +296,14 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
 
     #Cross Operator
     if (is.function(crossover) & pcrossover > 0) {
-      nmating <- floor(popSize/2)
+      nmating <- floor(popSize / 2)
       mating <- matrix(sample(1:(2 * nmating), size = (2 * nmating)), ncol = 2)
       for (i in seq_len(nmating)) {
         if (pcrossover > runif(1)) {
           parents <- mating[i, ]
           Crossover <- crossover(object, parents)
           Pop[parents, ] <- Crossover$children
-          Fitness[parents,] <- Crossover$fitness
+          Fitness[parents, ] <- Crossover$fitness
         }
       }
     }
@@ -363,13 +363,13 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
       object@fitness[unlist(object@f), ],
       object@smin, object@extreme_points, object@ideal_point)
 
-    object@extreme_points = ps$extremepoint
+    object@extreme_points <- ps$extremepoint
     object@smin <- ps$indexmin
 
     worst_of_population <- worst_of_front <- c()
 
     worst_of_population <- apply(object@fitness, 2, max)
-    worst_of_front <- apply(object@fitness[object@f[[1]],], 2, max)
+    worst_of_front <- apply(object@fitness[object@f[[1]], ], 2, max)
 
     object@worst_of_population <- worst_of_population
     object@worst_of_front <- worst_of_front
@@ -379,9 +379,9 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
     object@nadir_point <- nadir_point
 
     I <- unlist(object@f)
-    object@population = object@population[I, ]
-    object@front =  object@front[I, ]
-    object@fitness = object@fitness[I, ]
+    object@population <- object@population[I, ]
+    object@front <-  object@front[I, ]
+    object@fitness <- object@fitness[I, ]
 
     out <- non_dominated_fronts(object)
     object@f <- out$fit
@@ -401,7 +401,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
         niche_count <- rep(0, nrow(object@reference_points))
         n_remaining <- popSize
       } else {
-        until_last_front <- unlist(object@f[1:(length(object@f)-1)])
+        until_last_front <- unlist(object@f[1:(length(object@f) - 1)])
         niche_count <- compute_niche_count(nrow(object@reference_points),
           niche_of_individuals[until_last_front])
         n_remaining <- popSize - length(until_last_front)
@@ -410,7 +410,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
         n_remaining = n_remaining,
         niche_count = niche_count,
         niche_of_individuals = niche_of_individuals[last_front],
-        dist_to_niche=dist_to_niche[last_front])
+        dist_to_niche = dist_to_niche[last_front])
       survivors <- append(until_last_front, last_front[s_idx])
       object@population <- P <- Pop <- object@population[survivors, ]
       object@fitness <- p_fit <- object@fitness[survivors, ]

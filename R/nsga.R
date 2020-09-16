@@ -65,8 +65,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
   names = NULL,
   suggestions = NULL,
   monitor = if (interactive()) nsgaMonitor else FALSE,
-  seed = NULL)
-{
+  seed = NULL){
 
   call <- match.call()
 
@@ -220,7 +219,6 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
   if (maxiter == 0)
     return(object)
 
-  #Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
   switch(type,
     binary = {
       Pop <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
@@ -246,7 +244,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
   for (i in seq_len(popSize)) {
     if (is.na(Fitness[i])) {
       fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
-      Fitness[i,] <- fit
+      Fitness[i, ] <- fit
     }
   }
 
@@ -277,14 +275,14 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
 
     #Cross Operator
     if (is.function(crossover) & pcrossover > 0) {
-      nmating <- floor(popSize/2)
+      nmating <- floor(popSize / 2)
       mating <- matrix(sample(1:(2 * nmating), size = (2 * nmating)), ncol = 2)
       for (i in seq_len(nmating)) {
         if (pcrossover > runif(1)) {
           parents <- mating[i, ]
           Crossover <- crossover(object, parents)
           Pop[parents, ] <- Crossover$children
-          Fitness[parents,] <- Crossover$fitness
+          Fitness[parents, ] <- Crossover$fitness
         }
       }
     }
