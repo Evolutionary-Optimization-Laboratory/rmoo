@@ -1,5 +1,3 @@
-
-
 generational_distance <- function(fitness, reference_points){
   popSize <- nrow(fitness)
   distances <- rep(Inf, popSize)
@@ -15,8 +13,3 @@ generational_distance <- function(fitness, reference_points){
 
   return(distances)
 }
-
-#C code
-#ecr::computeGenerationalDistance(t(dtlz7@fitness), t(dtlz7@reference_points))
-#ecr::computeInvertedGenerationalDistance(t(dtlz7@fitness), t(dtlz7@reference_points))
-#ecr::computeHV(t(dtlz3@fitness))

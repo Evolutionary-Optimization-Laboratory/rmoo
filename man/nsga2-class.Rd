@@ -34,8 +34,6 @@ The class "nsga2" is a simple class union (\code{\link[=setClassUnion]{setClassU
 
 \item{\code{population}}{the current (or final) population}
 
-\item{\code{elitism}}{the number of best fitness individuals to survive at each generation}
-
 \item{\code{pcrossover}}{the crossover probability}
 
 \item{\code{pmutation}}{the mutation probability}

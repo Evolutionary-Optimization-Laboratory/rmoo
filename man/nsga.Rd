@@ -11,12 +11,12 @@ nsga(
   lower,
   upper,
   nBits,
-  population = generate_population_real,
-  selection = nsga_tourSelection_R,
-  crossover = nsgareal_laCrossover_R,
-  mutation = nsgareal_raMutation_R,
+  population = nsgaControl(type)$population,
+  selection = nsgaControl(type)$selection,
+  crossover = nsgaControl(type)$crossover,
+  mutation = nsgaControl(type)$mutation,
   popSize = 50,
-  nObj,
+  nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
   dshare,
   pcrossover = 0.8,
   pmutation = 0.1,
@@ -25,12 +25,7 @@ nsga(
   maxFitness = Inf,
   names = NULL,
   suggestions = NULL,
-  optim = FALSE,
-  optimArgs = list(method = "L-BFGS-B", poptim = 0.05, pressel = 0.5, control =
-    list(fnscale = -1, maxit = 100)),
-  keepBest = FALSE,
-  parallel = FALSE,
-  monitor = if (interactive()) gaMonitor else FALSE,
+  monitor = if (interactive()) nsgaMonitor else FALSE,
   seed = NULL
 )
 }
@@ -81,31 +76,15 @@ Possible values are:
 
 \item{suggestions}{a matrix of solutions strings to be included in the initial population. If provided the number of columns must match the number of decision variables.}
 
-\item{optim}{a logical defaulting to FALSE determining whether or not a local search using general-purpose optimisation algorithms should be used. See argument optimArgs for further details and finer control.}
-
-\item{optimArgs}{a list controlling the local search algorithm with the following components:}
-
-\item{keepBest}{a logical argument specifying if best solutions at each iteration should be saved in a slot called bestSol. See \linkS4class{nsga}.}
-
-\item{parallel}{An optional argument which allows to specify if the Genetic Algorithm should be run sequentially or in parallel.}
-
 \item{monitor}{a logical or an R function which takes as input the current state of the nsga-class object and show the evolution of the search. By default, for interactive sessions the function nsgaMonitor prints the average and best fitness values at each iteration. If set to plot these information are plotted on a graphical device. Other functions can be written by the user and supplied as argument. In non interactive sessions, by default monitor = FALSE so any output is suppressed.}
 
 \item{seed}{an integer value containing the random number generator state. This argument can be used to replicate the results of a NSGA search. Note that if parallel computing is required, the doRNG package must be installed.}
-
-\item{elitism}{the number of best fitness individuals to survive at each generation. By default the top 5\% individuals will survive at each iteration.}
-
-\item{updatePop}{a logical defaulting to FALSE. If set at TRUE the first attribute attached to the value returned by the user-defined fitness function is used to update the population.
-Be careful though, this is an experimental feature!}
-
-\item{postFitness}{a user-defined function which, if provided, receives the current nsga-class object as input, performs post fitness-evaluation steps, then returns an updated version of the object which is used to update the NSGA search.
-Be careful though, this is an experimental feature!}
 }
 \value{
 Returns an object of class nsga-class. See \linkS4class{nsga} for a description of available slots information.
 }
 \description{
-Minimization of a fitness function using genetic algorithms (GAs).
+Minimization of a fitness function using Non-Dominated Genetic algorithms (NSGA).
 Local search using general-purpose optimisation algorithms can be applied stochastically to exploit interesting regions.
 }
 \details{

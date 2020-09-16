@@ -56,25 +56,83 @@ nsgaperm_Population <- function(object)
 # }
 
 #Selection
-#1 For NSGA-II
+#1 For ALL
 nsga_tourSelection <- function(object, k = 3, ...) {
-  popSize <- object@popSize
-  front <- object@front
-  cd <- object@crowdingDistance
-  sel <- rep(NA, popSize)
-  for (i in 1:popSize) {
-    s <- sample(1:popSize, size = k)
-    s <- s[which(front[s,]==min(front[s, ]))]
-    if(length(s)>1 & !anyNA(cd[s,])){
-      sel[i] <- s[which(cd[s, ] == max(cd[s]))]
-    } else {
-      sel[i] <- s[which.min(front[s, ])]
+  switch(class(object)[1],
+    nsga = {
+      popSize <- object@popSize
+      front <- object@front
+      fit <- object@dumFitness
+      sel <- rep(NA, popSize)
+      for (i in 1:popSize) {
+        s <- sample(1:popSize, size = k)
+        s <- s[which.min(front[s,])]
+        if(length(s)>1 & !anyNA(fit[s,])){
+          sel[i] <- s[which.max(front[s,])]
+        } else {
+          sel[i] <- s[which.min(front[s,])]
+        }
+      }
+      out <- list(population = object@population[sel, ],
+        fitness = object@fitness[sel,])
+      return(out)
+    },
+    nsga2 = {
+      popSize <- object@popSize
+      front <- object@front
+      cd <- object@crowdingDistance
+      sel <- rep(NA, popSize)
+      for (i in 1:popSize) {
+        s <- sample(1:popSize, size = k)
+        s <- s[which(front[s,]==min(front[s, ]))]
+        if(length(s)>1 & !anyNA(cd[s,])){
+          sel[i] <- s[which(cd[s, ] == max(cd[s]))]
+        } else {
+          sel[i] <- s[which.min(front[s, ])]
+        }
+      }
+      out <- list(population = object@population[sel, ],
+        fitness = object@fitness[sel,])
+      return(out)
+    },
+    nsga3 = {
+      popSize <- object@popSize
+      front <- object@front
+      fit <- object@fitness
+      sel <- rep(NA, popSize)
+      for (i in 1:popSize) {
+        s <- sample(1:popSize, size = k)
+        s <- s[which.min(front[s,])]
+        if(length(s)>1 & !anyNA(fit[s,])){
+          sel[i] <- s[which.max(front[s,])]
+        } else {
+          sel[i] <- s[which.min(front[s,])]
+        }
+      }
+      out <- list(population = object@population[sel, ],
+        fitness = object@fitness[sel,])
+      return(out)
     }
-  }
-  out <- list(population = object@population[sel, ],
-    fitness = object@fitness[sel,])
-  return(out)
+  )
 }
+# nsga_tourSelection <- function(object, k = 3, ...) {
+#   popSize <- object@popSize
+#   front <- object@front
+#   cd <- object@crowdingDistance
+#   sel <- rep(NA, popSize)
+#   for (i in 1:popSize) {
+#     s <- sample(1:popSize, size = k)
+#     s <- s[which(front[s,]==min(front[s, ]))]
+#     if(length(s)>1 & !anyNA(cd[s,])){
+#       sel[i] <- s[which(cd[s, ] == max(cd[s]))]
+#     } else {
+#       sel[i] <- s[which.min(front[s, ])]
+#     }
+#   }
+#   out <- list(population = object@population[sel, ],
+#     fitness = object@fitness[sel,])
+#   return(out)
+# }
 
 nsga_lrSelection_R <- function(object, nObj, r, q)
 {

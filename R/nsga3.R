@@ -55,7 +55,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
   selection = nsgaControl(type)$selection,
   crossover = nsgaControl(type)$crossover,
   mutation = nsgaControl(type)$mutation,
-  popSize = NULL,
+  popSize = 50,
   nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
   n_partitions,
   pcrossover = 0.8,
@@ -74,6 +74,8 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
   type <- match.arg(type, choices = eval(formals(nsga3)$type))
 
   algorithm <- "NSGA-III"
+
+  callArgs <- list(...)
 
   if (!is.function(population))
     population <- get(population)
@@ -263,7 +265,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
 
   for (i in seq_len(popSize)) {
     if (is.na(Fitness[i])) {
-      fit <- do.call(fitness, c(list(Pop[i, ])))
+      fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
       Fitness[i,] <- fit
     }
   }
@@ -327,7 +329,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
     #Evaluate Fitness
     for (i in seq_len(popSize)) {
       if (is.na(Fitness[i])) {
-        fit <- do.call(fitness, c(list(Pop[i, ])))
+        fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
         Fitness[i,] <- fit
       }
     }

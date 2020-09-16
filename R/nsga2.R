@@ -72,6 +72,8 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
 
   algorithm <- "NSGA-II"
 
+  callArgs <- list(...)
+
   if (!is.function(population))
     population <- get(population)
   if (!is.function(selection))
@@ -235,7 +237,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
 
   for (i in seq_len(popSize)) {
     if (is.na(Fitness[i])) {
-      fit <- do.call(fitness, c(list(Pop[i, ])))
+      fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
       Fitness[i,] <- fit
     }
   }
@@ -300,7 +302,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
     #Evaluate Fitness
     for (i in seq_len(popSize)) {
       if (is.na(Fitness[i])) {
-        fit <- do.call(fitness, c(list(Pop[i, ])))
+        fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
         Fitness[i,] <- fit
       }
     }

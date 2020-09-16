@@ -34,13 +34,9 @@ The class "nsga" is a simple class union (\code{\link[=setClassUnion]{setClassUn
 
 \item{\code{population}}{the current (or final) population}
 
-\item{\code{elitism}}{the number of best fitness individuals to survive at each generation}
-
 \item{\code{pcrossover}}{the crossover probability}
 
 \item{\code{pmutation}}{the mutation probability}
-
-\item{\code{optim}}{a logical specifying whether or not a local search using general-purpose optimisation algorithms should be used}
 
 \item{\code{dumFitness}}{a large dummy fitness value assigned to individuals from the nondominated front}
 
@@ -51,8 +47,6 @@ The class "nsga" is a simple class union (\code{\link[=setClassUnion]{setClassUn
 \item{\code{fitness}}{the values of fitness function for the current (or final) population}
 
 \item{\code{summary}}{a matrix of summary statistics for fitness values at each iteration (along the rows)}
-
-\item{\code{bestSol}}{if keepBest = TRUE, the best solutions at each iteration}
 
 \item{\code{fitnessValue}}{the best fitness value at the final iteration}
 

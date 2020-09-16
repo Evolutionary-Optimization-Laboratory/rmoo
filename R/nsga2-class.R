@@ -19,7 +19,6 @@
 #' @slot maxiter the maximum number of iterations to run before the NSGA search is halted
 #' @slot suggestions a matrix of user provided solutions and included in the initial population
 #' @slot population the current (or final) population
-#' @slot elitism the number of best fitness individuals to survive at each generation
 #' @slot pcrossover the crossover probability
 #' @slot pmutation the mutation probability
 #' @slot crowdingDistance

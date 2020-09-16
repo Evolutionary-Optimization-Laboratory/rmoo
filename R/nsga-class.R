@@ -19,47 +19,39 @@
 #' @slot maxiter the maximum number of iterations to run before the NSGA search is halted
 #' @slot suggestions a matrix of user provided solutions and included in the initial population
 #' @slot population the current (or final) population
-#' @slot elitism the number of best fitness individuals to survive at each generation
 #' @slot pcrossover the crossover probability
 #' @slot pmutation the mutation probability
-#' @slot optim a logical specifying whether or not a local search using general-purpose optimisation algorithms should be used
 #' @slot dumFitness a large dummy fitness value assigned to individuals from the nondominated front
 #' @slot dShare the maximun phenotypic distance allowed between any two individuals to become members of a niche
 #' @slot deltaDummy value to decrease the dummy fitness of individuals by non-dominated fronts.
 #' @slot fitness the values of fitness function for the current (or final) population
 #' @slot summary a matrix of summary statistics for fitness values at each iteration (along the rows)
-#' @slot bestSol if keepBest = TRUE, the best solutions at each iteration
 #' @slot fitnessValue the best fitness value at the final iteration
 #' @slot solution the value(s) of the decision variables giving the best fitness at the final iteration.
 #'
 #' @examples
 #' showClass("nsga")
 setClass(Class = "nsga",
-    representation(call = "language",
-                  type = "character",
-                  lower = "numberOrNAOrMatrix",
-                  upper = "numberOrNAOrMatrix",
-                  nBits = "numberOrNAOrMatrix",
-                  names = "character",
-                  popSize = "numeric",
-                  front = "numberOrNAOrMatrix",
-                  f = "list",
-                  iter = "numeric",
-                  run = "numeric",
-                  maxiter = "numeric",
-                  suggestions = "matrix",
-                  population = "numberOrNAOrMatrix",
-                  elitism = "numeric",
-                  pcrossover = "numeric",
-                  pmutation = "numberOrNAOrMatrix",
-                  optim = "logical",
-                  dumFitness = "numberOrNAOrMatrix", #NSGA-I
-                  dShare = "numeric", #NSGA-I
-                  deltaDummy = "numeric", #NSGA-I
-                  fitness = "numberOrNAOrMatrix",
-                  summary = "matrix",
-                  bestSol = "list",
-                  fitnessValue = "numeric",
-                  solution = "matrix"))
-
-
+  representation(call = "language",
+    type = "character",
+    lower = "numberOrNAOrMatrix",
+    upper = "numberOrNAOrMatrix",
+    nBits = "numberOrNAOrMatrix",
+    names = "character",
+    popSize = "numeric",
+    front = "numberOrNAOrMatrix",
+    f = "list",
+    iter = "numeric",
+    run = "numeric",
+    maxiter = "numeric",
+    suggestions = "matrix",
+    population = "numberOrNAOrMatrix",
+    pcrossover = "numeric",
+    pmutation = "numberOrNAOrMatrix",
+    dumFitness = "numberOrNAOrMatrix",
+    dShare = "numeric",
+    deltaDummy = "numeric",
+    fitness = "numberOrNAOrMatrix",
+    summary = "list",
+    fitnessValue = "numeric",
+    solution = "matrix"))
