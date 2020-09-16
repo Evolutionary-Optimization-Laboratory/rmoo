@@ -29,8 +29,26 @@
 #'
 #' @examples
 #' showClass('nsga2')
-setClass(Class = "nsga2", representation(call = "language", type = "character", lower = "numberOrNAOrMatrix", 
-    upper = "numberOrNAOrMatrix", nBits = "numberOrNAOrMatrix", names = "character", popSize = "numeric", front = "numberOrNAOrMatrix", 
-    f = "list", iter = "numeric", run = "numeric", maxiter = "numeric", suggestions = "matrix", population = "numberOrNAOrMatrix", 
-    pcrossover = "numeric", pmutation = "numberOrNAOrMatrix", crowdingDistance = "numberOrNAOrMatrix", fitness = "numberOrNAOrMatrix", 
-    summary = "list", fitnessValue = "numeric", solution = "matrix"))
+setClass(Class = "nsga2",
+  representation(call = "language",
+    type = "character",
+    lower = "numberOrNAOrMatrix",
+    upper = "numberOrNAOrMatrix",
+    nBits = "numberOrNAOrMatrix",
+    names = "character",
+    popSize = "numeric",
+    front = "numberOrNAOrMatrix",
+    f = "list",
+    iter = "numeric",
+    run = "numeric",
+    maxiter = "numeric",
+    suggestions = "matrix",
+    population = "numberOrNAOrMatrix",
+    pcrossover = "numeric",
+    pmutation = "numberOrNAOrMatrix",
+    crowdingDistance = "numberOrNAOrMatrix",
+    fitness = "numberOrNAOrMatrix",
+    summary = "list",
+    fitnessValue = "numeric",
+    solution = "matrix")
+  )

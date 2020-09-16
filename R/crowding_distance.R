@@ -52,10 +52,36 @@ crowding_distance <- function(object, nObj) {
     return(crowding)
 }
 
-# crowdingdistance <- function(front, population, fitness, nObj) { nFront <- length(front) popSize <-
-# nrow(population) deltaF <- apply(fitness, 2, max) - apply(fitness, 2, min); crowding <- matrix(NA, nrow =
-# popSize) for (i in seq_len(nFront)) { f <- front[[i]] n <- length(f) costs <- fitness[f, ] d <- matrix(0,
-# nrow = n, ncol = nObj) for (j in seq_len(nObj)) { if (n > 1) { ord <- order(costs[, 1]) srt <- costs[ord,
-# ] d[ord[1], j] <- Inf if(n > 2) { for (k in 2:(n - 1)) { d[ord[k], j] <- abs(srt[(k + 1), j] - srt[(k -
-# 1), j]) / abs(deltaF[j]) } } d[ord[n], j] <- Inf } else { costs <- matrix(costs, 1) ord <- order(costs[,
-# 1]) srt <- costs[ord, ] d[ord[1], j] <- Inf } } for (i in seq_len(n)) { cro
+# crowdingdistance <- function(front, population, fitness, nObj) {
+#   nFront <- length(front)
+#   popSize <-nrow(population)
+#   deltaF <- apply(fitness, 2, max) - apply(fitness, 2, min)
+#   crowding <- matrix(NA, nrow = popSize)
+#   for (i in seq_len(nFront)) {
+#     f <- front[[i]]
+#     n <- length(f)
+#     costs <- fitness[f, ]
+#     d <- matrix(0, nrow = n, ncol = nObj)
+#     for (j in seq_len(nObj)) {
+#       if (n > 1) {
+#         ord <- order(costs[, 1])
+#         srt <- costs[ord, ]
+#         d[ord[1], j] <- Inf
+#         if(n > 2) {
+#           for (k in 2:(n - 1)) {
+#             d[ord[k], j] <- abs(srt[(k + 1), j] - srt[(k - 1), j]) / abs(deltaF[j])
+#           }
+#         }
+#         d[ord[n], j] <- Inf
+#       } else {
+#         costs <- matrix(costs, 1) ord <- order(costs[, 1])
+#         srt <- costs[ord, ]
+#         d[ord[1], j] <- Inf
+#       }
+#     }
+#     for (i in seq_len(n)) {
+#       crowding[f[i]] <- sum(d[i, ])
+#     }
+#   }
+#   return(crowding)
+# }

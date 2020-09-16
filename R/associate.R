@@ -6,7 +6,7 @@ associate_to_niches <- function(object, utopian_epsilon = 0) {
     nadir_point <- object@nadir_point
     utopian_point <- ideal_point - utopian_epsilon
     denom <- nadir_point - utopian_point
-    denom[which(denom == 0)] = 1 * 10^(-12)
+    denom[which(denom == 0)] <- 1 * 10^(-12)
 
     delta <- sweep(fitness, 2, utopian_point)
     N <- sweep(delta, 2, denom, FUN = "/")
@@ -36,16 +36,29 @@ compute_perpendicular_distance <- function(x, y) {
 compute_niche_count <- function(n_niches, niche_of_individuals) {
     niche_count <- rep(0, n_niches)
     test <- split(seq_along(niche_of_individuals), niche_of_individuals)
-    # as.data.frame(table(niche_of_individuals)) index <- unlist(lapply(test,length))
     a <- rbind(as.numeric(names(test)), unlist(lapply(test, length), use.names = FALSE))
     niche_count[a[1, ]] <- a[2, ]
     return(niche_count)
 }
 
 
-# compute_perpendicular_distance <- function(N, ref_dirs) { u <- do.call(rbind, replicate(nrow(N),ref_dirs,
-# simplify = FALSE)) v <- matrix(rep(N, each=nrow(ref_dirs)), ncol = ncol(N)) norm_u <- asd <- val <- c()
-# for (i in 1:nrow(u)) { norm_u[i] <- norm(u[i,], type='2') } aux <- v * u for (i in 1:nrow(aux)) { asd[i]
-# <- sum(aux[i, ]) } aux <- c() scalar_proj = asd / norm_u proj = (scalar_proj * u) / norm_u aux <- proj -
-# v for (i in 1:nrow(aux)) { val[i] <- norm(aux[i, ], type='2') } m <- matrix(val, nrow = nrow(N), ncol =
-# nrow(ref_dirs), byrow = TRUE) return(m) }
+# compute_perpendicular_distance <- function(N, ref_dirs) {
+#   u <- do.call(rbind, replicate(nrow(N), ref_dirs, simplify = FALSE))
+#   v <- matrix(rep(N, each=nrow(ref_dirs)), ncol = ncol(N))
+#   norm_u <- asd <- val <- c()
+#   for (i in 1:nrow(u)) {
+#     norm_u[i] <- norm(u[i,], type='2')
+#   }
+#   aux <- v * u
+#   for (i in 1:nrow(aux)) {
+#     asd[i] <- sum(aux[i, ])
+#   }
+#   aux <- c() scalar_proj <- asd / norm_u
+#   proj <- (scalar_proj * u) / norm_u
+#   aux <- proj - v
+#   for (i in 1:nrow(aux)) {
+#     val[i] <- norm(aux[i, ], type='2')
+#   }
+#   m <- matrix(val, nrow = nrow(N), ncol = nrow(ref_dirs), byrow = TRUE)
+#   return(m)
+# }

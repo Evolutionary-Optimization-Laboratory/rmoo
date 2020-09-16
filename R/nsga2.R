@@ -46,12 +46,25 @@
 #' @seealso [nsga()], [nsga3()]
 #'
 #' @return Returns an object of class nsga-class. See [nsga-class] for a description of available slots information.
-nsga2 <- function(type = c("binary", "real-valued", "permutation"), fitness, ..., lower, upper, nBits, population = nsgaControl(type)$population,
-    selection = nsgaControl(type)$selection, crossover = nsgaControl(type)$crossover, mutation = nsgaControl(type)$mutation,
-    popSize = 50, nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))), pcrossover = 0.8, pmutation = 0.1,
-    maxiter = 100, run = maxiter, maxFitness = Inf, names = NULL, suggestions = NULL, monitor = if (interactive()) nsgaMonitor else FALSE,
-    seed = NULL) {
-
+nsga2 <- function(type = c("binary", "real-valued", "permutation"),
+    fitness, ...,
+    lower, upper, nBits,
+    population = nsgaControl(type)$population,
+    selection = nsgaControl(type)$selection,
+    crossover = nsgaControl(type)$crossover,
+    mutation = nsgaControl(type)$mutation,
+    popSize = 50,
+    nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
+    pcrossover = 0.8,
+    pmutation = 0.1,
+    maxiter = 100,
+    run = maxiter,
+    maxFitness = Inf,
+    names = NULL,
+    suggestions = NULL,
+    monitor = if (interactive()) nsgaMonitor else FALSE,
+    seed = NULL)
+{
     call <- match.call()
 
     type <- match.arg(type, choices = eval(formals(nsga2)$type))
@@ -93,7 +106,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"), fitness, ...
     }
 
     if (missing(lower) & missing(upper) & missing(nBits)) {
-        stop("A lower and upper range of values (for 'real-valued' or 'permutation' GA) or nBits (for 'binary' GA) must be provided!")
+        stop("A lower and upper range of values (for 'real-valued' or 'permutation') or nBits (for 'binary') must be provided!")
     }
 
     if (is.null(nObj)) {
@@ -111,18 +124,22 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"), fitness, ...
         lower <- as.vector(lower)
         upper <- as.vector(upper)
         nBits <- NA
-        if (length(lower) != length(upper)) stop("lower and upper must be vector of the same length")
-        if ((length(lower) != nObj) & (length(upper) != nObj)) stop("The lower and upper limits must be vector of the same number of objectives")
+        if (length(lower) != length(upper))
+          stop("lower and upper must be vector of the same length")
+        if ((length(lower) != nObj) & (length(upper) != nObj))
+          stop("The lower and upper limits must be vector of the same number of objectives")
         nvars <- length(upper)
         if (is.null(names) & !is.null(lnames)) names <- lnames
         if (is.null(names) & !is.null(unames)) names <- unames
-        if (is.null(names)) names <- paste0("x", 1:nvars)
+        if (is.null(names))
+          names <- paste0("x", 1:nvars)
     }, permutation = {
         lower <- as.vector(lower)[1]
         upper <- as.vector(upper)[1]
         nBits <- NA
         nvars <- length(seq.int(lower, upper))
-        if (is.null(names)) names <- paste0("x", 1:nvars)
+        if (is.null(names))
+          names <- paste0("x", 1:nvars)
     })
 
     if (is.null(suggestions)) {
@@ -130,7 +147,9 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"), fitness, ...
     } else {
         if (is.vector(suggestions)) {
             if (nvars > 1)
-                suggestions <- matrix(suggestions, nrow = 1) else suggestions <- matrix(suggestions, ncol = 1)
+              suggestions <- matrix(suggestions, nrow = 1)
+            else
+              suggestions <- matrix(suggestions, ncol = 1)
         } else {
             suggestions <- as.matrix(suggestions)
         }
@@ -152,16 +171,35 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"), fitness, ...
 
     i. <- NULL  #dummy to trick R CMD check
 
-
     Fitness <- matrix(NA, nrow = popSize, ncol = nObj)
 
     fitnessSummary <- vector("list", maxiter)
 
     # Creacion del objetivo tipo nsga
-    object <- new("nsga2", call = call, type = type, lower = lower, upper = upper, nBits = nBits, names = if (is.null(names))
-        character() else names, popSize = popSize, front = matrix(), f = list(), iter = 0, run = 1, maxiter = maxiter, suggestions = suggestions,
-        population = matrix(), pcrossover = pcrossover, pmutation = if (is.numeric(pmutation))
-            pmutation else NA, crowdingDistance = matrix(), fitness = Fitness, summary = fitnessSummary)
+    object <- new("nsga2",
+        call = call,
+        type = type,
+        lower = lower,
+        upper = upper,
+        nBits = nBits,
+        names = if (is.null(names))
+                  character()
+                else names,
+        popSize = popSize,
+        front = matrix(),
+        f = list(),
+        iter = 0,
+        run = 1,
+        maxiter = maxiter,
+        suggestions = suggestions,
+        population = matrix(),
+        pcrossover = pcrossover,
+        pmutation = if (is.numeric(pmutation))
+                      pmutation
+                    else NA,
+        crowdingDistance = matrix(),
+        fitness = Fitness,
+        summary = fitnessSummary)
 
     # Generate initial population
     if (maxiter == 0)
@@ -303,8 +341,12 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"), fitness, ...
             break
     }
 
-    solution <- list(Rank = object@front, Front = object@f, Population = object@population, Fitness = object@fitness,
-        Crowding = object@crowdingDistance, Summary = object@summary)
+    solution <- list(Rank = object@front,
+                     Front = object@f,
+                     Population = object@population,
+                     Fitness = object@fitness,
+                     Crowding = object@crowdingDistance,
+                     Summary = object@summary)
 
     return(solution)
 }

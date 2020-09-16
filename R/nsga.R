@@ -48,300 +48,299 @@
 #'
 #' @return Returns an object of class nsga-class. See [nsga-class] for a description of available slots information.
 nsga <- function (type = c("binary", "real-valued", "permutation"),
-  fitness, ...,
-  lower, upper, nBits,
-  population = nsgaControl(type)$population,
-  selection = nsgaControl(type)$selection,
-  crossover = nsgaControl(type)$crossover,
-  mutation = nsgaControl(type)$mutation,
-  popSize = 50,
-  nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
-  dshare,
-  pcrossover = 0.8,
-  pmutation = 0.1,
-  maxiter = 100,
-  run = maxiter,
-  maxFitness = Inf,
-  names = NULL,
-  suggestions = NULL,
-  monitor = if (interactive()) nsgaMonitor else FALSE,
-  seed = NULL){
+    fitness, ...,
+    lower, upper, nBits,
+    population = nsgaControl(type)$population,
+    selection = nsgaControl(type)$selection,
+    crossover = nsgaControl(type)$crossover,
+    mutation = nsgaControl(type)$mutation,
+    popSize = 50,
+    nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
+    dshare,
+    pcrossover = 0.8,
+    pmutation = 0.1,
+    maxiter = 100,
+    run = maxiter,
+    maxFitness = Inf,
+    names = NULL,
+    suggestions = NULL,
+    monitor = if (interactive()) nsgaMonitor else FALSE,
+    seed = NULL)
+{
+    call <- match.call()
 
-  call <- match.call()
+    type <- match.arg(type, choices = eval(formals(nsga2)$type))
 
-  type <- match.arg(type, choices = eval(formals(nsga2)$type))
+    algorithm <- "NSGA"
 
-  algorithm <- "NSGA"
+    callArgs <- list(...)
 
-  callArgs <- list(...)
+    if (!is.function(population))
+      population <- get(population)
+    if (!is.function(selection))
+      selection <- get(selection)
+    if (!is.function(crossover))
+      crossover <- get(crossover)
+    if (!is.function(mutation))
+      mutation <- get(mutation)
 
-  if (!is.function(population))
-    population <- get(population)
-  if (!is.function(selection))
-    selection <- get(selection)
-  if (!is.function(crossover))
-    crossover <- get(crossover)
-  if (!is.function(mutation))
-    mutation <- get(mutation)
-
-  if (missing(fitness)) {
-    stop("A fitness function must be provided")
-  }
-  if (!is.function(fitness)) {
-    stop("A fitness function must be provided")
-  }
-  if (popSize < 10) {
-    warning("The population size is less than 10.")
-  }
-  if (maxiter < 1) {
-    stop("The maximum number of iterations must be at least 1.")
-  }
-  if (pcrossover < 0 | pcrossover > 1) {
-    stop("Probability of crossover must be between 0 and 1.")
-  }
-  if (is.numeric(pmutation)) {
-    if (pmutation < 0 | pmutation > 1) {
-      stop("If numeric probability of mutation must be between 0 and 1.")
+    if (missing(fitness)) {
+      stop("A fitness function must be provided")
     }
-    else if (!is.function(population)) {
-      stop("pmutation must be a numeric value in (0,1) or a function.")
+    if (!is.function(fitness)) {
+      stop("A fitness function must be provided")
     }
-  }
-
-  if (missing(lower) & missing(upper) & missing(nBits)) {
-    stop("A lower and upper range of values (for 'real-valued' or 'permutation' GA) or nBits (for 'binary' GA) must be provided!")
-  }
-
-  if (is.null(nObj)) {
-    nObj <- ncol(fitness(matrix(10000, ncol = 100, nrow = 100)))
-  }
-
-  dum_Fitness <- matrix(NA, nrow = popSize, ncol = nObj); #Solo se utilizara en el NSGA-I
-  initialDummy <- popSize
-  delta_dum <- 0.1 * initialDummy
-
-  switch(type,
-    binary = {
-      nBits <- as.vector(nBits)[1]
-      lower <- upper <- NA
-      nvars <- nBits
-      if (is.null(names)) names <- paste0("x", 1:nvars)
-    },
-    `real-valued` = {
-      lnames <- names(lower)
-      unames <- names(upper)
-      lower <- as.vector(lower)
-      upper <- as.vector(upper)
-      nBits <- NA
-      if (length(lower) != length(upper))
-        stop("lower and upper must be vector of the same length")
-      if ((length(lower) != nObj) & (length(upper) != nObj))
-        stop("The lower and upper limits must be vector of the same number of objectives")
-      nvars <- length(upper)
-      if (is.null(names) & !is.null(lnames))
-        names <- lnames
-      if (is.null(names) & !is.null(unames))
-        names <- unames
-      if (is.null(names))
-        names <- paste0("x", 1:nvars)
-    },
-    permutation = {
-      lower <- as.vector(lower)[1]
-      upper <- as.vector(upper)[1]
-      nBits <- NA
-      nvars <- length(seq.int(lower, upper))
-      if (is.null(names))
-        names <- paste0("x", 1:nvars)
+    if (popSize < 10) {
+      warning("The population size is less than 10.")
     }
-  )
-
-  if (is.null(suggestions)) {
-    suggestions <- matrix(nrow = 0, ncol = nvars)
-  } else {
-    if (is.vector(suggestions)) {
-      if (nvars > 1)
-        suggestions <- matrix(suggestions, nrow = 1)
-      else suggestions <- matrix(suggestions, ncol = 1)
+    if (maxiter < 1) {
+      stop("The maximum number of iterations must be at least 1.")
     }
-    else {
-      suggestions <- as.matrix(suggestions)
+    if (pcrossover < 0 | pcrossover > 1) {
+      stop("Probability of crossover must be between 0 and 1.")
     }
-    if (nvars != ncol(suggestions))
-      stop("Provided suggestions (ncol) matrix do not match number of variables of the problem!")
-  }
-
-  # check monitor arg
-  if (is.logical(monitor)) {
-    if (monitor) monitor <- nsgaMonitor
-  }
-  if (is.null(monitor)) monitor <- FALSE
-
-  # set seed for reproducibility
-  if (!is.null(seed))
-    set.seed(seed)
-
-  i. <- NULL #dummy to trick R CMD check
-
-
-  Fitness <- matrix(NA, nrow = popSize, ncol = nObj)
-
-  fitnessSummary <- vector("list", maxiter)
-
-  #Creacion del objetivo tipo nsga
-  object <- new("nsga",
-    call = call,
-    type = type,
-    lower = lower,
-    upper = upper,
-    nBits = nBits,
-    names = if (is.null(names))
-      character()
-    else names,
-    popSize = popSize,
-    front = matrix(),
-    f = list(),
-    iter = 0,
-    run = 1,
-    maxiter = maxiter,
-    suggestions = suggestions,
-    population = matrix(),
-    pcrossover = pcrossover,
-    pmutation = if (is.numeric(pmutation))
-      pmutation
-    else NA,
-    dumFitness = dum_Fitness,
-    dShare = dshare,
-    deltaDummy = delta_dum,
-    fitness = Fitness,
-    summary = fitnessSummary)
-
-  #Generate initial population
-  if (maxiter == 0)
-    return(object)
-
-  switch(type,
-    binary = {
-      Pop <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
-    },
-    `real-valued` = {
-      Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
-    },
-    permutation = {
-      Pop <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
+    if (is.numeric(pmutation)) {
+      if (pmutation < 0 | pmutation > 1) {
+        stop("If numeric probability of mutation must be between 0 and 1.")
+      }
+      else if (!is.function(population)) {
+        stop("pmutation must be a numeric value in (0,1) or a function.")
+      }
     }
-  )
 
-  ng <- min(nrow(suggestions), popSize)
-
-  if (ng > 0) {
-    Pop[1:ng, ] <- suggestions
-  }
-  if (popSize > ng) {
-    Pop[(ng + 1):popSize, ] <- population(object)[1:(popSize - ng), ]
-  }
-  object@population <- Pop
-
-  for (i in seq_len(popSize)) {
-    if (is.na(Fitness[i])) {
-      fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
-      Fitness[i, ] <- fit
+    if (missing(lower) & missing(upper) & missing(nBits)) {
+      stop("A lower and upper range of values (for 'real-valued' or 'permutation') or nBits (for 'binary') must be provided!")
     }
-  }
 
-  object@population <- Pop
-  object@fitness <- Fitness
+    if (is.null(nObj)) {
+      nObj <- ncol(fitness(matrix(10000, ncol = 100, nrow = 100)))
+    }
 
-  #First Non-dominated Ranking
-  out <- non_dominated_fronts(object)
-  object@f <- out$fit
-  object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
-  object@dumFitness <- sharing(object)
+    dum_Fitness <- matrix(NA, nrow = popSize, ncol = nObj);
+    initialDummy <- popSize
+    delta_dum <- 0.1 * initialDummy
 
-  for (iter in seq_len(maxiter)) {
-    object@iter <- iter
+    switch(type,
+      binary = {
+        nBits <- as.vector(nBits)[1]
+        lower <- upper <- NA
+        nvars <- nBits
+        if (is.null(names)) names <- paste0("x", 1:nvars)
+      },
+      `real-valued` = {
+        lnames <- names(lower)
+        unames <- names(upper)
+        lower <- as.vector(lower)
+        upper <- as.vector(upper)
+        nBits <- NA
+        if (length(lower) != length(upper))
+          stop("lower and upper must be vector of the same length")
+        if ((length(lower) != nObj) & (length(upper) != nObj))
+          stop("The lower and upper limits must be vector of the same number of objectives")
+        nvars <- length(upper)
+        if (is.null(names) & !is.null(lnames))
+          names <- lnames
+        if (is.null(names) & !is.null(unames))
+          names <- unames
+        if (is.null(names))
+          names <- paste0("x", 1:nvars)
+      },
+      permutation = {
+        lower <- as.vector(lower)[1]
+        upper <- as.vector(upper)[1]
+        nBits <- NA
+        nvars <- length(seq.int(lower, upper))
+        if (is.null(names))
+          names <- paste0("x", 1:nvars)
+      }
+    )
 
-    #Selection Operator
-    if (is.function(selection)) {
-      sel <- selection(object, nObj)
-      Pop <- sel$population
-      Fitness <- sel$fitness
+    if (is.null(suggestions)) {
+      suggestions <- matrix(nrow = 0, ncol = nvars)
     } else {
-      sel <- sample(1:popSize, size = popSize, replace = TRUE)
-      Pop <- object@population[sel, ]
-      Fitness <- object@fitness[sel, ]
-    }
-    object@population <- Pop
-    object@fitness <- Fitness
-
-    #Cross Operator
-    if (is.function(crossover) & pcrossover > 0) {
-      nmating <- floor(popSize / 2)
-      mating <- matrix(sample(1:(2 * nmating), size = (2 * nmating)), ncol = 2)
-      for (i in seq_len(nmating)) {
-        if (pcrossover > runif(1)) {
-          parents <- mating[i, ]
-          Crossover <- crossover(object, parents)
-          Pop[parents, ] <- Crossover$children
-          Fitness[parents, ] <- Crossover$fitness
-        }
+      if (is.vector(suggestions)) {
+        if (nvars > 1)
+          suggestions <- matrix(suggestions, nrow = 1)
+        else suggestions <- matrix(suggestions, ncol = 1)
       }
-    }
-    object@population <- Pop
-    object@fitness <- Fitness
-
-    #Mutation Operator
-    pm <- if (is.function(pmutation)) {
-      pmutation(object)
-    } else {pmutation}
-    if (is.function(mutation) & pm > 0) {
-      for (i in seq_len(popSize)) {
-        if (pm > runif(1)) {
-          Mutation <- mutation(object, i)
-          Pop[i, ] <- Mutation
-          Fitness[i,] <- NA
-        }
+      else {
+        suggestions <- as.matrix(suggestions)
       }
+      if (nvars != ncol(suggestions))
+        stop("Provided suggestions (ncol) matrix do not match number of variables of the problem!")
+    }
+
+    # check monitor arg
+    if (is.logical(monitor)) {
+      if (monitor) monitor <- nsgaMonitor
+    }
+    if (is.null(monitor)) monitor <- FALSE
+
+    # set seed for reproducibility
+    if (!is.null(seed))
+      set.seed(seed)
+
+    i. <- NULL #dummy to trick R CMD check
+
+    Fitness <- matrix(NA, nrow = popSize, ncol = nObj)
+
+    fitnessSummary <- vector("list", maxiter)
+
+    #Creacion del objetivo tipo nsga
+    object <- new("nsga",
+        call = call,
+        type = type,
+        lower = lower,
+        upper = upper,
+        nBits = nBits,
+        names = if (is.null(names))
+          character()
+        else names,
+        popSize = popSize,
+        front = matrix(),
+        f = list(),
+        iter = 0,
+        run = 1,
+        maxiter = maxiter,
+        suggestions = suggestions,
+        population = matrix(),
+        pcrossover = pcrossover,
+        pmutation = if (is.numeric(pmutation))
+          pmutation
+        else NA,
+        dumFitness = dum_Fitness,
+        dShare = dshare,
+        deltaDummy = delta_dum,
+        fitness = Fitness,
+        summary = fitnessSummary)
+
+    #Generate initial population
+    if (maxiter == 0)
+      return(object)
+
+    switch(type,
+      binary = {
+        Pop <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
+      },
+      `real-valued` = {
+        Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+      },
+      permutation = {
+        Pop <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
+      }
+    )
+
+    ng <- min(nrow(suggestions), popSize)
+
+    if (ng > 0) {
+      Pop[1:ng, ] <- suggestions
+    }
+    if (popSize > ng) {
+      Pop[(ng + 1):popSize, ] <- population(object)[1:(popSize - ng), ]
     }
     object@population <- Pop
-    object@fitness <- Fitness
 
-    #Evaluate Fitness
     for (i in seq_len(popSize)) {
       if (is.na(Fitness[i])) {
         fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
-        Fitness[i,] <- fit
+        Fitness[i, ] <- fit
       }
     }
 
     object@population <- Pop
     object@fitness <- Fitness
 
+    #First Non-dominated Ranking
     out <- non_dominated_fronts(object)
     object@f <- out$fit
     object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
     object@dumFitness <- sharing(object)
-    rm(out)
 
-    fitnessSummary[[iter]] <- nsgaSummary(object@fitness)
-    object@summary <- fitnessSummary
+    for (iter in seq_len(maxiter)) {
+      object@iter <- iter
 
-    #Plot front non-dominated by iteration
-    if (is.function(monitor)) {
-      monitor(object = object, number_objective = nObj)
+      #Selection Operator
+      if (is.function(selection)) {
+        sel <- selection(object, nObj)
+        Pop <- sel$population
+        Fitness <- sel$fitness
+      } else {
+        sel <- sample(1:popSize, size = popSize, replace = TRUE)
+        Pop <- object@population[sel, ]
+        Fitness <- object@fitness[sel, ]
+      }
+      object@population <- Pop
+      object@fitness <- Fitness
+
+      #Cross Operator
+      if (is.function(crossover) & pcrossover > 0) {
+        nmating <- floor(popSize / 2)
+        mating <- matrix(sample(1:(2 * nmating), size = (2 * nmating)), ncol = 2)
+        for (i in seq_len(nmating)) {
+          if (pcrossover > runif(1)) {
+            parents <- mating[i, ]
+            Crossover <- crossover(object, parents)
+            Pop[parents, ] <- Crossover$children
+            Fitness[parents, ] <- Crossover$fitness
+          }
+        }
+      }
+      object@population <- Pop
+      object@fitness <- Fitness
+
+      #Mutation Operator
+      pm <- if (is.function(pmutation)) {
+        pmutation(object)
+      } else {pmutation}
+      if (is.function(mutation) & pm > 0) {
+        for (i in seq_len(popSize)) {
+          if (pm > runif(1)) {
+            Mutation <- mutation(object, i)
+            Pop[i, ] <- Mutation
+            Fitness[i,] <- NA
+          }
+        }
+      }
+      object@population <- Pop
+      object@fitness <- Fitness
+
+      #Evaluate Fitness
+      for (i in seq_len(popSize)) {
+        if (is.na(Fitness[i])) {
+          fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
+          Fitness[i,] <- fit
+        }
+      }
+
+      object@population <- Pop
+      object@fitness <- Fitness
+
+      out <- non_dominated_fronts(object)
+      object@f <- out$fit
+      object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
+      object@dumFitness <- sharing(object)
+      rm(out)
+
+      fitnessSummary[[iter]] <- nsgaSummary(object@fitness)
+      object@summary <- fitnessSummary
+
+      #Plot front non-dominated by iteration
+      if (is.function(monitor)) {
+        monitor(object = object, number_objective = nObj)
+      }
+
+      if (max(Fitness, na.rm = TRUE) >= maxFitness)
+        break
+      if (object@iter == maxiter)
+        break
     }
 
-    if (max(Fitness, na.rm = TRUE) >= maxFitness)
-      break
-    if (object@iter == maxiter)
-      break
-  }
+    solution <- list(Rank = object@front,
+                     Front = object@f,
+                     Population = object@population,
+                     Fitness = object@fitness,
+                     Dummy_Fitness = object@dumFitness,
+                     Summary = object@summary)
 
-  solution <- list(Rank = object@front,
-                   Front = object@f,
-                   Population = object@population,
-                   Fitness = object@fitness,
-                   Dummy_Fitness = object@dumFitness,
-                   Summary = object@summary)
-
-  return(solution)
+    return(solution)
 }
