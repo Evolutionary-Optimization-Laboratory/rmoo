@@ -1,11 +1,11 @@
-#' Virtual Class "nsga - Simple Class for subassigment Values"
+#' Virtual Class 'nsga - Simple Class for subassigment Values'
 #'
-#' The class "nsga" is a simple class union ([setClassUnion()]) of "numeric", "logical" and "matrix".
+#' The class 'nsga' is a simple class union ([setClassUnion()]) of 'numeric', 'logical' and 'matrix'.
 #'
 #' @section Objects from the Class
 #' Since it is a virtual Class, no objects may be created from it.
 #'
-#' @slot call an object of class "call" representing the matched call
+#' @slot call an object of class 'call' representing the matched call
 #' @slot type a character string specifying the type of genetic algorithm used
 #' @slot lower a vector providing for each decision variable the lower bounds of the search space in case of real-valued or permutation encoded optimisations. Formerly this slot was named min
 #' @slot upper a vector providing for each decision variable the upper bounds of the search space in case of real-valued or permutation encoded optimizations. Formerly this slot was named max
@@ -30,28 +30,9 @@
 #' @slot solution the value(s) of the decision variables giving the best fitness at the final iteration.
 #'
 #' @examples
-#' showClass("nsga")
-setClass(Class = "nsga",
-  representation(call = "language",
-    type = "character",
-    lower = "numberOrNAOrMatrix",
-    upper = "numberOrNAOrMatrix",
-    nBits = "numberOrNAOrMatrix",
-    names = "character",
-    popSize = "numeric",
-    front = "numberOrNAOrMatrix",
-    f = "list",
-    iter = "numeric",
-    run = "numeric",
-    maxiter = "numeric",
-    suggestions = "matrix",
-    population = "numberOrNAOrMatrix",
-    pcrossover = "numeric",
-    pmutation = "numberOrNAOrMatrix",
-    dumFitness = "numberOrNAOrMatrix",
-    dShare = "numeric",
-    deltaDummy = "numeric",
-    fitness = "numberOrNAOrMatrix",
-    summary = "list",
-    fitnessValue = "numeric",
-    solution = "matrix"))
+#' showClass('nsga')
+setClass(Class = "nsga", representation(call = "language", type = "character", lower = "numberOrNAOrMatrix", 
+    upper = "numberOrNAOrMatrix", nBits = "numberOrNAOrMatrix", names = "character", popSize = "numeric", front = "numberOrNAOrMatrix", 
+    f = "list", iter = "numeric", run = "numeric", maxiter = "numeric", suggestions = "matrix", population = "numberOrNAOrMatrix", 
+    pcrossover = "numeric", pmutation = "numberOrNAOrMatrix", dumFitness = "numberOrNAOrMatrix", dShare = "numeric", 
+    deltaDummy = "numeric", fitness = "numberOrNAOrMatrix", summary = "list", fitnessValue = "numeric", solution = "matrix"))
