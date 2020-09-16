@@ -17,8 +17,10 @@
 #' @references K. Deb and H. Jain, 'An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I: Solving Problems With Box Constraints,' in IEEE Transactions on Evolutionary Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014, doi: 10.1109/TEVC.2013.2281535.
 #'
 #' Scrucca L. (2013). GA: A Package for Genetic Algorithms in R. Journal of Statistical Software, 53(4), 1-37,
-#' J. Blank and K. Deb, 'Pymoo: Multi-Objective Optimization in Python,' in IEEE Access, vol. 8, pp. 89497-89509, 2020, doi: 10.1109/ACCESS.2020.2990567.
 #' \url{http://www.jstatsoft.org/v53/i04/}.
+#'
+#' Felix-Antoine Fortin, Francois-Michel De Rainville, Marc-André Gardner Gardner, Marc Parizeau, and Christian Gagne. 2012. DEAP: evolutionary algorithms made easy. J. Mach. Learn. Res. 13, 1 (January 2012), 2171–2175.
+#'
 #'
 #' @seealso [associate_to_niches()], [PerformScalarizing()]
 #'

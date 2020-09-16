@@ -43,6 +43,9 @@ Collate:
 Imports: 
     stats,
     utils,
-    ecr
+    ecr,
+    rgl,
+    graphics,
+    methods
 URL: https://github.com/benitezfj/nsga3r
 BugReports: https://github.com/benitezfj/nsga3r/issues

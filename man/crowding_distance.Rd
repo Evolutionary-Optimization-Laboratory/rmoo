@@ -7,7 +7,7 @@
 crowding_distance(object, nObj)
 }
 \arguments{
-\item{object, nObj}{An object of class "nsga2", usually resulting from a call to function nsga2.
+\item{object, nObj}{An object of class 'nsga2', usually resulting from a call to function nsga2.
 Fitness Function Objective Numbers}
 }
 \value{
@@ -21,8 +21,8 @@ The crowded-comparison operator guides the selection process at the various
 stages of the algorithm toward a uniformly spread-out Pareto-optimal front
 }
 \references{
-K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, "A fast and elitist multiobjective
-genetic algorithm: NSGA-II," in IEEE Transactions on Evolutionary Computation,
+K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and elitist multiobjective
+genetic algorithm: NSGA-II,' in IEEE Transactions on Evolutionary Computation,
 vol. 6, no. 2, pp. 182-197, April 2002, doi: 10.1109/4235.996017.
 }
 \seealso{

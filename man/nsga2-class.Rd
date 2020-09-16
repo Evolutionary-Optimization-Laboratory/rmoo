@@ -3,14 +3,14 @@
 \docType{class}
 \name{nsga2-class}
 \alias{nsga2-class}
-\title{Virtual Class "nsga2 - Simple Class for subassigment Values"}
+\title{Virtual Class 'nsga2 - Simple Class for subassigment Values'}
 \description{
-The class "nsga2" is a simple class union (\code{\link[=setClassUnion]{setClassUnion()}}) of "numeric", "logical" and "matrix".
+The class 'nsga2' is a simple class union (\code{\link[=setClassUnion]{setClassUnion()}}) of 'numeric', 'logical' and 'matrix'.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{call}}{an object of class "call" representing the matched call}
+\item{\code{call}}{an object of class 'call' representing the matched call}
 
 \item{\code{type}}{a character string specifying the type of genetic algorithm used}
 
@@ -48,5 +48,5 @@ The class "nsga2" is a simple class union (\code{\link[=setClassUnion]{setClassU
 }}
 
 \examples{
-showClass("nsga2")
+showClass('nsga2')
 }

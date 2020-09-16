@@ -32,12 +32,12 @@ nsga2(
 \item{type}{the type of genetic algorithm to be run depending on the nature of decision variables.
 Possible values are:
 \describe{
-\item{\code{"binary"}}{for binary representations of decision variables.}
-\item{\code{"real-valued"}}{for optimization problems where the decision variables are floating-point representations of real numbers.}
-\item{\code{"permutation"}}{for problems that involves reordering of a list of objects.}
+\t\item{\code{'binary'}}{for binary representations of decision variables.}
+\t\item{\code{'real-valued'}}{for optimization problems where the decision variables are floating-point representations of real numbers.}
+\t\item{\code{'permutation'}}{for problems that involves reordering of a list of objects.}
 }}
 
-\item{fitness}{the fitness function, any allowable R function which takes as input an individual string representing a potential solution, and returns a numerical value describing its “fitness”.}
+\item{fitness}{the fitness function, any allowable R function which takes as input an individual string representing a potential solution, and returns a numerical value describing its 'fitness'.}
 
 \item{...}{additional arguments to be passed to the fitness function. This allows to write fitness functions that keep some variables fixed during the search}
 
@@ -89,7 +89,7 @@ The Non-dominated genetic algorithms II is a meta-heuristic proposed by K. Deb, 
 The purpose of the algorithms is to find an efficient way to optimize multi-objectives functions (two or more).
 }
 \references{
-K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, "A fast and elitist multiobjective genetic algorithm: NSGA-II," in IEEE Transactions on Evolutionary Computation, vol. 6, no. 2, pp. 182-197, April 2002, doi: 10.1109/4235.996017.
+K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and elitist multiobjective genetic algorithm: NSGA-II,' in IEEE Transactions on Evolutionary Computation, vol. 6, no. 2, pp. 182-197, April 2002, doi: 10.1109/4235.996017.
 
 Scrucca L. (2013). GA: A Package for Genetic Algorithms in R. Journal of Statistical Software, 53(4), 1-37,
 \url{http://www.jstatsoft.org/v53/i04/}.

@@ -10,11 +10,11 @@
 #' Possible values are:
 #' \describe{
 #' \t\item{\code{'binary'}}{for binary representations of decision variables.}
-#'\t\item{\code{'real-valued'}}{for optimization problems where the decision variables are floating-point representations of real numbers.}
+#' \t\item{\code{'real-valued'}}{for optimization problems where the decision variables are floating-point representations of real numbers.}
 #' \t\item{\code{'permutation'}}{for problems that involves reordering of a list of objects.}
 #' }
 #'
-#' @param fitness the fitness function, any allowable R function which takes as input an individual string representing a potential solution, and returns a numerical value describing its ?\200?fitness?\200\235.
+#' @param fitness the fitness function, any allowable R function which takes as input an individual string representing a potential solution, and returns a numerical value describing its 'fitness'.
 #' @param ... additional arguments to be passed to the fitness function. This allows to write fitness functions that keep some variables fixed during the search
 #' @param lower a vector of length equal to the decision variables providing the lower bounds of the search space in case of real-valued or permutation encoded optimizations. Formerly this argument was named min; its usage is allowed but deprecated.
 #' @param upper a vector of length equal to the decision variables providing the upper bounds of the search space in case of real-valued or permutation encoded optimizations. Formerly this argument was named max; its usage is allowed but deprecated.

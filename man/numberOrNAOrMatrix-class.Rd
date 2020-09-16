@@ -3,10 +3,10 @@
 \docType{class}
 \name{numberOrNAOrMatrix-class}
 \alias{numberOrNAOrMatrix-class}
-\title{Virtual Class "numberOrNAOrMatrix - Simple Class for subassigment Values"}
+\title{Virtual Class 'numberOrNAOrMatrix - Simple Class for subassigment Values'}
 \description{
-The class "numberOrNAOrMatrix" is a simple class union (\code{\link[=setClassUnion]{setClassUnion()}}) of "numeric", "logical" and "matrix".
+The class 'numberOrNAOrMatrix' is a simple class union (\code{\link[=setClassUnion]{setClassUnion()}}) of 'numeric', 'logical' and 'matrix'.
 }
 \examples{
-showClass("numberOrNAOrMatrix")
+showClass('numberOrNAOrMatrix')
 }
