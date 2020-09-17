@@ -47,48 +47,50 @@ nsgaMonitor <- function(object, number_objectives, ...) {
 }
 
 nsgaSummary <- function(object, ...) {
-    if (class(object)[1] == "nsga") {
-        first <- object@f[[1]]
-        first_front_fit <- object@fitness[first, ]
-        first_front_pop <- object@population[first, ]
-        first_dum <- object@dumFitness[first, ]
-        hv <- ecr::computeHV(t(object@fitness[first, ]))
-        result <- list(`First Front Fit` = first_front_fit,
-                      `First Front Pop` = first_front_pop,
-                      `Dummy Front Fit` = first_dum,
-                       Hypervolumen = hv)
-    }
-    if (class(object)[1] == "nsga2") {
-        first <- object@f[[1]]
-        first_front_fit <- object@fitness[first, ]
-        first_front_pop <- object@population[first, ]
-        first_cd <- object@crowdingDistance[first, ]
-        hv <- ecr::computeHV(t(object@fitness[first, ]))
-        result <- list(`First Front Fit` = first_front_fit,
-                       `First Front Pop` = first_front_pop,
-                       `Crowding Dist` = first_cd,
-                       Hypervolumen = hv)
-    }
-    if (class(object)[1] == "nsga3") {
-        first <- object@f[[1]]
-        first_front_fit <- object@fitness[first, ]
-        first_front_pop <- object@population[first, ]
-        ideal_point <- object@ideal_point
-        worst_point <- object@worst_point
-        extreme_points <- object@extreme_points
-        gd <- ecr::computeGenerationalDistance(t(object@fitness), t(object@reference_points))
-        igd <- ecr::computeInvertedGenerationalDistance(t(object@fitness), t(object@reference_points))
-        hv <- ecr::computeHV(t(object@fitness))
-        metric <- data.frame(Iternation = object@iter,
-          Generational_Distance = gd,
-          Inverse_Generational_Distance = igd,
-          Hypervolumen = hv)
-        result <- list(first_front_fit = first_front_fit,
-          first_front_pop = first_front_pop,
-          ideal_point = ideal_point,
-          worst_point = worst_point,
-          extreme_points = extreme_points,
-          metrics = metric)
-    }
+    first <- object@f[[1]]
+    first_front_fit <- object@fitness[first, ]
+    first_front_pop <- object@population[first, ]
+    first_dum <- object@dumFitness[first, ]
+    hv <- ecr::computeHV(t(object@fitness[first, ]))
+    result <- list(`First Front Fit` = first_front_fit,
+                  `First Front Pop` = first_front_pop,
+                  `Dummy Front Fit` = first_dum,
+                   Hypervolumen = hv)
     return(result)
+}
+
+nsgaiiSummary <- function(object, ...) {
+    first <- object@f[[1]]
+    first_front_fit <- object@fitness[first, ]
+    first_front_pop <- object@population[first, ]
+    first_cd <- object@crowdingDistance[first, ]
+    hv <- ecr::computeHV(t(object@fitness[first, ]))
+    result <- list(`First Front Fit` = first_front_fit,
+      `First Front Pop` = first_front_pop,
+      `Crowding Dist` = first_cd,
+      Hypervolumen = hv)
+  return(result)
+}
+
+nsgaiiiSummary <- function(object, ...) {
+    first <- object@f[[1]]
+    first_front_fit <- object@fitness[first, ]
+    first_front_pop <- object@population[first, ]
+    ideal_point <- object@ideal_point
+    worst_point <- object@worst_point
+    extreme_points <- object@extreme_points
+    gd <- ecr::computeGenerationalDistance(t(object@fitness), t(object@reference_points))
+    igd <- ecr::computeInvertedGenerationalDistance(t(object@fitness), t(object@reference_points))
+    hv <- ecr::computeHV(t(object@fitness))
+    metric <- data.frame(Iternation = object@iter,
+      Generational_Distance = gd,
+      Inverse_Generational_Distance = igd,
+      Hypervolumen = hv)
+    result <- list(first_front_fit = first_front_fit,
+      first_front_pop = first_front_pop,
+      ideal_point = ideal_point,
+      worst_point = worst_point,
+      extreme_points = extreme_points,
+      metrics = metric)
+  return(result)
 }

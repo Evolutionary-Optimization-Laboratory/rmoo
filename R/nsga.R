@@ -321,7 +321,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
       object@dumFitness <- sharing(object)
       rm(out)
 
-      fitnessSummary[[iter]] <- nsgaSummary(object@fitness)
+      fitnessSummary[[iter]] <- nsgaSummary(object)
       object@summary <- fitnessSummary
 
       #Plot front non-dominated by iteration

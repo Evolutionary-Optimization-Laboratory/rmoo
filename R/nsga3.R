@@ -423,7 +423,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
       object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
       rm(out)
 
-      fitnessSummary[[iter]] <- nsgaSummary(object)
+      fitnessSummary[[iter]] <- nsgaiiiSummary(object)
       object@summary <- fitnessSummary
 
       #Plot front non-dominated by iteration

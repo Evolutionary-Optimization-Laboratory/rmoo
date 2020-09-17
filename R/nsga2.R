@@ -327,7 +327,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
         cd <- crowding_distance(object, nObj)
         object@crowdingDistance <- cd
 
-        fitnessSummary[[iter]] <- nsgaSummary(object)
+        fitnessSummary[[iter]] <- nsgaiiSummary(object)
         object@summary <- fitnessSummary
 
         # Plot front non-dominated by iteration
