@@ -9,9 +9,18 @@
 #' @param type the type of genetic algorithm to be run depending on the nature of decision variables.
 #' Possible values are:
 #' \describe{
-#' \t\item{\code{'binary'}}{for binary representations of decision variables.}
-#' \t\item{\code{'real-valued'}}{for optimization problems where the decision variables are floating-point representations of real numbers.}
-#' \t\item{\code{'permutation'}}{for problems that involves reordering of a list of objects.}
+#'     \item{
+#'         \code{'binary'}
+#'         }
+#'         {for binary representations of decision variables.}
+#'     \item{
+#'         \code{'real-valued'}
+#'         }
+#'         {for optimization problems where the decision variables are floating-point representations of real numbers.}
+#'     \item{
+#'         \code{'permutation'}
+#'         }
+#'         {for problems that involves reordering of a list of objects.}
 #' }
 #'
 #' @param fitness the fitness function, any allowable R function which takes as input an individual string representing a potential solution, and returns a numerical value describing its 'fitness'.

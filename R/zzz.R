@@ -1,16 +1,16 @@
 .onLoad <- function(lib, pkg) {
     op <- options()
-    op.devtools <- list(devtools.path = "~/R-dev",
-                        devtools.install.args = "",
-                        devtools.name = "Francisco Jose Benitez Rios",
-                        devtools.desc.author = "person(\"Francisco Jose\", \"Benitez Rios\",
+    op.nsga3r <- list(nsga3r.path = "~/R-dev",
+                      nsga3r.install.args = "",
+                      nsga3r.name = "Francisco Jose Benitez Rios",
+                      nsga3r.desc.author = "person(\"Francisco Jose\", \"Benitez Rios\",
                                                         \"benitez.fj@hotmail.com\",
                                                          role = c(\"aut\", \"cre\"))",
-                        devtools.desc.license = "Licence",
-                        devtools.desc.suggests = NULL, devtools.desc = list())
-    toset <- !(names(op.devtools) %in% names(op))
+                      nsga3r.desc.license = "Licence",
+                      nsga3r.desc.suggests = NULL, nsga3r.desc = list())
+    toset <- !(names(op.nsga3r) %in% names(op))
     if (any(toset))
-        options(op.devtools[toset])
+        options(op.nsga3r[toset])
     invisible()
 }
 
@@ -36,14 +36,14 @@ NSGAStartupMessage <- function() {
     invisible()
 }
 
-options(usethis.description = list(Title = "Non-Dominated Genetic Algorithms - III",
-                              `Authors@R` = "c(person(\"Francisco\", \"Benitez\",
+options(nsga3r.description = list(Title = "Non-Dominated Genetic Algorithms - III",
+                                  `Authors@R` = "c(person(\"Francisco\", \"Benitez\",
                                                       email = \"benitez.fj@hotmail.com\",
                                                       role = c(\"aut\", \"cre\")),
-                                               person(\"Diego\", \"Pinto Roa\",
+                                                   person(\"Diego\", \"Pinto Roa\",
                                                       email = \"dpinto@pol.una.py\",
                                                       role = c(\"aut\"),
                                                       comment = c(ORCID = \"0000-0003-2479-9876\")))",
-    Description = "A multi-objective optimization package based on the algorithm of K. Deb and H. Jain.",
-    License = "GPL (>= 2)",
-    Language = "es"))
+        Description = "A multi-objective optimization package based on the algorithm of K. Deb and H. Jain.",
+        License = "GPL (>= 2)",
+        Language = "es"))

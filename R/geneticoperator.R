@@ -63,9 +63,9 @@ nsga_tourSelection <- function(object, k = 3, ...) {
         sel <- rep(NA, popSize)
         for (i in 1:popSize) {
             s <- sample(1:popSize, size = k)
-            s <- s[which(front[s, ] == min(front[s, ]))]
-            if (length(s) > 1 & !anyNA(cd[s, ])) {
-                sel[i] <- s[which(cd[s, ] == max(cd[s]))]
+            s <- s[which.min(front[s, ])]
+            if (!anyNA(cd[s, ])) {
+                sel[i] <- s[which.max(cd[s, ])]
             } else {
                 sel[i] <- s[which.min(front[s, ])]
             }
