@@ -1,3 +1,4 @@
+#' @export
 get_fixed_rowsum_integer_matrix <- function(m, h) {
     if (m < 1) {
         stop("M cannot be less than 1.")

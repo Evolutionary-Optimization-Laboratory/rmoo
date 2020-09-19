@@ -17,6 +17,7 @@
 #' @seealso [non_dominated_fronts()]
 #'
 #' @return A vector with the crowding-distance between individuals of a population.
+#' @export
 crowding_distance <- function(object, nObj) {
     nFront <- length(object@f)
     popSize <- nrow(object@population)

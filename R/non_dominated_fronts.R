@@ -15,6 +15,7 @@
 #' @seealso [nsga()], [nsga2()] and [nsga3()]
 #'
 #' @return A list with 'non-dominated fronts' and 'occupied positions' on the fronts.
+#' @export
 non_dominated_fronts <- function(object) {
     pop_count <- 0
     pop_size <- nrow(object@population)

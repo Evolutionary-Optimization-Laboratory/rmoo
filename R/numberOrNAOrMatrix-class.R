@@ -9,4 +9,5 @@
 #' showClass('numberOrNAOrMatrix')
 
 # A new class is created with the union of numeric, logical and matrix
+#' @export
 setClassUnion("numberOrNAOrMatrix", members = c("numeric", "logical", "matrix", "NULL"))

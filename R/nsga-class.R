@@ -31,6 +31,7 @@
 #'
 #' @examples
 #' showClass('nsga')
+#' @export
 setClass(Class = "nsga",
    representation(call = "language",
      type = "character",

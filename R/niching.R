@@ -25,8 +25,7 @@
 #' @seealso [associate_to_niches()], [PerformScalarizing()]
 #'
 #' @return Returns the association of reference points to each individual in the population.
-
-
+#' @export
 niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to_niche) {
     survivors <- c()
     mask <- rep(TRUE, nrow(pop))

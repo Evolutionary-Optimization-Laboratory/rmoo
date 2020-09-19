@@ -16,6 +16,7 @@
 #' @seealso [non_dominated_fronts()]
 #'
 #' @return A vector with the dummy fitness.
+#' @export
 sharing <- function(object) {
     front_count <- 1
     dShare <- object@dShare

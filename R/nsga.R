@@ -47,6 +47,7 @@
 #' @seealso [nsga2()], [nsga3()]
 #'
 #' @return Returns an object of class nsga-class. See [nsga-class] for a description of available slots information.
+#' @export
 nsga <- function (type = c("binary", "real-valued", "permutation"),
     fitness, ...,
     lower, upper, nBits,

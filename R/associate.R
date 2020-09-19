@@ -1,4 +1,4 @@
-
+#' @export
 associate_to_niches <- function(object, utopian_epsilon = 0) {
     fitness <- object@fitness
     ideal_point <- object@ideal_point
@@ -23,6 +23,7 @@ associate_to_niches <- function(object, utopian_epsilon = 0) {
     return(out)
 }
 
+#' @export
 compute_perpendicular_distance <- function(x, y) {
     p <- ncol(x)
     xx <- sqrt(rowSums(x^2))
@@ -33,6 +34,7 @@ compute_perpendicular_distance <- function(x, y) {
     return(1 - D)
 }
 
+#' @export
 compute_niche_count <- function(n_niches, niche_of_individuals) {
     niche_count <- rep(0, n_niches)
     test <- split(seq_along(niche_of_individuals), niche_of_individuals)

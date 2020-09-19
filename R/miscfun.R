@@ -1,4 +1,4 @@
-
+#' @export
 nsgaMonitor <- function(object, number_objectives, ...) {
     fitness <- object@fitness
     iter <- object@iter
@@ -46,6 +46,7 @@ nsgaMonitor <- function(object, number_objectives, ...) {
     }
 }
 
+#' @export
 nsgaSummary <- function(object, ...) {
     first <- object@f[[1]]
     first_front_fit <- object@fitness[first, ]
@@ -59,6 +60,7 @@ nsgaSummary <- function(object, ...) {
     return(result)
 }
 
+#' @export
 nsgaiiSummary <- function(object, ...) {
     first <- object@f[[1]]
     first_front_fit <- object@fitness[first, ]
@@ -72,6 +74,7 @@ nsgaiiSummary <- function(object, ...) {
   return(result)
 }
 
+#' @export
 nsgaiiiSummary <- function(object, ...) {
     first <- object@f[[1]]
     first_front_fit <- object@fitness[first, ]

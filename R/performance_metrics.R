@@ -1,3 +1,4 @@
+#' @export
 generational_distance <- function(fitness, reference_points) {
     popSize <- nrow(fitness)
     distances <- rep(Inf, popSize)

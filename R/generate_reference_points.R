@@ -18,6 +18,7 @@
 #' @seealso [non_dominated_fronts()] and [get_fixed_rowsum_integer_matrix()]
 #'
 #' @return A matrix with the reference points uniformly distributed.
+#' @export
 generate_reference_points <- function(m, h) {
     zr <- (get_fixed_rowsum_integer_matrix(m, h) / h)
     return(zr)

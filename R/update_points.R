@@ -1,5 +1,6 @@
 
 # ideal_point
+#' @export
 UpdateIdealPoint <- function(object, nObj) {
     cost <- object@fitness
     if (anyNA(object@ideal_point)) {
@@ -14,6 +15,7 @@ UpdateIdealPoint <- function(object, nObj) {
 }
 
 # worst_point
+#' @export
 UpdateWorstPoint <- function(object, nObj) {
     cost <- object@fitness
     if (anyNA(object@worst_point)) {
@@ -28,6 +30,7 @@ UpdateWorstPoint <- function(object, nObj) {
 }
 
 # extreme_points
+#' @export
 PerformScalarizing <- function(population, fitness, smin, extreme_points, ideal_point) {
     nPop <- nrow(population)
     nObj <- ncol(fitness)
@@ -62,6 +65,7 @@ PerformScalarizing <- function(population, fitness, smin, extreme_points, ideal_
 }
 
 # nadir_point
+#' @export
 get_nadir_point <- function(object) {
     extreme_point <- object@extreme_points
     ideal_point <- object@ideal_point
