@@ -25,10 +25,10 @@
 #' @param mutation an R function performing mutation, i.e. a function which randomly alters the values of some genes in a parent chromosome. See [nsga_Mutation()] for available functions.
 #' @param popSize the population size.
 #' @param nObj number of objective in the fitness function.
-#' @param n_partitions
+#' @param n_partitions Partition number of generated reference points
 #' @param pcrossover the probability of crossover between pairs of chromosomes. Typically this is a large value and by default is set to 0.8.
 #' @param pmutation the probability of mutation in a parent chromosome. Usually mutation occurs with a small probability, and by default is set to 0.1.
-#' @param reference_dirs
+#' @param reference_dirs Function to generate reference points using Das and Dennis approach or matrix with supplied reference points.
 #' @param maxiter the maximum number of iterations to run before the NSGA search is halted.
 #' @param run the number of consecutive generations without any improvement in the best fitness value before the NSGA is stopped
 #' @param maxFitness the upper bound on the fitness function after that the NSGA search is interrupted.

@@ -2,7 +2,7 @@
 #'
 #' The class 'nsga' is a simple class union ([setClassUnion()]) of 'numeric', 'logical' and 'matrix'.
 #'
-#' @section Objects from the Class
+#' @section Objects from the Class:
 #' Since it is a virtual Class, no objects may be created from it.
 #'
 #' @slot call an object of class 'call' representing the matched call
@@ -12,10 +12,10 @@
 #' @slot nBits a value specifying the number of bits to be used in binary encoded optimizations
 #' @slot names a vector of character strings providing the names of decision variables (optional)
 #' @slot popSize the population size
-#' @slot front
-#' @slot f
+#' @slot front Rank of individuals on the non-dominated front
+#' @slot f Front of individuals on the non-dominated front
 #' @slot iter the actual (or final) iteration of NSGA search
-#' @slot run the number of consecutive generations without any improvement in the best fitness value before the GA is stopped
+#' @slot run the number of consecutive generations without any improvement in the best fitness value before the NSGA is stopped
 #' @slot maxiter the maximum number of iterations to run before the NSGA search is halted
 #' @slot suggestions a matrix of user provided solutions and included in the initial population
 #' @slot population the current (or final) population

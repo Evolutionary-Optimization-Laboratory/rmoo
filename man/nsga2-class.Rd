@@ -24,6 +24,10 @@ The class 'nsga2' is a simple class union (\code{\link[=setClassUnion]{setClassU
 
 \item{\code{popSize}}{the population size}
 
+\item{\code{front}}{Rank of individuals on the non-dominated front}
+
+\item{\code{f}}{Front of individuals on the non-dominated front}
+
 \item{\code{iter}}{the actual (or final) iteration of NSGA search}
 
 \item{\code{run}}{the number of consecutive generations without any improvement in the best fitness value before the NSGA is stopped}
@@ -38,6 +42,8 @@ The class 'nsga2' is a simple class union (\code{\link[=setClassUnion]{setClassU
 
 \item{\code{pmutation}}{the mutation probability}
 
+\item{\code{crowdingDistance}}{Crowding-comparison approach to estiate of the perimeter of the cuboid formed by using the nearest neighbors as the vertices}
+
 \item{\code{fitness}}{the values of fitness function for the current (or final) population}
 
 \item{\code{summary}}{a matrix of summary statistics for fitness values at each iteration (along the rows)}
@@ -46,6 +52,11 @@ The class 'nsga2' is a simple class union (\code{\link[=setClassUnion]{setClassU
 
 \item{\code{solution}}{the value(s) of the decision variables giving the best fitness at the final iteration.}
 }}
+
+\section{Objects from the Class}{
+
+Since it is a virtual Class, no objects may be created from it.
+}
 
 \examples{
 showClass('nsga2')

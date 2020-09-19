@@ -5,11 +5,11 @@
 #' Niching procesure is a algorithms proposed by K. Deb and H. Jain in 2013.
 #'
 #'
-#' @param pop
-#' @param n_remaining
-#' @param niche_count
-#' @param niche_of_individuals
-#' @param dist_to_niche
+#' @param pop Last Front Population
+#' @param n_remaining Number of points to choose
+#' @param niche_count Niche count of individuals with the reference point
+#' @param niche_of_individuals Count of the closest reference point to the last front objective values
+#' @param dist_to_niche Distance between closest reference point to last front objective values
 #'
 #' @author Francisco Benitez
 #' \email{benitez.fj@@hotmail.com}

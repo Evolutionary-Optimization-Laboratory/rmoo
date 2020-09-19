@@ -61,9 +61,13 @@ Possible values are:
 
 \item{nObj}{number of objective in the fitness function.}
 
+\item{n_partitions}{Partition number of generated reference points}
+
 \item{pcrossover}{the probability of crossover between pairs of chromosomes. Typically this is a large value and by default is set to 0.8.}
 
 \item{pmutation}{the probability of mutation in a parent chromosome. Usually mutation occurs with a small probability, and by default is set to 0.1.}
+
+\item{reference_dirs}{Function to generate reference points using Das and Dennis approach or matrix with supplied reference points.}
 
 \item{maxiter}{the maximum number of iterations to run before the NSGA search is halted.}
 

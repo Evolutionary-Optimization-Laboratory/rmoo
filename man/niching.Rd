@@ -7,7 +7,15 @@
 niching(pop, n_remaining, niche_count, niche_of_individuals, dist_to_niche)
 }
 \arguments{
-\item{dist_to_niche}{}
+\item{pop}{Last Front Population}
+
+\item{n_remaining}{Number of points to choose}
+
+\item{niche_count}{Niche count of individuals with the reference point}
+
+\item{niche_of_individuals}{Count of the closest reference point to the last front objective values}
+
+\item{dist_to_niche}{Distance between closest reference point to last front objective values}
 }
 \value{
 Returns the association of reference points to each individual in the population.

@@ -24,9 +24,13 @@ The class 'nsga' is a simple class union (\code{\link[=setClassUnion]{setClassUn
 
 \item{\code{popSize}}{the population size}
 
+\item{\code{front}}{Rank of individuals on the non-dominated front}
+
+\item{\code{f}}{Front of individuals on the non-dominated front}
+
 \item{\code{iter}}{the actual (or final) iteration of NSGA search}
 
-\item{\code{run}}{the number of consecutive generations without any improvement in the best fitness value before the GA is stopped}
+\item{\code{run}}{the number of consecutive generations without any improvement in the best fitness value before the NSGA is stopped}
 
 \item{\code{maxiter}}{the maximum number of iterations to run before the NSGA search is halted}
 
@@ -52,6 +56,11 @@ The class 'nsga' is a simple class union (\code{\link[=setClassUnion]{setClassUn
 
 \item{\code{solution}}{the value(s) of the decision variables giving the best fitness at the final iteration.}
 }}
+
+\section{Objects from the Class}{
+
+Since it is a virtual Class, no objects may be created from it.
+}
 
 \examples{
 showClass('nsga')
