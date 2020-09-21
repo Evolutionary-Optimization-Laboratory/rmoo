@@ -94,8 +94,11 @@ nsga_tourSelection <- function(object, k = 3, ...) {
     })
 }
 
+#' @export
 nsgareal_tourSelection <- nsga_tourSelection
+#' @export
 nsgabin_tourSelection <- nsga_tourSelection
+#' @export
 nsgaperm_tourSelection <- nsga_tourSelection
 
 #1
@@ -167,8 +170,11 @@ nsga_lrSelection <- function(object, r, q) {
   out <- list(population = object@population[sel, ], fitness = object@fitness[sel, ])
   return(out)
 }
+#' @export
 nsgabin_lrSelection <- nsga_lrSelection
+#' @export
 nsgaperm_lrSelection <- nsga_lrSelection
+#' @export
 nsgareal_lrSelection <- nsga_lrSelection
 
 ## Crossover Operators ----
@@ -330,9 +336,11 @@ nsga_spCrossover <- function(object, parents) {
                 fitness = fitnessChildren)
     return(out)
 }
-
+#' @export
 nsgabin_spCrossover <- nsga_spCrossover
+#' @export
 nsgareal_spCrossover <- nsga_spCrossover
+
 #' @export
 nsgaperm_oxCrossover <- function(object, parents) {
     parents <- object@population[parents, ]

@@ -1,3 +1,4 @@
+#' @export
 nsgaControl <- function(...) {
     current <- .nsga.default
     if (nargs() == 0)
