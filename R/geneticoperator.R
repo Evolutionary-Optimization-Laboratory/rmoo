@@ -154,21 +154,22 @@ nsgaperm_tourSelection <- nsga_tourSelection
 #   return(out)
 # }
 
-nsga_lrSelection <- function(object, nObj, r, q) {
+#' @export
+nsga_lrSelection <- function(object, r, q) {
   if (missing(r))
     r <- 2 / (object@popSize * (object@popSize - 1))
   if (missing(q))
     q <- 2 / object@popSize
-  rank <- (object@popSize + 1) - rank(object@fitness, ties.method = "min")
+  rank <- (object@popSize + 1) - as.vector(object@front)
   prob <- 1 + q - (rank - 1) * r
   prob <- pmin(pmax(0, prob / sum(prob)), 1, na.rm = TRUE)
   sel <- sample(1:object@popSize, size = object@popSize, prob = prob, replace = TRUE)
-  out <- list(population = object@population[sel, , drop = FALSE], fitness = object@fitness[sel])
+  out <- list(population = object@population[sel, ], fitness = object@fitness[sel, ])
   return(out)
 }
 nsgabin_lrSelection <- nsga_lrSelection
 nsgaperm_lrSelection <- nsga_lrSelection
-
+nsgareal_lrSelection <- nsga_lrSelection
 
 ## Crossover Operators ----
 #' @export
@@ -331,6 +332,7 @@ nsga_spCrossover <- function(object, parents) {
 }
 
 nsgabin_spCrossover <- nsga_spCrossover
+nsgareal_spCrossover <- nsga_spCrossover
 #' @export
 nsgaperm_oxCrossover <- function(object, parents) {
     parents <- object@population[parents, ]

@@ -36,6 +36,7 @@ Collate:
     'nsga3-class.R'
     'nsga3.R'
     'nsgaControl.R'
+    'package_Imports.R'
     'performance_metrics.R'
     'sharing.R'
     'update_points.R'
@@ -46,6 +47,7 @@ Imports:
     ecr,
     rgl,
     graphics,
-    methods
+    methods,
+    grDevices
 URL: https://github.com/benitezfj/nsga3r
 BugReports: https://github.com/benitezfj/nsga3r/issues

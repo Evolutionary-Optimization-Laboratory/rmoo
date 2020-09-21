@@ -131,7 +131,13 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
       nObj <- ncol(fitness(matrix(10000, ncol = 100, nrow = 100)))
     }
 
-    ref_dirs <- reference_dirs(nObj, n_partitions)
+    #Generate reference points, otherwise, assign the provided matrix
+    if (is.function(reference_dirs)) {
+      ref_dirs <- reference_dirs(nObj, n_partitions)
+    } else {
+      ref_dirs <- reference_dirs
+    }
+
     if (ncol(ref_dirs) != nObj) {
       stop("Dimensionality of reference points must be equal to the number of objectives")
     }
