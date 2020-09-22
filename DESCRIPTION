@@ -36,7 +36,7 @@ Collate:
     'nsga3-class.R'
     'nsga3.R'
     'nsgaControl.R'
-    'package_Imports.R'
+    'nsga3r.R'
     'performance_metrics.R'
     'sharing.R'
     'update_points.R'

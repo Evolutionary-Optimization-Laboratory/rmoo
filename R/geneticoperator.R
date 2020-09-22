@@ -170,10 +170,13 @@ nsga_lrSelection <- function(object, r, q) {
   out <- list(population = object@population[sel, ], fitness = object@fitness[sel, ])
   return(out)
 }
+
 #' @export
 nsgabin_lrSelection <- nsga_lrSelection
+
 #' @export
 nsgaperm_lrSelection <- nsga_lrSelection
+
 #' @export
 nsgareal_lrSelection <- nsga_lrSelection
 
