@@ -45,7 +45,7 @@
 #'
 #' @seealso [nsga()], [nsga3()]
 #'
-#' @return Returns an object of class nsga-class. See [nsga-class] for a description of available slots information.
+#' @return Returns an object of class nsga2-class. See [nsga2-class] for a description of available slots information.
 #' @export
 nsga2 <- function(type = c("binary", "real-valued", "permutation"),
     fitness, ...,
@@ -342,12 +342,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
             break
     }
 
-    solution <- list(Rank = object@front,
-                     Front = object@f,
-                     Population = object@population,
-                     Fitness = object@fitness,
-                     Crowding = object@crowdingDistance,
-                     Summary = object@summary)
+    solution <- object
 
     return(solution)
 }

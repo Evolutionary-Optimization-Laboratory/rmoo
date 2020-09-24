@@ -84,7 +84,7 @@ Possible values are:
 \item{seed}{an integer value containing the random number generator state. This argument can be used to replicate the results of a NSGA search. Note that if parallel computing is required, the doRNG package must be installed.}
 }
 \value{
-Returns an object of class nsga-class. See \linkS4class{nsga3} for a description of available slots information.
+Returns an object of class nsga3-class. See \linkS4class{nsga3} for a description of available slots information.
 }
 \description{
 Minimization of a fitness function using non-dominated sorting genetic algorithms - III (NSGA-IIIs).

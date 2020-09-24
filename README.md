@@ -44,7 +44,7 @@ DTLZ1 <- function (x, nobj = 3)
     return(f)
 }
 
-result <- nsga3(fitness = GPareto::DTLZ1,
+result <- nsga3(fitness = DTLZ1,
                 type = "real-valued",
                 lower = c(0,0,0),
                 upper = c(1,1,1),

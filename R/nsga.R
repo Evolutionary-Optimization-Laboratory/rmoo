@@ -336,12 +336,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
         break
     }
 
-    solution <- list(Rank = object@front,
-                     Front = object@f,
-                     Population = object@population,
-                     Fitness = object@fitness,
-                     Dummy_Fitness = object@dumFitness,
-                     Summary = object@summary)
+    solution <- object
 
     return(solution)
 }
