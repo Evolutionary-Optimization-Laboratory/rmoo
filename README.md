@@ -52,3 +52,7 @@ result <- nsga3(fitness = GPareto::DTLZ1,
                 n_partitions = 12,
                 maxiter = 300)
 ```
+
+![](https://github.com/benitezfj/nsga3r/blob/master/man/figures/README-example-1.jpeg)<!-- -->
+
+![](https://github.com/benitezfj/nsga3r/blob/master/man/figures/README-example-2.png)<!-- -->
