@@ -36,7 +36,7 @@ devtools::install_github("benitezfj/nsga3r")
 
 ## Usage
 
-This is a basic example which shows you how to solve a common problem:
+A simple example of running nsga3 solving the DTLZ1 problem:
 
 ``` r
 library(nsga3r)
