@@ -1,17 +1,32 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-nsga3r
-======
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# nsga3r
 
 <!-- badges: start -->
 <!-- badges: end -->
-Overview
---------
 
-A Non-Dominance-Based Multi-Objective Optimization package, built on top of the [GA package](http://www.jstatsoft.org/v53/i04/). nsga3r provides a complete and flexible framework for optimizing multiple supplied objectives. You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II and NSGA-III algorithms.
+## Overview
 
-Installation
-------------
+A Non-Dominance-Based Multi-Objective Optimization package, built on top of the [GA package](http://www.jstatsoft.org/v53/i04/). 
+nsga3r provides a complete and flexible framework for optimizing multiple supplied objectives. 
+You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II 
+and NSGA-III algorithms.
+
+
+## Installation
 
 ``` r
 # You can install the development version from GitHub:
@@ -19,8 +34,7 @@ Installation
 devtools::install_github("benitezfj/nsga3r")
 ```
 
-Usage
------
+## Usage
 
 This is a basic example which shows you how to solve a common problem:
 
@@ -51,4 +65,5 @@ result <- nsga3(fitness = GPareto::DTLZ1,
                 popSize = 92,
                 n_partitions = 12,
                 maxiter = 300)
+
 ```
