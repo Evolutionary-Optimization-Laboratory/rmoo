@@ -95,7 +95,7 @@ The purpose of the algorithms is to find an efficient way to optimize multi-obje
 N. Srinivas and K. Deb, "Multiobjective Optimization Using Nondominated Sorting in Genetic Algorithms, in Evolutionary Computation, vol. 2, no. 3, pp. 221-248, Sept. 1994, doi: 10.1162/evco.1994.2.3.221.
 
 Scrucca L. (2013). GA: A Package for Genetic Algorithms in R. Journal of Statistical Software, 53(4), 1-37,
-\url{http://www.jstatsoft.org/v53/i04/}.
+\url{https://www.jstatsoft.org/v53/i04/}.
 }
 \seealso{
 \code{\link[=nsga2]{nsga2()}}, \code{\link[=nsga3]{nsga3()}}

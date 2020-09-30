@@ -92,7 +92,7 @@ The purpose of the algorithms is to find an efficient way to optimize multi-obje
 K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and elitist multiobjective genetic algorithm: NSGA-II,' in IEEE Transactions on Evolutionary Computation, vol. 6, no. 2, pp. 182-197, April 2002, doi: 10.1109/4235.996017.
 
 Scrucca L. (2013). GA: A Package for Genetic Algorithms in R. Journal of Statistical Software, 53(4), 1-37,
-\url{http://www.jstatsoft.org/v53/i04/}.
+\url{https://www.jstatsoft.org/v53/i04/}.
 }
 \seealso{
 \code{\link[=nsga]{nsga()}}, \code{\link[=nsga3]{nsga3()}}
