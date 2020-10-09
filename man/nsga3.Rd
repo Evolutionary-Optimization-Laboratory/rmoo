@@ -97,8 +97,7 @@ The purpose of the algorithms is to find an efficient way to optimize multi-obje
 \references{
 K. Deb and H. Jain, "An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I: Solving Problems With Box Constraints," in IEEE Transactions on Evolutionary Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014, doi: 10.1109/TEVC.2013.2281535.
 
-Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206.
-\url{https://journal.r-project.org/archive/2017/RJ-2017-008}
+Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206. doi: 10.32614/RJ-2017-008
 }
 \seealso{
 \code{\link[=nsga]{nsga()}}, \code{\link[=nsga2]{nsga2()}}

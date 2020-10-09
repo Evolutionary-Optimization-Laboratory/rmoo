@@ -36,7 +36,7 @@ NSGAStartupMessage <- function() {
     invisible()
 }
 
-options(nsga3r.description = list(Title = "Non-Dominated Genetic Algorithms - III",
+options(nsga3r.description = list(Title = "Family of Non-Dominated Genetic Algorithms",
                                   `Authors@R` = "c(person(\"Francisco\", \"Benitez\",
                                                       email = \"benitez.fj@hotmail.com\",
                                                       role = c(\"aut\", \"cre\")),
@@ -44,6 +44,10 @@ options(nsga3r.description = list(Title = "Non-Dominated Genetic Algorithms - II
                                                       email = \"dpinto@pol.una.py\",
                                                       role = c(\"aut\"),
                                                       comment = c(ORCID = \"0000-0003-2479-9876\")))",
-        Description = "A multi-objective optimization package based on the algorithm of K. Deb and H. Jain.",
+        Description = "A multiobjective optimization package based on K. Deb's
+    algorithm and inspired by Luca Scrucca's GA package <10.32614/RJ-2017-008>.
+  The nsga3r package is a framework for multi- and many-objective optimization,
+  allowing to work with representation of real numbers, permutations and binaries,
+  offering a high range of configurations.",
         License = "GPL (>= 2)",
         Language = "es"))

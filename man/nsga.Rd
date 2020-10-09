@@ -94,8 +94,7 @@ The purpose of the algorithms is to find an efficient way to optimize multi-obje
 \references{
 N. Srinivas and K. Deb, "Multiobjective Optimization Using Nondominated Sorting in Genetic Algorithms, in Evolutionary Computation, vol. 2, no. 3, pp. 221-248, Sept. 1994, doi: 10.1162/evco.1994.2.3.221.
 
-Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206.
-\url{https://journal.r-project.org/archive/2017/RJ-2017-008}.
+Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206. doi: 10.32614/RJ-2017-008
 }
 \seealso{
 \code{\link[=nsga2]{nsga2()}}, \code{\link[=nsga3]{nsga3()}}

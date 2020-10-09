@@ -41,17 +41,17 @@
           \item{\code{mutation}} = \code{"nsgaperm_simMutation"}
         }
       }
-      
+
       \item{\code{"eps"} = }{the tolerance value used by the package functions. By default set at \code{sqrt(.Machine$double.eps)}.}
     }
-  
+
   The function may be called with a single string specifying the name of the component. In this case the function returns the current default settings.
-  
+
   To change the default values, a named component must be followed by a single value (in case of \code{"eps"}) or a list of component(s) specifying the name of the function for a genetic operator. See the Examples section.
 }
 
 \value{
-  If the argument list is empty the function returns the current list of values.  
+  If the argument list is empty the function returns the current list of values.
   If the argument list is not empty, the returned list is invisible.
 }
 
@@ -62,8 +62,7 @@
 \author{Francisco Benitez}
 
 \references{
-  Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206.
-  \url{https://journal.r-project.org/archive/2017/RJ-2017-008}.
+  Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206, doi: 10.32614/RJ-2017-008.
 }
 
 \seealso{
@@ -82,7 +81,7 @@
   nsgaControl("real-valued" = list(selection = "nsgareal_lrSelection"))
   nsgaControl("real-valued")
   # set defaults for selection and crossover operators of real-valued search
-  nsgaControl("real-valued" = list(selection = "nsgareal_lrSelection", 
+  nsgaControl("real-valued" = list(selection = "nsgareal_lrSelection",
                                    crossover = "nsgareal_spCrossover"))
   nsgaControl("real-valued")
   # restore defaults

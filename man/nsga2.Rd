@@ -91,8 +91,7 @@ The purpose of the algorithms is to find an efficient way to optimize multi-obje
 \references{
 K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and elitist multiobjective genetic algorithm: NSGA-II,' in IEEE Transactions on Evolutionary Computation, vol. 6, no. 2, pp. 182-197, April 2002, doi: 10.1109/4235.996017.
 
-Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206.
-\url{https://journal.r-project.org/archive/2017/RJ-2017-008}.
+Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206. doi: 10.32614/RJ-2017-008
 }
 \seealso{
 \code{\link[=nsga]{nsga()}}, \code{\link[=nsga3]{nsga3()}}

@@ -17,7 +17,7 @@
 
 \arguments{
   \item{object}{An object of class \code{"nsga"}, \code{"nsga2"} and \code{"nsga3"}, usually resulting from a call to function \code{\link{nsga}}, \code{\link{nsga2}} and \code{\link{nsga3}}.}
-  
+
   \item{\dots}{further arguments passed to or from other methods.}
 }
 
@@ -26,8 +26,7 @@
 \value{Returns a list with the individuals, objective values and performance metrics by generation.}
 
 \references{
-  Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206.
-  \url{https://journal.r-project.org/archive/2017/RJ-2017-008}.
+  Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206 doi: 10.32614/RJ-2017-008.
 
   Bossek, J. (2017). ecr 2.0: A Modular Framework for Evolutionary Computation in R. In Proceedings of the Genetic and Evolutionary Computation Conference (GECCO '17) Companion, Berlin, Germany, 1187--1193.
 }
