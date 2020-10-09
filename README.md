@@ -8,7 +8,7 @@ nsga3r
 Overview
 --------
 
-A Non-Dominance-Based Multi-Objective Optimization package, built on top of the [GA package](http://www.jstatsoft.org/v53/i04/). nsga3r provides a complete and flexible framework for optimizing multiple supplied objectives. You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II and NSGA-III algorithms.
+A Non-Dominance-Based Multi-Objective Optimization package, built on top of the [GA package](https://journal.r-project.org/archive/2017/RJ-2017-008). nsga3r provides a complete and flexible framework for optimizing multiple supplied objectives. You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II and NSGA-III algorithms.
 
 Installation
 ------------

@@ -40,8 +40,8 @@
 #'
 #' @references K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and elitist multiobjective genetic algorithm: NSGA-II,' in IEEE Transactions on Evolutionary Computation, vol. 6, no. 2, pp. 182-197, April 2002, doi: 10.1109/4235.996017.
 #'
-#' Scrucca L. (2013). GA: A Package for Genetic Algorithms in R. Journal of Statistical Software, 53(4), 1-37,
-#' \url{https://www.jstatsoft.org/v53/i04/}.
+#'Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206.
+#' \url{https://journal.r-project.org/archive/2017/RJ-2017-008}.
 #'
 #' @seealso [nsga()], [nsga3()]
 #'
