@@ -3,3 +3,4 @@
 ^README\.Rmd$
 ^NEWS\.md$
 ^cran-comments\.md$
+^revdep$
