@@ -4,7 +4,8 @@ nsga3r <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
 ===========================================================================
 
 <!-- badges: start -->
-<!-- badges: end -->
+[![Travis build status](https://travis-ci.com/benitezfj/nsga3r.svg?branch=master)](https://travis-ci.com/benitezfj/nsga3r) <!-- badges: end -->
+
 Overview
 --------
 

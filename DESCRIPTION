@@ -54,3 +54,5 @@ Imports:
     grDevices
 URL: https://github.com/benitezfj/nsga3r
 BugReports: https://github.com/benitezfj/nsga3r/issues
+Suggests: 
+    testthat

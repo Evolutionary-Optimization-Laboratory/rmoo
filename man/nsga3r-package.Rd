@@ -6,6 +6,8 @@
 \alias{nsga3r-package}
 \title{nsga3r: Family of Non-Dominated Genetic Algorithms}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 A multiobjective optimization package based on K. Deb's 
     algorithm and inspired by Luca Scrucca's GA package <10.32614/RJ-2017-008>. 
     The nsga3r package is a framework for multi- and many-objective optimization, 
