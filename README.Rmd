@@ -13,14 +13,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-# nsga3r
+# nsga3r <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 ## Overview
 
-A Non-Dominance-Based Multi-Objective Optimization package, built on top of the [GA package](https://journal.r-project.org/archive/2017/RJ-2017-008). 
+A Non-Dominated Sorting based Multi-Objective Optimization package, built upon the [GA package](https://journal.r-project.org/archive/2017/RJ-2017-008). 
 nsga3r provides a complete and flexible framework for optimizing multiple supplied objectives. 
 You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II 
 and NSGA-III algorithms, as well as representation of real numbers, permutations and binaries.
