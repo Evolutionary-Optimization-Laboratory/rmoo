@@ -49,5 +49,5 @@ options(nsga3r.description = list(Title = "Family of Non-Dominated Genetic Algor
   The nsga3r package is a framework for multi- and many-objective optimization,
   allowing to work with representation of real numbers, permutations and binaries,
   offering a high range of configurations.",
-        License = "GPL (>= 2)",
+        License = "GPL-3",
         Language = "es"))

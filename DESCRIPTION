@@ -16,7 +16,7 @@ Description: A multiobjective optimization package based on K. Deb's
     The nsga3r package is a framework for multi- and many-objective optimization, 
     allowing to work with representation of real numbers, permutations and binaries, 
     offering a high range of configurations.
-License: GPL (>= 2)
+License: GPL-3
 Encoding: UTF-8
 Language: es
 LazyData: true
