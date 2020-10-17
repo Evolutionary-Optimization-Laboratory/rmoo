@@ -1,9 +1,12 @@
 language: R
 cache: packages
-r:
-  -oldrel
-  -release
-  -devel
-before_install:
-  - R -e 'source("https://install-github.me/r-lib/remotes")'
-  - R -e 'source("https://install-github.me/r-lib/devtools")'
+matrix:
+  include:
+  - r: release
+    os: linux
+  - r: devel
+    os: linux
+  - r: oldrel
+    os: linux
+r_github_packages:
+  - r-lib/remotes
