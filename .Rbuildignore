@@ -6,3 +6,4 @@
 ^revdep$
 ^\.travis\.yml$
 ^LICENSE$
+^codecov\.yml$

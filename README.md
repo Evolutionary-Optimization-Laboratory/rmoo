@@ -4,7 +4,7 @@ nsga3r <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
 ===========================================================================
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/benitezfj/nsga3r.svg?branch=master)](https://travis-ci.com/benitezfj/nsga3r) <!-- badges: end -->
+[![Travis build status](https://travis-ci.com/benitezfj/nsga3r.svg?branch=master)](https://travis-ci.com/benitezfj/nsga3r) [![Codecov test coverage](https://codecov.io/gh/benitezfj/nsga3r/branch/master/graph/badge.svg?token=QK4Z2yVUSw)](https://codecov.io/gh/benitezfj/nsga3r?branch=master) <!-- badges: end -->
 
 Overview
 --------
