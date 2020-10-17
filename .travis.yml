@@ -6,6 +6,9 @@ matrix:
     os: linux
   - r: devel
     os: linux
+  - r: release
+    os: osx
+    osx_image: xcode12
 r_github_packages:
   - r-lib/remotes
 after_success:
