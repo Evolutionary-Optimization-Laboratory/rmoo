@@ -14,6 +14,6 @@ r_github_packages:
 after_success:
   - Rscript -e 'library(covr); codecov()'
 before_install:
-  - sudo apt-get install libglu1-mesa-dev
+  - if [ "$TRAVIS_OS_NAME" = "linux"]; then sudo apt-get install libglu1-mesa-dev; fi
 after_success:
   - Rscript -e 'library(covr); codecov()'
