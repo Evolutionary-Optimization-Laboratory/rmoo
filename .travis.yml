@@ -6,7 +6,7 @@ matrix:
     os: linux
   - r: devel
     os: linux
-  - r: oldrel
-    os: linux
 r_github_packages:
   - r-lib/remotes
+before_install:
+  - sudo apt-get install libglu1-mesa-dev
