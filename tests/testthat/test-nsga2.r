@@ -14,8 +14,3 @@ test_that("nsga2() return the value suggestions", {
 
   expect_identical(out@fitness, x)
 })
-
-
-
-
-
