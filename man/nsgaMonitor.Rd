@@ -3,7 +3,7 @@
 
 \title{Monitor non-dominated genetic algorithm evolution}
 
-\description{Functions to plotting fitness values at each iteration of a search for the nsga3r package.}
+\description{Functions to plotting fitness values at each iteration of a search for the rmoo package.}
 
 \usage{
   nsgaMonitor(object, number_objectives, \dots)

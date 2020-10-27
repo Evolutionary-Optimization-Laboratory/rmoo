@@ -3,7 +3,7 @@
 
 \title{A function for setting or retrieving defaults non-dominated genetic operators}
 
-\description{Default settings for non-dominated genetic operators used in the nsga3r package.}
+\description{Default settings for non-dominated genetic operators used in the rmoo package.}
 
 \usage{
   nsgaControl(\dots)
