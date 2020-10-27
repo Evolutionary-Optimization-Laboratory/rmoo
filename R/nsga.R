@@ -37,7 +37,7 @@
 #' @param seed an integer value containing the random number generator state. This argument can be used to replicate the results of a NSGA search. Note that if parallel computing is required, the doRNG package must be installed.
 #'
 #' @author Francisco Benitez
-#' \email{benitez.fj@@hotmail.com}
+#' \email{benitezfj94@gmail.com}
 #'
 #' @references N. Srinivas and K. Deb, "Multiobjective Optimization Using Nondominated Sorting in Genetic Algorithms, in Evolutionary Computation, vol. 2, no. 3, pp. 221-248, Sept. 1994, doi: 10.1162/evco.1994.2.3.221.
 #'
@@ -46,6 +46,22 @@
 #' @seealso [nsga2()], [nsga3()]
 #'
 #' @return Returns an object of class nsga-class. See [nsga-class] for a description of available slots information.
+#'
+#' @examples
+#' #Example
+#' #Two Objectives - Real Valued
+#' zdt1 <- function (x) {
+#'  if (is.null(dim(x))) {
+#'    x <- matrix(x, nrow = 1)
+#'  }
+#'  n <- ncol(x)
+#'  g <- 1 + rowSums(x[, 2:n, drop = FALSE]) * 9/(n - 1)
+#'  return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
+#' }
+#' \dontrun{
+#' result <- nsga(type = "real-valued", fitness = zdt1, lower = c(0,0), upper = c(1,1), popSize = 100, dshare = 1, monitor = FALSE, maxiter = 500)
+#' }
+#'
 #' @export
 nsga <- function (type = c("binary", "real-valued", "permutation"),
     fitness, ...,

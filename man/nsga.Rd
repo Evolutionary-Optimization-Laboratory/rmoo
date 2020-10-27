@@ -91,6 +91,22 @@ Local search using general-purpose optimisation algorithms can be applied stocha
 The Non-dominated genetic algorithms is a meta-heuristic proposed by N. Srinivas and K. Deb in 1994.
 The purpose of the algorithms is to find an efficient way to optimize multi-objectives functions (two or more).
 }
+\examples{
+#Example
+#Two Objectives - Real Valued
+zdt1 <- function (x) {
+ if (is.null(dim(x))) {
+   x <- matrix(x, nrow = 1)
+ }
+ n <- ncol(x)
+ g <- 1 + rowSums(x[, 2:n, drop = FALSE]) * 9/(n - 1)
+ return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
+}
+\dontrun{
+result <- nsga(type = "real-valued", fitness = zdt1, lower = c(0,0), upper = c(1,1), popSize = 100, dshare = 1, monitor = FALSE, maxiter = 500)
+}
+
+}
 \references{
 N. Srinivas and K. Deb, "Multiobjective Optimization Using Nondominated Sorting in Genetic Algorithms, in Evolutionary Computation, vol. 2, no. 3, pp. 221-248, Sept. 1994, doi: 10.1162/evco.1994.2.3.221.
 
@@ -101,5 +117,5 @@ Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parall
 }
 \author{
 Francisco Benitez
-\email{benitez.fj@hotmail.com}
+\email{benitezfj94@gmail.com}
 }

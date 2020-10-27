@@ -38,7 +38,7 @@
 #' @param seed an integer value containing the random number generator state. This argument can be used to replicate the results of a NSGA search. Note that if parallel computing is required, the doRNG package must be installed.
 #'
 #' @author Francisco Benitez
-#' \email{benitez.fj@@hotmail.com}
+#' \email{benitezfj94@gmail.com}
 #'
 #' @references K. Deb and H. Jain, "An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I: Solving Problems With Box Constraints," in IEEE Transactions on Evolutionary Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014, doi: 10.1109/TEVC.2013.2281535.
 #'
@@ -47,6 +47,42 @@
 #' @seealso [nsga()], [nsga2()]
 #'
 #' @return Returns an object of class nsga3-class. See [nsga3-class] for a description of available slots information.
+#'
+#' @examples
+#' #Example 1
+#' #Two Objectives - Real Valued
+#' zdt1 <- function (x) {
+#'  if (is.null(dim(x))) {
+#'    x <- matrix(x, nrow = 1)
+#'  }
+#'  n <- ncol(x)
+#'  g <- 1 + rowSums(x[, 2:n, drop = FALSE]) * 9/(n - 1)
+#'  return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
+#' }
+#' \dontrun{
+#' result <- nsga3(type = "real-valued", fitness = zdt1, lower = c(0,0), upper = c(1,1), popSize = 100, n_partitions = 100, monitor = FALSE, maxiter = 500)
+#' }
+#'
+#' #Example 2
+#' #Three Objectives - Real Valued
+#' dtlz1 <- function (x, nobj = 3){
+#'     if (is.null(dim(x))) {
+#'         x <- matrix(x, 1)
+#'     }
+#'     n <- ncol(x)
+#'     y <- matrix(x[, 1:(nobj - 1)], nrow(x))
+#'     z <- matrix(x[, nobj:n], nrow(x))
+#'     g <- 100 * (n - nobj + 1 + rowSums((z - 0.5)^2 - cos(20 * pi * (z - 0.5))))
+#'     tmp <- t(apply(y, 1, cumprod))
+#'     tmp <- cbind(t(apply(tmp, 1, rev)), 1)
+#'     tmp2 <- cbind(1, t(apply(1 - y, 1, rev)))
+#'     f <- tmp * tmp2 * 0.5 * (1 + g)
+#'     return(f)
+#' }
+#' \dontrun{
+#' result <- nsga3(type = "real-valued", fitness = dtlz1, lower = c(0,0,0), upper = c(1,1,1), popSize = 92, n_partitions = 12, monitor = FALSE, maxiter = 500)
+#' }
+#'
 #' @export
 nsga3 <- function(type = c("binary", "real-valued", "permutation"),
     fitness, ...,

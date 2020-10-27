@@ -38,5 +38,5 @@ Felix-Antoine Fortin, Francois-Michel De Rainville, Marc-André Gardner Gardner,
 }
 \author{
 Francisco Benitez
-\email{benitez.fj@hotmail.com}
+\email{benitezfj94@gmail.com}
 }

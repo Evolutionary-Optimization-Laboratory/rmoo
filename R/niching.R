@@ -12,7 +12,7 @@
 #' @param dist_to_niche Distance between closest reference point to last front objective values
 #'
 #' @author Francisco Benitez
-#' \email{benitez.fj@@hotmail.com}
+#' \email{benitezfj94@gmail.com}
 #'
 #' @references K. Deb and H. Jain, 'An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I: Solving Problems With Box Constraints,' in IEEE Transactions on Evolutionary Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014, doi: 10.1109/TEVC.2013.2281535.
 #'

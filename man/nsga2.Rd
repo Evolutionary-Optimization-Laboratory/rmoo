@@ -88,6 +88,42 @@ Multiobjective evolutionary algorithms
 The Non-dominated genetic algorithms II is a meta-heuristic proposed by K. Deb, A. Pratap, S. Agarwal and T. Meyarivan in 2002.
 The purpose of the algorithms is to find an efficient way to optimize multi-objectives functions (two or more).
 }
+\examples{
+#Example
+#Two Objectives - Real Valued
+zdt1 <- function (x) {
+ if (is.null(dim(x))) {
+   x <- matrix(x, nrow = 1)
+ }
+ n <- ncol(x)
+ g <- 1 + rowSums(x[, 2:n, drop = FALSE]) * 9/(n - 1)
+ return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
+}
+\dontrun{
+result <- nsga2(type = "real-valued", fitness = zdt1, lower = c(0,0), upper = c(1,1), popSize = 100, monitor = FALSE, maxiter = 500)
+}
+
+#Example 2
+#Three Objectives - Real Valued
+dtlz1 <- function (x, nobj = 3){
+    if (is.null(dim(x))) {
+        x <- matrix(x, 1)
+    }
+    n <- ncol(x)
+    y <- matrix(x[, 1:(nobj - 1)], nrow(x))
+    z <- matrix(x[, nobj:n], nrow(x))
+    g <- 100 * (n - nobj + 1 + rowSums((z - 0.5)^2 - cos(20 * pi * (z - 0.5))))
+    tmp <- t(apply(y, 1, cumprod))
+    tmp <- cbind(t(apply(tmp, 1, rev)), 1)
+    tmp2 <- cbind(1, t(apply(1 - y, 1, rev)))
+    f <- tmp * tmp2 * 0.5 * (1 + g)
+    return(f)
+}
+\dontrun{
+result <- nsga2(type = "real-valued", fitness = dtlz1, lower = c(0,0,0), upper = c(1,1,1), popSize = 92,  monitor = FALSE, maxiter = 500)
+}
+
+}
 \references{
 K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and elitist multiobjective genetic algorithm: NSGA-II,' in IEEE Transactions on Evolutionary Computation, vol. 6, no. 2, pp. 182-197, April 2002, doi: 10.1109/4235.996017.
 
@@ -98,5 +134,5 @@ Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parall
 }
 \author{
 Francisco Benitez
-\email{benitez.fj@hotmail.com}
+\email{benitezfj94@gmail.com}
 }

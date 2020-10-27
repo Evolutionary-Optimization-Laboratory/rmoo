@@ -4,7 +4,7 @@
                       rmoo.install.args = "",
                       rmoo.name = "Francisco Jose Benitez Rios",
                       rmoo.desc.author = "person(\"Francisco Jose\", \"Benitez Rios\",
-                                                        \"benitez.fj@hotmail.com\",
+                                                        \"benitezfj94@gmail.com\",
                                                          role = c(\"aut\", \"cre\"))",
                       rmoo.desc.license = "Licence",
                       rmoo.desc.suggests = NULL, rmoo.desc = list())
@@ -38,7 +38,7 @@ NSGAStartupMessage <- function() {
 
 options(rmoo.description = list(Title = "Family of Non-Dominated Genetic Algorithms",
                                   `Authors@R` = "c(person(\"Francisco\", \"Benitez\",
-                                                      email = \"benitez.fj@hotmail.com\",
+                                                      email = \"benitezfj94@gmail.com\",
                                                       role = c(\"aut\", \"cre\")),
                                                    person(\"Diego\", \"Pinto Roa\",
                                                       email = \"dpinto@pol.una.py\",
@@ -49,5 +49,5 @@ options(rmoo.description = list(Title = "Family of Non-Dominated Genetic Algorit
   The rmoo package is a framework for multi- and many-objective optimization,
   allowing to work with representation of real numbers, permutations and binaries,
   offering a high range of configurations.",
-        License = "GPL-3",
+        License = "GPL (>= 2)",
         Language = "es"))

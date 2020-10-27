@@ -23,7 +23,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Francisco Benitez \email{benitez.fj@hotmail.com}
+\strong{Maintainer}: Francisco Benitez \email{benitezfj94@gmail.com}
 
 Authors:
 \itemize{

@@ -5,7 +5,7 @@ Authors@R:
     c(person(given = "Francisco",
              family = "Benitez",
              role = c("aut", "cre"),
-             email = "benitez.fj@hotmail.com"),
+             email = "benitezfj94@gmail.com"),
       person(given = "Diego",
              family = "Pinto Roa",
              role = "aut",
@@ -16,7 +16,7 @@ Description: A multiobjective optimization package based on K. Deb's
     The rmoo package is a framework for multi- and many-objective optimization, 
     allowing to work with representation of real numbers, permutations and binaries, 
     offering a high range of configurations.
-License: GPL-3
+License: GPL (>= 2)
 Encoding: UTF-8
 Language: es
 LazyData: true
