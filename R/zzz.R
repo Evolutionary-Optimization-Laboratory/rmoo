@@ -1,16 +1,16 @@
 .onLoad <- function(lib, pkg) {
     op <- options()
-    op.nsga3r <- list(nsga3r.path = "~/R-dev",
-                      nsga3r.install.args = "",
-                      nsga3r.name = "Francisco Jose Benitez Rios",
-                      nsga3r.desc.author = "person(\"Francisco Jose\", \"Benitez Rios\",
+    op.rmoo <- list(rmoo.path = "~/R-dev",
+                      rmoo.install.args = "",
+                      rmoo.name = "Francisco Jose Benitez Rios",
+                      rmoo.desc.author = "person(\"Francisco Jose\", \"Benitez Rios\",
                                                         \"benitez.fj@hotmail.com\",
                                                          role = c(\"aut\", \"cre\"))",
-                      nsga3r.desc.license = "Licence",
-                      nsga3r.desc.suggests = NULL, nsga3r.desc = list())
-    toset <- !(names(op.nsga3r) %in% names(op))
+                      rmoo.desc.license = "Licence",
+                      rmoo.desc.suggests = NULL, rmoo.desc = list())
+    toset <- !(names(op.rmoo) %in% names(op))
     if (any(toset))
-        options(op.nsga3r[toset])
+        options(op.rmoo[toset])
     invisible()
 }
 
@@ -19,24 +19,24 @@ NSGAStartupMessage <- function() {
        __   _   ____  ____    _
       |   \\ | ||  __|/ ___|  / \\  Non-Dominated
       | |\\ \\| ||__|  | |  _  / _ \\  Genetic
-      | | \\ \\ | __| || |_| |/ ___ \\  Algorithms-III
+      | | \\ \\ | __| || |_| |/ ___ \\  Algorithms' Family
       |_| \\__||____|\\____/_/   \\_\\  version ",
-        packageVersion("nsga3r"))
+        packageVersion("rmoo"))
     return(msg)
 }
 
 .onAttach <- function(lib, pkg) {
     # unlock .nsga.default variable allowing its modification
-    unlockBinding(".nsga.default", asNamespace("nsga3r"))
+    unlockBinding(".nsga.default", asNamespace("rmoo"))
     # startup message
     msg <- NSGAStartupMessage()
     if (!interactive())
-        msg[1] <- paste("Package 'nsga3r' version", packageVersion("nsga3r"))
+        msg[1] <- paste("Package 'rmoo' version", packageVersion("rmoo"))
     packageStartupMessage(msg)
     invisible()
 }
 
-options(nsga3r.description = list(Title = "Family of Non-Dominated Genetic Algorithms",
+options(rmoo.description = list(Title = "Family of Non-Dominated Genetic Algorithms",
                                   `Authors@R` = "c(person(\"Francisco\", \"Benitez\",
                                                       email = \"benitez.fj@hotmail.com\",
                                                       role = c(\"aut\", \"cre\")),
@@ -46,7 +46,7 @@ options(nsga3r.description = list(Title = "Family of Non-Dominated Genetic Algor
                                                       comment = c(ORCID = \"0000-0003-2479-9876\")))",
         Description = "A multiobjective optimization package based on K. Deb's
     algorithm and inspired by Luca Scrucca's GA package <10.32614/RJ-2017-008>.
-  The nsga3r package is a framework for multi- and many-objective optimization,
+  The rmoo package is a framework for multi- and many-objective optimization,
   allowing to work with representation of real numbers, permutations and binaries,
   offering a high range of configurations.",
         License = "GPL-3",

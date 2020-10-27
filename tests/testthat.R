@@ -1,4 +1,4 @@
 library(testthat)
-library(nsga3r)
+library(rmoo)
 
-test_check("nsga3r")
+test_check("rmoo")

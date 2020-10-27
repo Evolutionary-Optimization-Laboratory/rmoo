@@ -1,15 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-nsga3r <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
-===========================================================================
+rmoo <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
+=========================================================================
 
 <!-- badges: start -->
-[![R build status](https://github.com/benitezfj/nsga3r/workflows/R-CMD-check/badge.svg)](https://github.com/benitezfj/nsga3r/actions) [![Codecov test coverage](https://codecov.io/gh/benitezfj/nsga3r/branch/master/graph/badge.svg?token=QK4Z2yVUSw)](https://codecov.io/gh/benitezfj/nsga3r?branch=master) [![Travis build status](https://travis-ci.com/benitezfj/nsga3r.svg?branch=master)](https://travis-ci.com/benitezfj/nsga3r) <!-- badges: end -->
+[![R build status](https://github.com/benitezfj/rmoo/workflows/R-CMD-check/badge.svg)](https://github.com/benitezfj/rmoo/actions) [![Codecov test coverage](https://codecov.io/gh/benitezfj/rmoo/branch/master/graph/badge.svg?token=QK4Z2yVUSw)](https://codecov.io/gh/benitezfj/rmoo?branch=master) [![Travis build status](https://travis-ci.com/benitezfj/rmoo.svg?branch=master)](https://travis-ci.com/benitezfj/rmoo) <!-- badges: end -->
 
 Overview
 --------
 
-A Non-Dominated Sorting based Multi-Objective Optimization package, built upon the [GA package](https://CRAN.R-project.org/package=GA). nsga3r provides a complete and flexible framework for optimizing multiple supplied objectives. You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II and NSGA-III algorithms, as well as representation of real numbers, permutations and binaries.
+A Non-Dominated Sorting based Multi-Objective Optimization package, built upon the [GA package](https://CRAN.R-project.org/package=GA). rmoo provides a complete and flexible framework for optimizing multiple supplied objectives. You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II and NSGA-III algorithms, as well as representation of real numbers, permutations and binaries.
 
 Installation
 ------------
@@ -17,7 +17,7 @@ Installation
 ``` r
 # You can install the development version from GitHub:
 # install.packages("devtools")
-devtools::install_github("benitezfj/nsga3r")
+devtools::install_github("benitezfj/rmoo")
 ```
 
 Usage
@@ -26,7 +26,7 @@ Usage
 A simple example of running nsga3 solving the DTLZ1 problem:
 
 ``` r
-library(nsga3r)
+library(rmoo)
 
 DTLZ1 <- function (x, nobj = 3) 
 {
@@ -54,6 +54,6 @@ result <- nsga3(fitness = DTLZ1,
                 maxiter = 300)
 ```
 
-![](https://github.com/benitezfj/nsga3r/blob/master/man/figures/README-example-1.jpeg)<!-- -->
+![](https://github.com/benitezfj/rmoo/blob/master/man/figures/README-example-1.jpeg)<!-- -->
 
-![](https://github.com/benitezfj/nsga3r/blob/master/man/figures/README-example-2.png)<!-- -->
+![](https://github.com/benitezfj/rmoo/blob/master/man/figures/README-example-2.png)<!-- -->

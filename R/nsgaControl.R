@@ -36,7 +36,7 @@ nsgaControl <- function(...) {
     }
 
     if (sys.parent() == 0)
-        env <- asNamespace("nsga3r") else env <- parent.frame()
+        env <- asNamespace("rmoo") else env <- parent.frame()
     assign(".nsga.default", current, envir = env)
     invisible(current)
 }
