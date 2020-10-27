@@ -1,6 +1,6 @@
 Package: rmoo
 Title: Non-Dominated Genetic Algorithms' Family
-Version: 0.1.2
+Version: 0.1.3
 Authors@R: 
     c(person(given = "Francisco",
              family = "Benitez",

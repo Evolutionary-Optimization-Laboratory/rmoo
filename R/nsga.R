@@ -59,7 +59,14 @@
 #'  return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
 #' }
 #' \dontrun{
-#' result <- nsga(type = "real-valued", fitness = zdt1, lower = c(0,0), upper = c(1,1), popSize = 100, dshare = 1, monitor = FALSE, maxiter = 500)
+#' result <- nsga(type = "real-valued",
+#'                fitness = zdt1,
+#'                lower = c(0,0),
+#'                upper = c(1,1),
+#'                popSize = 100,
+#'                dshare = 1,
+#'                monitor = FALSE,
+#'                maxiter = 500)
 #' }
 #'
 #' @export

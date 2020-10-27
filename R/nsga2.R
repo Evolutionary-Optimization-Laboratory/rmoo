@@ -58,7 +58,13 @@
 #'  return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
 #' }
 #' \dontrun{
-#' result <- nsga2(type = "real-valued", fitness = zdt1, lower = c(0,0), upper = c(1,1), popSize = 100, monitor = FALSE, maxiter = 500)
+#' result <- nsga2(type = "real-valued",
+#'                 fitness = zdt1,
+#'                 lower = c(0,0),
+#'                 upper = c(1,1),
+#'                 popSize = 100,
+#'                 monitor = FALSE,
+#'                 maxiter = 500)
 #' }
 #'
 #' #Example 2
@@ -78,7 +84,12 @@
 #'     return(f)
 #' }
 #' \dontrun{
-#' result <- nsga2(type = "real-valued", fitness = dtlz1, lower = c(0,0,0), upper = c(1,1,1), popSize = 92,  monitor = FALSE, maxiter = 500)
+#' result <- nsga2(type = "real-valued",
+#'                 fitness = dtlz1,
+#'                 lower = c(0,0,0), upper = c(1,1,1),
+#'                 popSize = 92,
+#'                 monitor = FALSE,
+#'                 maxiter = 500)
 #' }
 #'
 #' @export
