@@ -12,6 +12,7 @@ test_that("nsga() return the value suggestions", {
               popSize = 10, suggestions = x,
               pcrossover = 0, pmutation = 0,
               seed = 1, dshare = 1, monitor = FALSE,
+              summary = FALSE,
               maxiter = 1, nObj = 3)
 
   expect_identical(out@fitness, x)

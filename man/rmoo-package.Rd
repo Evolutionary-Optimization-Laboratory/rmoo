@@ -9,7 +9,7 @@
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 A multiobjective optimization package based on K. Deb's 
-    algorithm and inspired by Luca Scrucca's GA package <10.32614/RJ-2017-008>. 
+    algorithm and inspired by Luca Scrucca's 'GA package' <10.32614/RJ-2017-008>. 
     The rmoo package is a framework for multi- and many-objective optimization, 
     allowing to work with representation of real numbers, permutations and binaries, 
     offering a high range of configurations.

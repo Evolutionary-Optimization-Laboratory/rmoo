@@ -33,6 +33,7 @@
 #' @param names a vector of character strings providing the names of decision variables.
 #' @param suggestions a matrix of solutions strings to be included in the initial population. If provided the number of columns must match the number of decision variables.
 #' @param monitor a logical or an R function which takes as input the current state of the nsga-class object and show the evolution of the search. By default, for interactive sessions the function nsgaMonitor prints the average and best fitness values at each iteration. If set to plot these information are plotted on a graphical device. Other functions can be written by the user and supplied as argument. In non interactive sessions, by default monitor = FALSE so any output is suppressed.
+#' @param summary If there will be a summary generation after generation.
 #' @param seed an integer value containing the random number generator state. This argument can be used to replicate the results of a NSGA search. Note that if parallel computing is required, the doRNG package must be installed.
 #'
 #' @author Francisco Benitez
@@ -110,6 +111,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
     names = NULL,
     suggestions = NULL,
     monitor = if (interactive()) nsgaMonitor else FALSE,
+    summary = TRUE,
     seed = NULL)
 {
     call <- match.call()
@@ -374,8 +376,12 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
         cd <- crowding_distance(object, nObj)
         object@crowdingDistance <- cd
 
-        fitnessSummary[[iter]] <- nsgaiiSummary(object)
-        object@summary <- fitnessSummary
+        if (summary == TRUE) {
+          fitnessSummary[[iter]] <- nsgaiiSummary(object)
+          object@summary <- fitnessSummary
+        } else {
+          object@summary <- list()
+        }
 
         # Plot front non-dominated by iteration
         if (is.function(monitor)) {
