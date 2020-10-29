@@ -1,18 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-rmoo <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
-=========================================================================
+# rmoo - R Multi-Objective Optimization <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
 
 <!-- badges: start -->
 [![R build status](https://github.com/benitezfj/rmoo/workflows/R-CMD-check/badge.svg)](https://github.com/benitezfj/rmoo/actions) [![Codecov test coverage](https://codecov.io/gh/benitezfj/rmoo/branch/master/graph/badge.svg?token=QK4Z2yVUSw)](https://codecov.io/gh/benitezfj/rmoo?branch=master) [![Travis build status](https://travis-ci.com/benitezfj/rmoo.svg?branch=master)](https://travis-ci.com/benitezfj/rmoo) <!-- badges: end -->
 
-Overview
---------
+## Overview
 
 A Non-Dominated Sorting based Multi-Objective Optimization package, built upon the [GA package](https://CRAN.R-project.org/package=GA). rmoo provides a complete and flexible framework for optimizing multiple supplied objectives. You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II and NSGA-III algorithms, as well as representation of real numbers, permutations and binaries.
 
-Installation
-------------
+## Installation
 
 ``` r
 # You can install the development version from GitHub:
@@ -20,8 +17,7 @@ Installation
 devtools::install_github("benitezfj/rmoo")
 ```
 
-Usage
------
+## Usage
 
 A simple example of running nsga3 solving the DTLZ1 problem:
 
