@@ -7,8 +7,10 @@
 #'
 #' @slot call an object of class 'call' representing the matched call
 #' @slot type a character string specifying the type of genetic algorithm used
-#' @slot lower a vector providing for each decision variable the lower bounds of the search space in case of real-valued or permutation encoded optimisations. Formerly this slot was named min
-#' @slot upper a vector providing for each decision variable the upper bounds of the search space in case of real-valued or permutation encoded optimizations. Formerly this slot was named max
+#' @slot lower a vector providing for each decision variable the lower bounds of the search space in case
+#'  of real-valued or permutation encoded optimisations. Formerly this slot was named min
+#' @slot upper a vector providing for each decision variable the upper bounds of the search space in case
+#'  of real-valued or permutation encoded optimizations. Formerly this slot was named max
 #' @slot nBits a value specifying the number of bits to be used in binary encoded optimizations
 #' @slot names a vector of character strings providing the names of decision variables (optional)
 #' @slot popSize the population size
@@ -28,7 +30,8 @@
 #' @slot nadir_point Nadir point estimate used as upper bound in normalization
 #' @slot pcrossover the crossover probability
 #' @slot pmutation the mutation probability
-#' @slot reference_points NSGA-III uses a predefined set of reference points to ensure diversity in obtained solutions. The chosen refenrece points can be predefined in structured manner or supplied by the user. We use the Das and Dennis procedure.
+#' @slot reference_points NSGA-III uses a predefined set of reference points to ensure diversity in obtained solutions.
+#' The chosen refenrece points can be predefined in structured manner or supplied by the user. We use the Das and Dennis procedure.
 #' @slot fitness the values of fitness function for the current (or final) population
 #' @slot summary a matrix of summary statistics for fitness values at each iteration (along the rows)
 #' @slot fitnessValue the best fitness value at the final iteration

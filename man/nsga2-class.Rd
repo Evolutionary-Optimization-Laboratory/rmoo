@@ -14,9 +14,11 @@ The class 'nsga2' is a simple class union (\code{\link[=setClassUnion]{setClassU
 
 \item{\code{type}}{a character string specifying the type of genetic algorithm used}
 
-\item{\code{lower}}{a vector providing for each decision variable the lower bounds of the search space in case of real-valued or permutation encoded optimisations. Formerly this slot was named min}
+\item{\code{lower}}{a vector providing for each decision variable the lower bounds of the search space in case
+of real-valued or permutation encoded optimisations. Formerly this slot was named min}
 
-\item{\code{upper}}{a vector providing for each decision variable the upper bounds of the search space in case of real-valued or permutation encoded optimizations. Formerly this slot was named max}
+\item{\code{upper}}{a vector providing for each decision variable the upper bounds of the search space in case
+of real-valued or permutation encoded optimizations. Formerly this slot was named max}
 
 \item{\code{nBits}}{a value specifying the number of bits to be used in binary encoded optimizations}
 
@@ -30,7 +32,8 @@ The class 'nsga2' is a simple class union (\code{\link[=setClassUnion]{setClassU
 
 \item{\code{iter}}{the actual (or final) iteration of NSGA search}
 
-\item{\code{run}}{the number of consecutive generations without any improvement in the best fitness value before the NSGA is stopped}
+\item{\code{run}}{the number of consecutive generations without any improvement in the best fitness value before
+the NSGA is stopped}
 
 \item{\code{maxiter}}{the maximum number of iterations to run before the NSGA search is halted}
 
@@ -42,7 +45,8 @@ The class 'nsga2' is a simple class union (\code{\link[=setClassUnion]{setClassU
 
 \item{\code{pmutation}}{the mutation probability}
 
-\item{\code{crowdingDistance}}{Crowding-comparison approach to estiate of the perimeter of the cuboid formed by using the nearest neighbors as the vertices}
+\item{\code{crowdingDistance}}{Crowding-comparison approach to estiate of the perimeter of the cuboid formed by using
+the nearest neighbors as the vertices}
 
 \item{\code{fitness}}{the values of fitness function for the current (or final) population}
 

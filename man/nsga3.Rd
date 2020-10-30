@@ -40,23 +40,30 @@ Possible values are:
 \item{\code{"permutation"}}{for problems that involves reordering of a list of objects.}
 }}
 
-\item{fitness}{the fitness function, any allowable R function which takes as input an individual string representing a potential solution, and returns a numerical value describing its “fitness”.}
+\item{fitness}{the fitness function, any allowable R function which takes as input an individual string
+representing a potential solution, and returns a numerical value describing its “fitness”.}
 
-\item{...}{additional arguments to be passed to the fitness function. This allows to write fitness functions that keep some variables fixed during the search}
+\item{...}{additional arguments to be passed to the fitness function. This allows to write fitness functions
+that keep some variables fixed during the search}
 
-\item{lower}{a vector of length equal to the decision variables providing the lower bounds of the search space in case of real-valued or permutation encoded optimizations. Formerly this argument was named min; its usage is allowed but deprecated.}
+\item{lower}{a vector of length equal to the decision variables providing the lower bounds of the search space in case
+of real-valued or permutation encoded optimizations. Formerly this argument was named min; its usage is allowed but deprecated.}
 
-\item{upper}{a vector of length equal to the decision variables providing the upper bounds of the search space in case of real-valued or permutation encoded optimizations. Formerly this argument was named max; its usage is allowed but deprecated.}
+\item{upper}{a vector of length equal to the decision variables providing the upper bounds of the search space in case
+of real-valued or permutation encoded optimizations. Formerly this argument was named max; its usage is allowed but deprecated.}
 
 \item{nBits}{a value specifying the number of bits to be used in binary encoded optimizations}
 
 \item{population}{an R function for randomly generating an initial population. See \code{\link[=nsga_Population]{nsga_Population()}} for available functions.}
 
-\item{selection}{an R function performing selection, i.e. a function which generates a new population of individuals from the current population probabilistically according to individual fitness. See \code{\link[=nsga_Selection]{nsga_Selection()}} for available functions.}
+\item{selection}{an R function performing selection, i.e. a function which generates a new population of individuals
+from the current population probabilistically according to individual fitness. See \code{\link[=nsga_Selection]{nsga_Selection()}} for available functions.}
 
-\item{crossover}{an R function performing crossover, i.e. a function which forms offsprings by combining part of the genetic information from their parents. See \code{\link[=nsga_Crossover]{nsga_Crossover()}} for available functions.}
+\item{crossover}{an R function performing crossover, i.e. a function which forms offsprings by combining part of the
+genetic information from their parents. See \code{\link[=nsga_Crossover]{nsga_Crossover()}} for available functions.}
 
-\item{mutation}{an R function performing mutation, i.e. a function which randomly alters the values of some genes in a parent chromosome. See \code{\link[=nsga_Mutation]{nsga_Mutation()}} for available functions.}
+\item{mutation}{an R function performing mutation, i.e. a function which randomly alters the values of some genes
+in a parent chromosome. See \code{\link[=nsga_Mutation]{nsga_Mutation()}} for available functions.}
 
 \item{popSize}{the population size.}
 
@@ -64,9 +71,11 @@ Possible values are:
 
 \item{n_partitions}{Partition number of generated reference points}
 
-\item{pcrossover}{the probability of crossover between pairs of chromosomes. Typically this is a large value and by default is set to 0.8.}
+\item{pcrossover}{the probability of crossover between pairs of chromosomes. Typically this is a large value
+and by default is set to 0.8.}
 
-\item{pmutation}{the probability of mutation in a parent chromosome. Usually mutation occurs with a small probability, and by default is set to 0.1.}
+\item{pmutation}{the probability of mutation in a parent chromosome. Usually mutation occurs with a small probability,
+and by default is set to 0.1.}
 
 \item{reference_dirs}{Function to generate reference points using Das and Dennis approach or matrix with supplied reference points.}
 
@@ -78,13 +87,19 @@ Possible values are:
 
 \item{names}{a vector of character strings providing the names of decision variables.}
 
-\item{suggestions}{a matrix of solutions strings to be included in the initial population. If provided the number of columns must match the number of decision variables.}
+\item{suggestions}{a matrix of solutions strings to be included in the initial population. If provided the number of columns
+must match the number of decision variables.}
 
-\item{monitor}{a logical or an R function which takes as input the current state of the nsga-class object and show the evolution of the search. By default, for interactive sessions the function nsgaMonitor prints the average and best fitness values at each iteration. If set to plot these information are plotted on a graphical device. Other functions can be written by the user and supplied as argument. In non interactive sessions, by default monitor = FALSE so any output is suppressed.}
+\item{monitor}{a logical or an R function which takes as input the current state of the nsga-class object and show
+the evolution of the search. By default, for interactive sessions the function nsgaMonitor prints the average
+and best fitness values at each iteration. If set to plot these information are plotted on a graphical device.
+Other functions can be written by the user and supplied as argument. In non interactive sessions, by default
+monitor = FALSE so any output is suppressed.}
 
 \item{summary}{If there will be a summary generation after generation.}
 
-\item{seed}{an integer value containing the random number generator state. This argument can be used to replicate the results of a NSGA search. Note that if parallel computing is required, the doRNG package must be installed.}
+\item{seed}{an integer value containing the random number generator state. This argument can be used to replicate
+the results of a NSGA search. Note that if parallel computing is required, the doRNG package must be installed.}
 }
 \value{
 Returns an object of class nsga3-class. See \linkS4class{nsga3} for a description of available slots information.
@@ -148,9 +163,12 @@ result <- nsga3(type = "real-valued",
 
 }
 \references{
-K. Deb and H. Jain, "An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I: Solving Problems With Box Constraints," in IEEE Transactions on Evolutionary Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014, doi: 10.1109/TEVC.2013.2281535.
+K. Deb and H. Jain, "An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based
+Nondominated Sorting Approach, Part I: Solving Problems With Box Constraints,"
+in IEEE Transactions on Evolutionary Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014, doi: 10.1109/TEVC.2013.2281535.
 
-Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206. doi: 10.32614/RJ-2017-008
+Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution.
+The R Journal, 9/1, 187-206. doi: 10.32614/RJ-2017-008
 }
 \seealso{
 \code{\link[=nsga]{nsga()}}, \code{\link[=nsga2]{nsga2()}}

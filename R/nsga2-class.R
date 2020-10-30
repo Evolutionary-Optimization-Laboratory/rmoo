@@ -7,21 +7,25 @@
 #'
 #' @slot call an object of class 'call' representing the matched call
 #' @slot type a character string specifying the type of genetic algorithm used
-#' @slot lower a vector providing for each decision variable the lower bounds of the search space in case of real-valued or permutation encoded optimisations. Formerly this slot was named min
-#' @slot upper a vector providing for each decision variable the upper bounds of the search space in case of real-valued or permutation encoded optimizations. Formerly this slot was named max
+#' @slot lower a vector providing for each decision variable the lower bounds of the search space in case
+#' of real-valued or permutation encoded optimisations. Formerly this slot was named min
+#' @slot upper a vector providing for each decision variable the upper bounds of the search space in case
+#' of real-valued or permutation encoded optimizations. Formerly this slot was named max
 #' @slot nBits a value specifying the number of bits to be used in binary encoded optimizations
 #' @slot names a vector of character strings providing the names of decision variables (optional)
 #' @slot popSize the population size
 #' @slot front Rank of individuals on the non-dominated front
 #' @slot f Front of individuals on the non-dominated front
 #' @slot iter the actual (or final) iteration of NSGA search
-#' @slot run the number of consecutive generations without any improvement in the best fitness value before the NSGA is stopped
+#' @slot run the number of consecutive generations without any improvement in the best fitness value before
+#' the NSGA is stopped
 #' @slot maxiter the maximum number of iterations to run before the NSGA search is halted
 #' @slot suggestions a matrix of user provided solutions and included in the initial population
 #' @slot population the current (or final) population
 #' @slot pcrossover the crossover probability
 #' @slot pmutation the mutation probability
-#' @slot crowdingDistance Crowding-comparison approach to estiate of the perimeter of the cuboid formed by using the nearest neighbors as the vertices
+#' @slot crowdingDistance Crowding-comparison approach to estiate of the perimeter of the cuboid formed by using
+#' the nearest neighbors as the vertices
 #' @slot fitness the values of fitness function for the current (or final) population
 #' @slot summary a matrix of summary statistics for fitness values at each iteration (along the rows)
 #' @slot fitnessValue the best fitness value at the final iteration
