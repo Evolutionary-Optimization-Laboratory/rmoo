@@ -8,17 +8,27 @@
 #' @param pop Last Front Population
 #' @param n_remaining Number of points to choose
 #' @param niche_count Niche count of individuals with the reference point
-#' @param niche_of_individuals Count of the closest reference point to the last front objective values
-#' @param dist_to_niche Distance between closest reference point to last front objective values
+#' @param niche_of_individuals Count of the closest reference point to the last
+#' front objective values
+#' @param dist_to_niche Distance between closest reference point to last front
+#' objective values
 #'
 #' @author Francisco Benitez
 #' \email{benitezfj94@gmail.com}
 #'
-#' @references K. Deb and H. Jain, 'An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I: Solving Problems With Box Constraints,' in IEEE Transactions on Evolutionary Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014, doi: 10.1109/TEVC.2013.2281535.
+#' @references K. Deb and H. Jain, 'An Evolutionary Many-Objective Optimization
+#' Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I:
+#' Solving Problems With Box Constraints,' in IEEE Transactions on Evolutionary
+#' Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014,
+#' doi: 10.1109/TEVC.2013.2281535.
 #'
-#'Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206. doi: 10.32614/RJ-2017-008
+#' Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation,
+#' parallelisation and islands evolution. The R Journal, 9/1, 187-206.
+#' doi: 10.32614/RJ-2017-008
 #'
-#' Felix-Antoine Fortin, Francois-Michel De Rainville, Marc-André Gardner Gardner, Marc Parizeau, and Christian Gagne. 2012. DEAP: evolutionary algorithms made easy. J. Mach. Learn. Res. 13, 1 (January 2012), 2171–2175.
+#' Felix-Antoine Fortin, Francois-Michel De Rainville, Marc-André Gardner
+#' Gardner, Marc Parizeau, and Christian Gagne. 2012. DEAP: evolutionary
+#' algorithms made easy. J. Mach. Learn. Res. 13, 1 (January 2012), 2171–2175.
 #'
 #'
 #' @seealso [associate_to_niches()], [PerformScalarizing()]
@@ -68,16 +78,20 @@ niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to
 
 
 
-# niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to_niche){
+# niching <-
+# function(pop, n_remaining, niche_count, niche_of_individuals, dist_to_niche){
 #   survivors <- c()
 #   mask <- rep(TRUE, nrow(pop))
 #   while (length(survivors) < n_remaining) {
 #     n_select <- n_remaining - length(survivors)
 #     next_niches_list <- unique(niche_of_individuals[mask])
 #     next_niche_count <- niche_count[next_niches_list]
-#     min_niche_count <- min(next_niche_count) #Traemos todos los nichos con el recuento minimo
-#     next_niches <- next_niches_list[which(next_niche_count == min_niche_count)]
-#     next_niches <- as.vector(na.omit(next_niches[sample(length(next_niches))[1:n_select]]))
+#     Traemos todos los nichos con el recuento minimo
+#     min_niche_count <- min(next_niche_count)
+#     next_niches <-
+#           next_niches_list[which(next_niche_count == min_niche_count)]
+#     next_niches <-
+#           as.vector(na.omit(next_niches[sample(length(next_niches))[1:n_select]]))
 #     # if(length(next_niches) > 1){
 #     # next_niches <- next_niches[seq(length(next_niches))[n_select]]
 #     # }
@@ -88,7 +102,8 @@ niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to
 #         next_ind <- sample(next_ind)
 #       }
 #       if (niche_count[i] == 0) {
-#         next_ind <- next_ind[which.min(dist_to_niche[next_ind] == min(dist_to_niche[next_ind]))]
+#         next_ind <-
+#       next_ind[which.min(dist_to_niche[next_ind] == min(dist_to_niche[next_ind]))]
 #       } else { #Ya randomizado
 #         next_ind = next_ind[1]
 #       }

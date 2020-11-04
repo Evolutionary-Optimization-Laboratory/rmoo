@@ -2,15 +2,18 @@
 #'
 #' A fast approach for calculate Non-Dominated Fronts.
 #'
-#' Function to determine the non-dominated fronts of a population and the aptitude value.
+#' Function to determine the non-dominated fronts of a population and the
+#' aptitude value.
 #'
-#' @param object An object of class 'nsga', usually resulting from a call to function nsga, nsga2 and nsga3.
+#' @param object An object of class 'nsga', usually resulting from a call to
+#' function nsga, nsga2 and nsga3.
 #'
 #' @author Francisco Benitez
 #'
-#' @references K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and elitist multiobjective
-#' genetic algorithm: NSGA-II,' in IEEE Transactions on Evolutionary Computation,
-#' vol. 6, no. 2, pp. 182-197, April 2002, doi: 10.1109/4235.996017.
+#' @references K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and
+#' elitist multiobjective genetic algorithm: NSGA-II,' in IEEE Transactions on
+#' Evolutionary Computation, vol. 6, no. 2, pp. 182-197, April 2002,
+#' doi: 10.1109/4235.996017.
 #'
 #' @seealso [nsga()], [nsga2()] and [nsga3()]
 #'
@@ -90,11 +93,13 @@ non_dominated_fronts <- function(object) {
 #   for (i in seq_len(popSize)) {
 #     for (j in seq_len(popSize)) {
 #       if(i != j & i < j) {
-#         if (all(fitness[i, ] <= fitness[j, ]) && any(fitness[i, ] < fitness[j, ])) {
+#         if (all(fitness[i, ] <= fitness[j, ]) &&
+#              any(fitness[i, ] < fitness[j, ])) {
 #           DominationSet[[i]] <- c(DominationSet[[i]], j)
 #           DominatedCount[[j]] <- DominatedCount[[j]] + 1
 #         }
-#         if (all(fitness[j, ] <= fitness[i, ]) && any(fitness[j, ] < fitness[i, ])) {
+#         if (all(fitness[j, ] <= fitness[i, ]) &&
+#             any(fitness[j, ] < fitness[i, ])) {
 #           DominationSet[[j]] <- c(DominationSet[[j]], i)
 #           DominatedCount[[i]] <- DominatedCount[[i]] + 1
 #         }

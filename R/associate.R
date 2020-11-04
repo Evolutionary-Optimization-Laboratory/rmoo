@@ -11,7 +11,10 @@ associate_to_niches <- function(object, utopian_epsilon = 0) {
     delta <- sweep(fitness, 2, utopian_point)
     N <- sweep(delta, 2, denom, FUN = "/")
     dist_matrix <- 1 - compute_perpendicular_distance(N, niches)
-    dist_matrix <- do.call(cbind, replicate(nrow(niches), sqrt(rowSums(fitness^2)), simplify = FALSE)) * sqrt(1 - dist_matrix^2)
+    dist_matrix <- do.call(cbind,
+                           replicate(nrow(niches),
+                                     sqrt(rowSums(fitness^2)),
+                                     simplify = FALSE)) * sqrt(1 - dist_matrix^2)
     niche_of_individuals <- dist_to_niche <- c()
     niche_of_individuals <- apply(dist_matrix, 1, which.min)
 

@@ -5,7 +5,8 @@ generational_distance <- function(fitness, reference_points) {
     aux <- c()
     for (i in 1:popSize) {
         for (j in 1:popSize) {
-            aux <- dist(rbind(fitness[i, ], reference_points[j, ]), method = "euclidean")
+            aux <- dist(rbind(fitness[i, ], reference_points[j, ]),
+                        method = "euclidean")
             if (aux < distances[i]) {
                 distances[i] <- aux
             }

@@ -7,7 +7,7 @@
 
 ## Overview
 
-A Non-Dominated Sorting based Multi-Objective Optimization package, built upon the [GA package](https://CRAN.R-project.org/package=GA). rmoo provides a complete and flexible framework for optimizing multiple supplied objectives. You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II and NSGA-III algorithms, as well as representation of real numbers, permutations and binaries.
+A Non-Dominated Sorting based Multi-Objective Optimization package, built upon the [GA package](https://CRAN.R-project.org/package=GA). rmoo provides a complete and flexible framework for optimizing multiple supplied objectives. You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II and NSGA-III algorithms, as well as representation of real numbers, permutations and binaries
 
 ## Installation
 

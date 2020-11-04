@@ -7,8 +7,8 @@
 sharing(object)
 }
 \arguments{
-\item{object}{An object of class 'nsga', usually resulting from a call to function nsga.
-Fitness Function Objective Numbers}
+\item{object}{An object of class 'nsga', usually resulting from a call to
+function nsga. Fitness Function Objective Numbers.}
 }
 \value{
 A vector with the dummy fitness.
@@ -21,7 +21,9 @@ The sharing distance operator guides the selection process at the various
 stages of the algorithm toward a uniformly spread-out Pareto-optimal front
 }
 \references{
-N. Srinivas and K. Deb, 'Multiobjective Optimization Using Nondominated Sorting in Genetic Algorithms,' in Evolutionary Computation, vol. 2, no. 3, pp. 221-248, Sept. 1994, doi: 10.1162/evco.1994.2.3.221.
+N. Srinivas and K. Deb, 'Multiobjective Optimization Using
+Nondominated Sorting in Genetic Algorithms,' in Evolutionary Computation,
+vol. 2, no. 3, pp. 221-248, Sept. 1994, doi: 10.1162/evco.1994.2.3.221.
 }
 \seealso{
 \code{\link[=non_dominated_fronts]{non_dominated_fronts()}}

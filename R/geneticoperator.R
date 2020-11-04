@@ -18,7 +18,9 @@ nsgareal_Population <- function(object) {
 # Generate a binary random population ----
 #' @export
 nsgabin_Population <- function(object) {
-    population <- matrix(as.double(NA), nrow = object@popSize, ncol = object@nBits)
+    population <- matrix(as.double(NA),
+                         nrow = object@popSize,
+                         ncol = object@nBits)
     for (j in 1:object@nBits) {
         population[, j] <- round(runif(object@popSize))
     }
@@ -57,7 +59,8 @@ nsga_tourSelection <- function(object, k = 3, ...) {
                 sel[i] <- s[which.min(front[s, ])]
             }
         }
-        out <- list(population = object@population[sel, ], fitness = object@fitness[sel, ])
+        out <- list(population = object@population[sel, ],
+                    fitness = object@fitness[sel, ])
         return(out)
     }, nsga2 = {
         popSize <- object@popSize
@@ -73,7 +76,8 @@ nsga_tourSelection <- function(object, k = 3, ...) {
                 sel[i] <- s[which.min(front[s, ])]
             }
         }
-        out <- list(population = object@population[sel, ], fitness = object@fitness[sel, ])
+        out <- list(population = object@population[sel, ],
+                    fitness = object@fitness[sel, ])
         return(out)
     }, nsga3 = {
         popSize <- object@popSize
@@ -89,7 +93,8 @@ nsga_tourSelection <- function(object, k = 3, ...) {
                 sel[i] <- s[which.min(front[s, ])]
             }
         }
-        out <- list(population = object@population[sel, ], fitness = object@fitness[sel, ])
+        out <- list(population = object@population[sel, ],
+                    fitness = object@fitness[sel, ])
         return(out)
     })
 }
@@ -166,8 +171,11 @@ nsga_lrSelection <- function(object, r, q) {
   rank <- (object@popSize + 1) - as.vector(object@front)
   prob <- 1 + q - (rank - 1) * r
   prob <- pmin(pmax(0, prob / sum(prob)), 1, na.rm = TRUE)
-  sel <- sample(1:object@popSize, size = object@popSize, prob = prob, replace = TRUE)
-  out <- list(population = object@population[sel, ], fitness = object@fitness[sel, ])
+  sel <- sample(1:object@popSize,
+                size = object@popSize,
+                prob = prob, replace = TRUE)
+  out <- list(population = object@population[sel, ],
+              fitness = object@fitness[sel, ])
   return(out)
 }
 
