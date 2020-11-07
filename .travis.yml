@@ -1,5 +1,8 @@
 language: R
 cache: packages
+env:
+  global:
+  - _R_CHECK_DONTTEST_EXAMPLES_=FALSE
 matrix:
   include:
   - r: release
@@ -9,12 +12,9 @@ matrix:
   - r: release
     os: osx
     osx_image: xcode12
-r_github_packages:
-  - r-lib/remotes
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux"]; then sudo apt-get install libglu1-mesa-dev; fi
+r_github_packages:
+  - r-lib/remotes
 after_success:
   - Rscript -e 'library(covr); codecov()'
-env:
-    global:
-      - _R_CHECK_DONTTEST_EXAMPLES_=FALSE
