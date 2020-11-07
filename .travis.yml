@@ -15,7 +15,3 @@ r_github_packages:
   - r-lib/remotes
 after_success:
   - Rscript -e 'library(covr); codecov()'
-env:
-  global:
-  - RGL_USE_NULL=TRUE
-  - _R_CHECK_DONTTEST_EXAMPLES_=FALSE
