@@ -14,6 +14,15 @@ addons:
     packages:
       - libgdal-dev
       - libproj-dev
+env:
+  global:
+    - RGL_USE_NULL=TRUE
+    - _R_CHECK_DONTTEST_EXAMPLES_=FALSE
+jobs:
+  include:
+    - stage: prepare cache
+    - script: true
+    - stage: test
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libcgal-dev libglu1-mesa-dev mesa-common-dev; fi
 r_github_packages:
