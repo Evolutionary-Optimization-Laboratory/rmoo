@@ -9,8 +9,13 @@ matrix:
   - r: release
     os: osx
     osx_image: xcode12
+addons:
+  apt:
+    packages:
+      - libgdal-dev
+      - libproj-dev
 before_install:
-  - if [ "$TRAVIS_OS_NAME" = "linux"]; then sudo apt-get install libglu1-mesa-dev; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libcgal-dev libglu1-mesa-dev mesa-common-dev; fi
 r_github_packages:
   - r-lib/remotes
 after_success:
