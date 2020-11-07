@@ -142,7 +142,7 @@ zdt1 <- function (x) {
  g <- 1 + rowSums(x[, 2:n, drop = FALSE]) * 9/(n - 1)
  return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
 }
-\dontrun{
+\donttest{
 result <- nsga2(type = "real-valued",
                 fitness = zdt1,
                 lower = c(0,0),
@@ -168,7 +168,7 @@ dtlz1 <- function (x, nobj = 3){
     f <- tmp * tmp2 * 0.5 * (1 + g)
     return(f)
 }
-\dontrun{
+\donttest{
 result <- nsga2(type = "real-valued",
                 fitness = dtlz1,
                 lower = c(0,0,0), upper = c(1,1,1),
@@ -184,7 +184,7 @@ elitist multiobjective genetic algorithm: NSGA-II,' in IEEE Transactions on
 Evolutionary Computation, vol. 6, no. 2, pp. 182-197, April 2002,
 doi: 10.1109/4235.996017.
 
-Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation,
+Scrucca, L. (2017) On some extensions to 'GA' package: hybrid optimisation,
 parallelisation and islands evolution. The R Journal, 9/1, 187-206.
 doi: 10.32614/RJ-2017-008
 }

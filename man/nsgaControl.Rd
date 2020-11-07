@@ -3,7 +3,7 @@
 
 \title{A function for setting or retrieving defaults non-dominated genetic operators}
 
-\description{Default settings for non-dominated genetic operators used in the rmoo package.}
+\description{Default settings for non-dominated genetic operators used in the 'rmoo' package.}
 
 \usage{
   nsgaControl(\dots)
@@ -62,7 +62,7 @@
 \author{Francisco Benitez}
 
 \references{
-  Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206, doi: 10.32614/RJ-2017-008.
+  Scrucca, L. (2017) On some extensions to 'GA' package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206, doi: 10.32614/RJ-2017-008.
 }
 
 \seealso{

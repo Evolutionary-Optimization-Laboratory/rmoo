@@ -88,7 +88,7 @@
 #' Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014,
 #' doi: 10.1109/TEVC.2013.2281535.
 #'
-#' Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation,
+#' Scrucca, L. (2017) On some extensions to 'GA' package: hybrid optimisation,
 #' parallelisation and islands evolution. The R Journal, 9/1, 187-206.
 #' doi: 10.32614/RJ-2017-008
 #'
@@ -108,7 +108,7 @@
 #'  g <- 1 + rowSums(x[, 2:n, drop = FALSE]) * 9/(n - 1)
 #'  return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
 #' }
-#' \dontrun{
+#' \donttest{
 #' result <- nsga3(type = "real-valued",
 #'                 fitness = zdt1,
 #'                 lower = c(0,0),
@@ -135,7 +135,7 @@
 #'     f <- tmp * tmp2 * 0.5 * (1 + g)
 #'     return(f)
 #' }
-#' \dontrun{
+#' \donttest{
 #' result <- nsga3(type = "real-valued",
 #'                 fitness = dtlz1,
 #'                 lower = c(0,0,0),

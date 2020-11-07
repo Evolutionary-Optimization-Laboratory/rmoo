@@ -35,7 +35,7 @@ Solving Problems With Box Constraints,' in IEEE Transactions on Evolutionary
 Computation, vol. 18, no. 4, pp. 577-601, Aug. 2014,
 doi: 10.1109/TEVC.2013.2281535.
 
-Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation,
+Scrucca, L. (2017) On some extensions to 'GA' package: hybrid optimisation,
 parallelisation and islands evolution. The R Journal, 9/1, 187-206.
 doi: 10.32614/RJ-2017-008
 

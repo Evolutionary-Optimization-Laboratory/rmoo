@@ -36,7 +36,7 @@ NSGAStartupMessage <- function() {
     invisible()
 }
 
-options(rmoo.description = list(Title = "Family of Non-Dominated Genetic Algorithms",
+options(rmoo.description = list(Title = "'Non-Dominated Genetic Algorithms' Family",
           `Authors@R` = "c(person(\"Francisco\", \"Benitez\",
                                 email = \"benitezfj94@gmail.com\",
                                 role = c(\"aut\", \"cre\")),
@@ -45,8 +45,8 @@ options(rmoo.description = list(Title = "Family of Non-Dominated Genetic Algorit
                                 role = c(\"aut\"),
                                 comment = c(ORCID = \"0000-0003-2479-9876\")))",
         Description = "A multiobjective optimization package based on K. Deb's
-    algorithm and inspired by Luca Scrucca's 'GA package' <10.32614/RJ-2017-008>.
-  The rmoo package is a framework for multi- and many-objective optimization,
+    algorithm and inspired in 'GA' package by Luca Scrucca (2017) <DOI:10.32614/RJ-2017-008>.
+  The 'rmoo' package is a framework for multi- and many-objective optimization,
   allowing to work with representation of real numbers, permutations and binaries,
   offering a high range of configurations.",
         License = "GPL (>= 2)",

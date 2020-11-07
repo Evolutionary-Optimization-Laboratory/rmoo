@@ -3,7 +3,7 @@
 
 \title{Monitor non-dominated genetic algorithm evolution}
 
-\description{Functions to plotting fitness values at each iteration of a search for the rmoo package.}
+\description{Functions to plotting fitness values at each iteration of a search for the 'rmoo' package.}
 
 \usage{
   nsgaMonitor(object, number_objectives, \dots)
@@ -22,7 +22,7 @@
 }
 
 \references{
-  Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206, doi: 10.32614/RJ-2017-008.
+  Scrucca, L. (2017) On some extensions to 'GA' package: hybrid optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206, doi: 10.32614/RJ-2017-008.
 }
 
 \author{Francisco Benitez}

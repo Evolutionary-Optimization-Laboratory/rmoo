@@ -1,3 +1,8 @@
+# rmoo 0.1.5
+
+* The quote of external packages were modified by the correct format.
+* The /dontrun of the examples was modified by /donttest, the user's options in the nsgaMonitor function are restored to their original value after changing them with on.exit.
+
 # rmoo 0.1.4
 
 * Lines Length documentation modified, new coverture test add

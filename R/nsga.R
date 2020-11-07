@@ -84,7 +84,7 @@
 #' Nondominated Sorting in Genetic Algorithms, in Evolutionary Computation,
 #' vol. 2, no. 3, pp. 221-248, Sept. 1994, doi: 10.1162/evco.1994.2.3.221.
 #'
-#' Scrucca, L. (2017) On some extensions to GA package: hybrid optimisation,
+#' Scrucca, L. (2017) On some extensions to 'GA' package: hybrid optimisation,
 #' parallelisation and islands evolution. The R Journal, 9/1, 187-206.
 #' doi: 10.32614/RJ-2017-008
 #'
@@ -104,7 +104,7 @@
 #'  g <- 1 + rowSums(x[, 2:n, drop = FALSE]) * 9/(n - 1)
 #'  return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
 #' }
-#' \dontrun{
+#' \donttest{
 #' result <- nsga(type = "real-valued",
 #'                fitness = zdt1,
 #'                lower = c(0,0),
