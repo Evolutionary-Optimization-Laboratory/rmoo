@@ -3,7 +3,7 @@
 # rmoo - R Multi-Objective Optimization <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
 
 <!-- badges: start -->
-[![R build status](https://github.com/benitezfj/rmoo/workflows/R-CMD-check/badge.svg)](https://github.com/benitezfj/rmoo/actions) [![Codecov test coverage](https://codecov.io/gh/benitezfj/rmoo/branch/master/graph/badge.svg?token=QK4Z2yVUSw)](https://codecov.io/gh/benitezfj/rmoo?branch=master) [![Travis build status](https://travis-ci.com/benitezfj/rmoo.svg?branch=master)](https://travis-ci.com/benitezfj/rmoo) <!-- badges: end -->
+[![R build status](https://github.com/benitezfj/rmoo/workflows/R-CMD-check/badge.svg)](https://github.com/benitezfj/rmoo/actions) [![CRAN status](https://www.r-pkg.org/badges/version/rmoo)](https://CRAN.R-project.org/package=rmoo) [![Codecov test coverage](https://codecov.io/gh/benitezfj/rmoo/branch/master/graph/badge.svg?token=QK4Z2yVUSw)](https://codecov.io/gh/benitezfj/rmoo?branch=master) [![Travis build status](https://travis-ci.com/benitezfj/rmoo.svg?branch=master)](https://travis-ci.com/benitezfj/rmoo) [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) <!-- badges: end -->
 
 ## Overview
 
