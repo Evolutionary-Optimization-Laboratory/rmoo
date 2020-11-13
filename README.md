@@ -13,8 +13,15 @@ A Non-Dominated Sorting based Multi-Objective Optimization package, built upon t
 
 ## Installation
 
+You can install the **stable** version on [R CRAN](https://cran.r-project.org/package=rmoo):
+
 ``` r
-# You can install the development version from GitHub:
+install.packages("rmoo")
+```
+
+Or you can install the **development** version from [GitHub](https://github.com/benitezfj/rmoo):
+
+``` r
 # install.packages("devtools")
 devtools::install_github("benitezfj/rmoo")
 ```
