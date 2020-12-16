@@ -150,7 +150,9 @@ zdt1 <- function (x) {
  g <- 1 + rowSums(x[, 2:n, drop = FALSE]) * 9/(n - 1)
  return(cbind(x[, 1], g * (1 - sqrt(x[, 1]/g))))
 }
-\donttest{
+
+#Not run
+\dontrun{
 result <- nsga3(type = "real-valued",
                 fitness = zdt1,
                 lower = c(0,0),
@@ -177,7 +179,9 @@ dtlz1 <- function (x, nobj = 3){
     f <- tmp * tmp2 * 0.5 * (1 + g)
     return(f)
 }
-\donttest{
+
+#Not Run
+\dontrun{
 result <- nsga3(type = "real-valued",
                 fitness = dtlz1,
                 lower = c(0,0,0),

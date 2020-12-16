@@ -1,6 +1,6 @@
 Package: rmoo
 Title: 'Non-Dominated Genetic Algorithms' Family
-Version: 0.1.5
+Version: 0.1.6
 Authors@R: 
     c(person(given = "Francisco",
              family = "Benitez",
@@ -25,6 +25,7 @@ RoxygenNote: 7.1.1
 Collate: 
     'associate.R'
     'crowding_distance.R'
+    'data.R'
     'generate_reference_points.R'
     'geneticoperator.R'
     'get_fixed_rowsum_integer_matrix.R'
@@ -48,7 +49,6 @@ Imports:
     stats,
     utils,
     ecr,
-    rgl,
     graphics,
     methods,
     grDevices
@@ -56,4 +56,7 @@ URL: https://github.com/benitezfj/rmoo
 BugReports: https://github.com/benitezfj/rmoo/issues
 Suggests: 
     testthat,
-    covr
+    covr,
+    rgl
+Depends: 
+    R (>= 2.10)
