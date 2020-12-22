@@ -1,5 +1,11 @@
 # rmoo 0.1.5
 
+* Dataset: Add KRO dataset from TSPLIB to permutation operation in data and inst.
+* rgl package move to suggest.
+* Change donttest to dontrun at the documentation.
+
+# rmoo 0.1.5
+
 * The first CRAN version release.
 
 # rmoo 0.1.4
