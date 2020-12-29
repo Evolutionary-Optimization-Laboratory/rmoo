@@ -42,6 +42,7 @@ Collate:
     'nsgaControl.R'
     'rmoo.R'
     'performance_metrics.R'
+    'plotting.R'
     'sharing.R'
     'update_points.R'
     'zzz.R'
@@ -51,14 +52,17 @@ Imports:
     ecr,
     graphics,
     methods,
-    grDevices
+    grDevices,
+    ggplot2,
+    reshape2,
+    dplyr,
+    cdata,
+    plotly
 URL: https://github.com/benitezfj/rmoo
 BugReports: https://github.com/benitezfj/rmoo/issues
 Suggests: 
     testthat,
     covr,
-    rgl,
-    ggplot2,
-    plotly
+    rgl
 Depends: 
     R (>= 2.10)

@@ -80,8 +80,19 @@ result <- nsga3(fitness = DTLZ1,
                 popSize = 92,
                 n_partitions = 12,
                 maxiter = 300)
-
+                
+pcp(object = result)
 ```
 ![](https://github.com/benitezfj/rmoo/blob/master/man/figures/README-example-1.jpeg)<!-- -->
 
+``` r
+#Scatter without optimal points
+scatter(object = result)
+```
 ![](https://github.com/benitezfj/rmoo/blob/master/man/figures/README-example-2.png)<!-- -->
+
+``` r
+#Scatter with optimal points (Using reference points as optimal points)
+scatter(object = result, optimal = result@reference_points)
+```
+![](https://github.com/benitezfj/rmoo/blob/master/man/figures/README-example-3.png)<!-- -->

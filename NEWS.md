@@ -1,8 +1,12 @@
-# rmoo 0.1.5
+# rmoo 0.1.6
 
 * Dataset: Add KRO dataset from TSPLIB to permutation operation in data and inst.
-* rgl package move to suggest.
 * Change donttest to dontrun at the documentation.
+* Scatter Plotting: scatter() functions for plotting points in 2-D, 3-D and N-D 
+planes, where the dimensions represent the objectives.
+* Parallel Coordinate Plots: pcp() functions show a fitness' set of points in an 
+objectives' n-dimensional space.
+* Changes imports packages in DESCRIPTION
 
 # rmoo 0.1.5
 

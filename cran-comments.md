@@ -1,5 +1,5 @@
 ## Test environments
-* local R installation, R 4.0.2
+* local R installation, R 4.1.0
 * ubuntu 16.04 (on travis-ci), R 4.0.2
 * win-builder (devel)
 * R-hub fedora-clang-devel (r-devel)
