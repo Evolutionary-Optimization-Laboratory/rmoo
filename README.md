@@ -75,4 +75,4 @@ scatter(object = result)
 scatter(object = result, optimal = result@reference_points)
 ```
 
-![](https://github.com/benitezfj/rmoo/blob/master/man/figures/README-example-3.png)<!-- -->
+![](https://github.com/benitezfj/rmoo/blob/plotting/man/figures/README-example-3.png)<!-- -->
