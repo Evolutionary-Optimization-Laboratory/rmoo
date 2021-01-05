@@ -43,7 +43,7 @@ scatter <- function(object, ...){
     requireNamespace("cdata", quietly = TRUE))){
     stop("packages 'ggplot2', 'reshape2', 'plotly', and 'cdata' required for scatter plotting!")
     }
-  algorithm <- class(object)[1]
+  #algorithm <- class(object)[1]
   n_obj <- ncol(object@fitness)
   if (n_obj == 2){
     plotting_multi_objective(object, ...)
@@ -74,7 +74,8 @@ plotting_multi_objective <- function(object, ...) {
         aes(x = f_1,
           y = f_2,
           color = "Objective_Value")) +
-      ggplot2::labs(title = algorithm, color = "Values") +
+      ggplot2::labs(title = paste(algorithm, "No Objective:", ncol(object@fitness)),
+                    color = "Values") +
       ggplot2::scale_color_manual(labels = c("Objective_Value", "Pareto Optimal"),
         values = c("green", "black"))
 
@@ -87,8 +88,8 @@ plotting_multi_objective <- function(object, ...) {
       aes(x = f_1,
         y = f_2,
         color = "Objective_Values")) +
-      ggplot2::labs(title = algorithm,
-        color = "Values") +
+      ggplot2::labs(title = paste(algorithm, "No Objective:", ncol(object@fitness)),
+                    color = "Values") +
       ggplot2::scale_color_manual(labels = "Objective_Value",
         values = "green")
   }
@@ -140,6 +141,7 @@ plotting_many_objective <- function(object, ...) {
 plotting_pairwise <- function(object, ...){
   fit <- as.data.frame(object@fitness)
   nObj <- ncol(object@fitness)
+  algorithm <- class(object)[1]
   colnames(fit) <- sprintf("Objective_%s",seq(nObj))
   meas_vars <- colnames(fit)
 
@@ -153,7 +155,7 @@ plotting_pairwise <- function(object, ...){
                                    stringsAsFactors = FALSE),
                         controlTable)
 
-  fit_aug = cdata::rowrecs_to_blocks(fit, controlTable)
+  fit_aug <- cdata::rowrecs_to_blocks(fit, controlTable)
 
   splt <- strsplit(fit_aug$pair_key, split = " ", fixed = TRUE)
   fit_aug$columns <- vapply(splt, function(si) si[[1]], character(1))
@@ -164,8 +166,10 @@ plotting_pairwise <- function(object, ...){
 
   ggplot2::ggplot(fit_aug, aes(x=x, y=y)) +
     ggplot2::geom_point(aes(color=rows, shape=columns)) +
-    ggplot2::facet_grid(rows~columns, labeller = label_both, scale = "free") +
-    ggplot2::ggtitle("Anderson's Iris Data -- 3 species") +
+    ggplot2::facet_grid(rows~columns,
+                        labeller = label_value,
+                        scale = "free") +
+    ggplot2::ggtitle(paste(algorithm, "No Objective:", nObj)) +
     ggplot2::scale_color_brewer(palette = "Dark2") +
     ggplot2::ylab(NULL) +
     ggplot2::xlab(NULL)
