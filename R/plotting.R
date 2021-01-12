@@ -142,7 +142,7 @@ plotting_pairwise <- function(object, ...){
   fit <- as.data.frame(object@fitness)
   nObj <- ncol(object@fitness)
   algorithm <- class(object)[1]
-  colnames(fit) <- sprintf("Objective_%s",seq(nObj))
+  colnames(fit) <- sprintf("Obj_%s",seq(nObj))
   meas_vars <- colnames(fit)
 
   controlTable <- data.frame(expand.grid(meas_vars, meas_vars,
@@ -170,7 +170,8 @@ plotting_pairwise <- function(object, ...){
                         labeller = label_value,
                         scale = "free") +
     ggplot2::ggtitle(paste(algorithm, "No Objective:", nObj)) +
-    ggplot2::scale_color_brewer(palette = "Dark2") +
+    ggplot2::scale_shape_manual(values=seq(nObj)) +
+    ggplot2::scale_fill_manual(values = grDevices::rainbow(nObj)) +
     ggplot2::ylab(NULL) +
     ggplot2::xlab(NULL)
 }
