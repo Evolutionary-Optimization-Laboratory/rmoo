@@ -26,7 +26,7 @@ nsga(
   names = NULL,
   suggestions = NULL,
   monitor = if (interactive()) nsgaMonitor else FALSE,
-  summary = TRUE,
+  summary = FALSE,
   seed = NULL
 )
 }

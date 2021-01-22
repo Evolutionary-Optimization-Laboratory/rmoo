@@ -3,7 +3,7 @@
 #' Allows to make scatter plots in publication quality allowing
 #' to represent 2-D, 3-D and M-D
 #'
-#' @param object An object of nsga3-class, nsga2-class or nsga3-class.
+#' @param object An object of nsga-class, nsga2-class or nsga3-class.
 #' See [nsga-class], [nsga2-class] or [nsga3-class] for a description of
 #' available slots information.
 #' @param ... Other arguments passed on to methods. Used to pass the `optimal`
@@ -185,7 +185,7 @@ plotting_pairwise <- function(object, ...){
 #' polyline (or curve) intercepting n-parallel axes, where p or the x-axis
 #' represents the fitness values and n or the y-axis represents the objectives.
 #'
-#' @param object An object of nsga3-class, nsga2-class or nsga3-class.
+#' @param object An object of nsga-class, nsga2-class or nsga3-class.
 #' See [nsga-class], [nsga2-class] or [nsga3-class] for a description of
 #' available slots information.
 #' @examples
@@ -241,5 +241,61 @@ pcp <- function(object) {
     ggplot2::theme_classic()
 }
 
+#' Heatmap Plots
+#'
+#' The `heat_map()` function is a viable tool for hyperdimensional data
+#' visualization, which  that shows magnitude of a phenomenon as color in two
+#' dimension.
+#'
+#' @param fitness An matrix of values representing the fitness of the objective
+#' values of nsga-class, nsga2-class or nsga3-class.
+#' See [nsga-class], [nsga2-class] or [nsga3-class] for a description of
+#' available slots information.
+#' @examples
+#' #Four Objectives Plotting
+#' dtlz1 <- function (x, nobj = 4){
+#'     if (is.null(dim(x))) {
+#'         x <- matrix(x, 1)
+#'     }
+#'     n <- ncol(x)
+#'     y <- matrix(x[, 1:(nobj - 1)], nrow(x))
+#'     z <- matrix(x[, nobj:n], nrow(x))
+#'     g <- 100 * (n - nobj + 1 + rowSums((z - 0.5)^2 - cos(20 * pi * (z - 0.5))))
+#'     tmp <- t(apply(y, 1, cumprod))
+#'     tmp <- cbind(t(apply(tmp, 1, rev)), 1)
+#'     tmp2 <- cbind(1, t(apply(1 - y, 1, rev)))
+#'     f <- tmp * tmp2 * 0.5 * (1 + g)
+#'     return(f)
+#' }
+#'
+#' #Not Run
+#' \dontrun{
+#' result <- nsga3(type = "real-valued",
+#'                 fitness = dtlz1,
+#'                 lower = rep(0,4),
+#'                 upper = rep(1,4),
+#'                 popSize = 92,
+#'                 n_partitions = 12,
+#'                 monitor = FALSE,
+#'                 maxiter = 500)
+#' }
+#' #Not Run
+#' \dontrun{
+#' pcp(fitness = result@fitness)
+#' }
+#'
+#' @export
+heat_map <- function(fitness){
+  nObj <- ncol(fitness)
+  colnames(fitness) <- sprintf("f_%s",seq(nObj))
+  temp <- reshape2::melt(fitness)
+  temp <- dplyr::rename(temp,
+    'Pop' = Var1,
+    'Objective_Value' = value,
+    'Objective_No' = Var2)
+  ggplot2::ggplot(temp, aes(x=Objective_No,y=Pop,fill=Objective_Value)) +
+    ggplot2::geom_raster() +
+    ggplot2::scale_y_continuous(labels = as.character(temp$Pop), breaks = temp$Pop)
+}
 
-utils::globalVariables(c("Objective_No", "Objective_Value", "Var1", "Var2", "color", "columns", "f_1", "f_2", "label_both", "rows", "value", "x", "y"))
+utils::globalVariables(c("Pop","Objective_No", "Objective_Value", "Var1", "Var2", "color", "columns", "f_1", "f_2", "label_both", "rows", "value", "x", "y"))

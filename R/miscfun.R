@@ -58,7 +58,19 @@ nsgaMonitor <- function(object, number_objectives, ...) {
   }
 }
 
-
+#' @export
+Summary <- function(object, ...) {
+  algorithm <- class(object)[1]
+  if(algorithm == "nsga"){
+    summ <- nsgaSummary(object)
+  }
+  else if(algorithm == "nsga2"){
+    summ <- nsgaiiSummary(object)
+  }
+  else if(algorithm == "nsga3"){
+    summ <- nsgaiiiSummary(object)
+  }
+}
 
 #' @export
 nsgaSummary <- function(object, ...) {

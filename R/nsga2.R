@@ -160,7 +160,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
     names = NULL,
     suggestions = NULL,
     monitor = if (interactive()) nsgaMonitor else FALSE,
-    summary = TRUE,
+    summary = FALSE,
     seed = NULL)
 {
     call <- match.call()
@@ -426,7 +426,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
         object@crowdingDistance <- cd
 
         if (summary == TRUE) {
-          fitnessSummary[[iter]] <- nsgaiiSummary(object)
+          fitnessSummary[[iter]] <- Summary(object)
           object@summary <- fitnessSummary
         } else {
           object@summary <- list()

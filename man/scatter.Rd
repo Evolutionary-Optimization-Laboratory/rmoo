@@ -7,7 +7,7 @@
 scatter(object, ...)
 }
 \arguments{
-\item{object}{An object of nsga3-class, nsga2-class or nsga3-class.
+\item{object}{An object of nsga-class, nsga2-class or nsga3-class.
 See \linkS4class{nsga}, \linkS4class{nsga2} or \linkS4class{nsga3} for a description of
 available slots information.}
 

@@ -136,7 +136,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
     names = NULL,
     suggestions = NULL,
     monitor = if (interactive()) nsgaMonitor else FALSE,
-    summary = TRUE,
+    summary = FALSE,
     seed = NULL)
 {
     call <- match.call()
@@ -394,7 +394,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
       rm(out)
 
       if (summary == TRUE) {
-        fitnessSummary[[iter]] <- nsgaSummary(object)
+        fitnessSummary[[iter]] <- Summary(object)
         object@summary <- fitnessSummary
       } else {
         object@summary <- list()
