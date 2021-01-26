@@ -1,18 +1,12 @@
-\name{summary}
-\alias{summary}
-%
-\alias{nsgaSummary}
-\alias{nsgaiiSummary}
-\alias{nsgaiiiSummary}
+\name{Summary}
+\alias{Summary}
 
 \title{Summarize non-dominated genetic algorithm evolution}
 
 \description{A function which returns fitness summary and metric measure at each iteration of algorithms search..}
 
 \usage{
-  nsgaSummary(object, ...)
-  nsgaiiSummary(object, ...)
-  nsgaiiiSummary(object, ...)
+  Summary(object, ...)
 }
 
 \arguments{

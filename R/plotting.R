@@ -176,8 +176,6 @@ plotting_pairwise <- function(object, ...){
     ggplot2::xlab(NULL)
 }
 
-
-
 #' Parallel Coordinate Plots
 #'
 #' The `pcp()` function is a viable tool for hyperdimensional data visualization,
@@ -229,14 +227,14 @@ pcp <- function(object) {
     stop("packages 'ggplot2', 'dplyr' and 'reshape2' required for pcp plotting!")
   nObj <- ncol(object@fitness)
   colnames(object@fitness) <- sprintf("f_%s",seq(nObj))
-  temp <- reshape2::melt(object@fitness)
-  temp$color <- rainbow(object@popSize)
-  temp <- dplyr::rename(temp,
+  fitness <- reshape2::melt(object@fitness)
+  fitness$color <- rainbow(object@popSize)
+  fitness <- dplyr::rename(fitness,
     'Objective_Value' = value,
     'Objective_No' = Var2)
-  ggplot2::ggplot(temp,aes(x=Objective_No,
-    y = Objective_Value,
-    group=Var1, colour=factor(color))) +
+  ggplot2::ggplot(fitness, aes(x = Objective_No,
+                               y = Objective_Value,
+                               group = Var1, colour=factor(color))) +
     ggplot2::geom_line(show.legend = FALSE) +
     ggplot2::theme_classic()
 }
@@ -281,21 +279,91 @@ pcp <- function(object) {
 #' }
 #' #Not Run
 #' \dontrun{
-#' pcp(fitness = result@fitness)
+#' heat_map(fitness = result@fitness)
 #' }
 #'
 #' @export
 heat_map <- function(fitness){
+  if (is.null(dim(fitness))){
+    fitness <- t(matrix(fitness))
+  }
   nObj <- ncol(fitness)
   colnames(fitness) <- sprintf("f_%s",seq(nObj))
-  temp <- reshape2::melt(fitness)
-  temp <- dplyr::rename(temp,
+  fitness <- reshape2::melt(fitness)
+  fitness <- dplyr::rename(fitness,
     'Pop' = Var1,
     'Objective_Value' = value,
     'Objective_No' = Var2)
-  ggplot2::ggplot(temp, aes(x=Objective_No,y=Pop,fill=Objective_Value)) +
+  ggplot2::ggplot(fitness, aes(x = Objective_No,
+    y = Pop,
+    fill = Objective_Value)) +
     ggplot2::geom_raster() +
-    ggplot2::scale_y_continuous(labels = as.character(temp$Pop), breaks = temp$Pop)
+    ggplot2::scale_y_continuous(labels = unique(as.character(fitness$Pop)),
+                                breaks = unique(fitness$Pop))
 }
+
+#' Polar Area Aiagram
+#'
+#' The `polar()` function is a viable tool for one dimesiona data
+#' visualization, which that shows magnitude of a phenomenon as color in two
+#' dimension.
+#'
+#' @param fitness An matrix of values representing the fitness of the objective
+#' values of nsga-class, nsga2-class or nsga3-class.
+#' See [nsga-class], [nsga2-class] or [nsga3-class] for a description of
+#' available slots information.
+#' @examples
+#' #Four Objectives Plotting
+#' dtlz1 <- function (x, nobj = 4){
+#'     if (is.null(dim(x))) {
+#'         x <- matrix(x, 1)
+#'     }
+#'     n <- ncol(x)
+#'     y <- matrix(x[, 1:(nobj - 1)], nrow(x))
+#'     z <- matrix(x[, nobj:n], nrow(x))
+#'     g <- 100 * (n - nobj + 1 + rowSums((z - 0.5)^2 - cos(20 * pi * (z - 0.5))))
+#'     tmp <- t(apply(y, 1, cumprod))
+#'     tmp <- cbind(t(apply(tmp, 1, rev)), 1)
+#'     tmp2 <- cbind(1, t(apply(1 - y, 1, rev)))
+#'     f <- tmp * tmp2 * 0.5 * (1 + g)
+#'     return(f)
+#' }
+#'
+#' #Not Run
+#' \dontrun{
+#' result <- nsga3(type = "real-valued",
+#'                 fitness = dtlz1,
+#'                 lower = rep(0,4),
+#'                 upper = rep(1,4),
+#'                 popSize = 92,
+#'                 n_partitions = 12,
+#'                 monitor = FALSE,
+#'                 maxiter = 500)
+#' }
+#' #Not Run
+#' \dontrun{
+#' polar(fitness = result@fitness)
+#' }
+#'
+#' @export
+polar <- function(fitness) {
+  if (is.null(dim(fitness))){
+    fitness <- t(matrix(fitness))
+  }
+  nObj <- ncol(fitness)
+  colnames(fitness) <- sprintf("f_%s",seq(nObj))
+  fitness <- reshape2::melt(fitness)
+  fitness <- dplyr::rename(fitness,
+    'Pop' = Var1,
+    'Objective_Value' = value,
+    'Objective_No' = Var2)
+  ggplot2::ggplot(fitness, aes(x = Objective_No,
+    y = Objective_Value,
+    fill = Objective_No)) +
+    ggplot2::geom_bar(width = 1, stat="identity") +
+    ggplot2::coord_polar() + ggplot2::theme_light() +
+    ggplot2::facet_wrap(~Pop, nrow = 1)
+}
+
 
 utils::globalVariables(c("Pop","Objective_No", "Objective_Value", "Var1", "Var2", "color", "columns", "f_1", "f_2", "label_both", "rows", "value", "x", "y"))
