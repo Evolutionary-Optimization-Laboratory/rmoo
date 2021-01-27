@@ -36,7 +36,7 @@ NSGAStartupMessage <- function() {
     invisible()
 }
 
-options(rmoo.description = list(Title = "'Non-Dominated Genetic Algorithms' Family",
+options(rmoo.description = list(Title = "R - Multi-Objective Optimization",
           `Authors@R` = "c(person(\"Francisco\", \"Benitez\",
                                 email = \"benitezfj94@gmail.com\",
                                 role = c(\"aut\", \"cre\")),
