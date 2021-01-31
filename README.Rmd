@@ -110,6 +110,3 @@ polar(fitness = result@fitness[1:3,])
 heat_map(fitness = result@fitness[1:3,])
 ```
 ![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/plotting/man/figures/README-example-5.png)<!-- -->
-
-
-

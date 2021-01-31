@@ -64,14 +64,14 @@ result <- nsga3(fitness = DTLZ1,
 pcp(object = result)
 ```
 
-![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-1.png)<!-- -->
+![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/plotting/man/figures/README-example-1.png)<!-- -->
 
 ``` r
 #Scatter without optimal points
 scatter(object = result)
 ```
 
-![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-2.png)<!-- -->
+![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/plotting/man/figures/README-example-2.png)<!-- -->
 
 ``` r
 #Scatter with optimal points (Using reference points as optimal points)
