@@ -51,3 +51,7 @@ polar(fitness = result@fitness)
 }
 
 }
+\author{
+Francisco Benitez
+\email{benitezfj94@gmail.com}
+}

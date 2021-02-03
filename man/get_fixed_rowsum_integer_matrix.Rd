@@ -39,4 +39,5 @@ Optimization Problems. SIAM Journal on Optimization. 8.
 }
 \author{
 Francisco Benitez
+\email{benitezfj94@gmail.com}
 }

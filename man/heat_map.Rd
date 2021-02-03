@@ -13,8 +13,8 @@ See \linkS4class{nsga}, \linkS4class{nsga2} or \linkS4class{nsga3} for a descrip
 available slots information.}
 }
 \description{
-The \code{heat_map()} function is a viable tool for hyperdimensional data
-visualization, which  that shows magnitude of a phenomenon as color in two
+The \code{heat_map()} function for hyperdimensional data
+visualization, which shows magnitude of a phenomenon as color in two
 dimension.
 }
 \examples{
@@ -50,4 +50,8 @@ result <- nsga3(type = "real-valued",
 heat_map(fitness = result@fitness)
 }
 
+}
+\author{
+Francisco Benitez
+\email{benitezfj94@gmail.com}
 }

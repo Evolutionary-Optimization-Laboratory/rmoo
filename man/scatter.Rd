@@ -46,3 +46,7 @@ scatter(object = result)
 }
 
 }
+\author{
+Francisco Benitez
+\email{benitezfj94@gmail.com}
+}

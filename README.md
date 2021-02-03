@@ -3,10 +3,8 @@
 # rmoo - R Multi-Objective Optimization <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
 
 <!-- badges: start -->
-[![R build status](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/workflows/R-CMD-check/badge.svg)](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/actions) [![CRAN status](https://www.r-pkg.org/badges/version/rmoo)](https://CRAN.R-project.org/package=rmoo) [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![R build status](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/workflows/R-CMD-check/badge.svg)](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/actions) [![Codecov test coverage](https://codecov.io/gh/Evolutionary-Optimization-Laboratory/rmoo/branch/master/graph/badge.svg?token=QK4Z2yVUSw)](https://codecov.io/gh/Evolutionary-Optimization-Laboratory/rmoo?branch=master) [![Travis build status](https://travis-ci.com/Evolutionary-Optimization-Laboratory/rmoo.svg?branch=master)](https://travis-ci.com/Evolutionary-Optimization-Laboratory/rmoo) [![CRAN status](https://www.r-pkg.org/badges/version/rmoo)](https://CRAN.R-project.org/package=rmoo) [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
-<!-- [![Codecov test coverage](https://codecov.io/gh/benitezfj/rmoo/branch/master/graph/badge.svg?token=QK4Z2yVUSw)](https://codecov.io/gh/benitezfj/rmoo?branch=master) -->
-<!-- [![Travis build status](https://travis-ci.com/benitezfj/rmoo.svg?branch=master)](https://travis-ci.com/benitezfj/rmoo) -->
 <!-- badges: end -->
 ## Overview
 
@@ -64,14 +62,14 @@ result <- nsga3(fitness = DTLZ1,
 pcp(object = result)
 ```
 
-![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/plotting/man/figures/README-example-1.png)<!-- -->
+![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-1.png)<!-- -->
 
 ``` r
 #Scatter without optimal points
 scatter(object = result)
 ```
 
-![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/plotting/man/figures/README-example-2.png)<!-- -->
+![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-2.png)<!-- -->
 
 ``` r
 #Scatter with optimal points (Using reference points as optimal points)

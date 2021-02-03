@@ -9,6 +9,7 @@
 #' function nsga. Fitness Function Objective Numbers.
 #'
 #' @author Francisco Benitez
+#' \email{benitezfj94@gmail.com}
 #'
 #' @references N. Srinivas and K. Deb, 'Multiobjective Optimization Using
 #' Nondominated Sorting in Genetic Algorithms,' in Evolutionary Computation,

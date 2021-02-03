@@ -12,7 +12,7 @@ See \linkS4class{nsga}, \linkS4class{nsga2} or \linkS4class{nsga3} for a descrip
 available slots information.}
 }
 \description{
-The \code{pcp()} function is a viable tool for hyperdimensional data visualization,
+The \code{pcp()} function for hyperdimensional data visualization,
 which represents a p-dimensional data point in Cartesian coordinates by a
 polyline (or curve) intercepting n-parallel axes, where p or the x-axis
 represents the fitness values and n or the y-axis represents the objectives.
@@ -50,4 +50,8 @@ result <- nsga3(type = "real-valued",
 pcp(object = result)
 }
 
+}
+\author{
+Francisco Benitez
+\email{benitezfj94@gmail.com}
 }

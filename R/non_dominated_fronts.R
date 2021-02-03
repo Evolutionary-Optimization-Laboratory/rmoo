@@ -9,6 +9,7 @@
 #' function nsga, nsga2 and nsga3.
 #'
 #' @author Francisco Benitez
+#' \email{benitezfj94@gmail.com}
 #'
 #' @references K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and
 #' elitist multiobjective genetic algorithm: NSGA-II,' in IEEE Transactions on

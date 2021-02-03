@@ -8,6 +8,10 @@
 #' available slots information.
 #' @param ... Other arguments passed on to methods. Used to pass the `optimal`
 #' value of the objective function, in case of having it.
+#'
+#' @author Francisco Benitez
+#' \email{benitezfj94@gmail.com}
+#'
 #' @examples
 #' #Two Objectives Plotting
 #' zdt1 <- function (x) {
@@ -178,7 +182,7 @@ plotting_pairwise <- function(object, ...){
 
 #' Parallel Coordinate Plots
 #'
-#' The `pcp()` function is a viable tool for hyperdimensional data visualization,
+#' The `pcp()` function for hyperdimensional data visualization,
 #' which represents a p-dimensional data point in Cartesian coordinates by a
 #' polyline (or curve) intercepting n-parallel axes, where p or the x-axis
 #' represents the fitness values and n or the y-axis represents the objectives.
@@ -186,6 +190,10 @@ plotting_pairwise <- function(object, ...){
 #' @param object An object of nsga-class, nsga2-class or nsga3-class.
 #' See [nsga-class], [nsga2-class] or [nsga3-class] for a description of
 #' available slots information.
+#'
+#' @author Francisco Benitez
+#' \email{benitezfj94@gmail.com}
+#'
 #' @examples
 #' #Four Objectives Plotting
 #' dtlz1 <- function (x, nobj = 4){
@@ -241,14 +249,18 @@ pcp <- function(object) {
 
 #' Heatmap Plots
 #'
-#' The `heat_map()` function is a viable tool for hyperdimensional data
-#' visualization, which  that shows magnitude of a phenomenon as color in two
+#' The `heat_map()` function for hyperdimensional data
+#' visualization, which shows magnitude of a phenomenon as color in two
 #' dimension.
 #'
 #' @param fitness An matrix of values representing the fitness of the objective
 #' values of nsga-class, nsga2-class or nsga3-class.
 #' See [nsga-class], [nsga2-class] or [nsga3-class] for a description of
 #' available slots information.
+#'
+#' @author Francisco Benitez
+#' \email{benitezfj94@gmail.com}
+#'
 #' @examples
 #' #Four Objectives Plotting
 #' dtlz1 <- function (x, nobj = 4){
@@ -312,6 +324,10 @@ heat_map <- function(fitness){
 #' values of nsga-class, nsga2-class or nsga3-class.
 #' See [nsga-class], [nsga2-class] or [nsga3-class] for a description of
 #' available slots information.
+#'
+#' @author Francisco Benitez
+#' \email{benitezfj94@gmail.com}
+#'
 #' @examples
 #' #Four Objectives Plotting
 #' dtlz1 <- function (x, nobj = 4){

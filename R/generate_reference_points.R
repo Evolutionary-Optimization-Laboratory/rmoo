@@ -9,6 +9,7 @@
 #' @param m,h Number of reference points 'h' in M-objective problems
 #'
 #' @author Francisco Benitez
+#' \email{benitezfj94@gmail.com}
 #'
 #' @references K. Deb and H. Jain, 'An Evolutionary Many-Objective Optimization
 #' Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I:
