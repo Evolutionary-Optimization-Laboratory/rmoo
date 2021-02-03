@@ -76,18 +76,18 @@ scatter(object = result)
 scatter(object = result, optimal = result@reference_points)
 ```
 
-![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/plotting/man/figures/README-example-3.png)<!-- -->
+![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-3.png)<!-- -->
 
 ``` r
 #Polar Coordinates
 polar(fitness = result@fitness[1:3,])
 ```
 
-![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/plotting/man/figures/README-example-4.png)<!-- -->
+![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-4.png)<!-- -->
 
 ``` r
 #Headmap Plot
 heat_map(fitness = result@fitness[1:3,])
 ```
 
-![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/plotting/man/figures/README-example-5.png)<!-- -->
+![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-5.png)<!-- -->
