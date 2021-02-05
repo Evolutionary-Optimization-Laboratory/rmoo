@@ -36,7 +36,7 @@ NSGAStartupMessage <- function() {
     invisible()
 }
 
-options(rmoo.description = list(Title = "R - Multi-Objective Optimization",
+options(rmoo.description = list(Title = "Multi-Objective Optimization in R",
           `Authors@R` = "c(person(\"Francisco\", \"Benitez\",
                                 email = \"benitezfj94@gmail.com\",
                                 role = c(\"aut\", \"cre\")),

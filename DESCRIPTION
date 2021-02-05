@@ -1,5 +1,5 @@
 Package: rmoo
-Title: R - Multi-Objective Optimization
+Title: Multi-Objective Optimization in R
 Version: 0.1.6
 Authors@R: 
     c(person(given = "Francisco",
@@ -58,8 +58,8 @@ Imports:
     dplyr,
     cdata,
     plotly
-URL: https://github.com/Evolutionary-Optimization-Laboratory/rmoo
-BugReports: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/issues
+URL: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/
+BugReports: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/issues/
 Suggests: 
     testthat,
     covr,

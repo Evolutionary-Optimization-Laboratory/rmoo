@@ -4,7 +4,7 @@
 \name{rmoo-package}
 \alias{rmoo}
 \alias{rmoo-package}
-\title{rmoo: R - Multi-Objective Optimization}
+\title{rmoo: Multi-Objective Optimization in R}
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
@@ -17,8 +17,8 @@ A multiobjective optimization package based on K. Deb's
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/Evolutionary-Optimization-Laboratory/rmoo}
-  \item Report bugs at \url{https://github.com/Evolutionary-Optimization-Laboratory/rmoo/issues}
+  \item \url{https://github.com/Evolutionary-Optimization-Laboratory/rmoo/}
+  \item Report bugs at \url{https://github.com/Evolutionary-Optimization-Laboratory/rmoo/issues/}
 }
 
 }
