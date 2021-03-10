@@ -6,7 +6,7 @@
 planes, where the dimensions represent the objectives.
 * Parallel Coordinate Plots: pcp() functions show a fitness set of points in an 
 objectives n-dimensional space.
-* Head Map: head_map() function to show a set of fitness values as colors in two 
+* Heat Map: head_map() function to show a set of fitness values as colors in two 
 dimensions.
 * rgl packages change to suggests in DESCRIPTION.
 

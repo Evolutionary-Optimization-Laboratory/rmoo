@@ -85,7 +85,7 @@ polar(fitness = result@fitness[1:3,])
 ![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-4.png)<!-- -->
 
 ``` r
-#Headmap Plot
+#Heatmap Plot
 heat_map(fitness = result@fitness[1:3,])
 ```
 

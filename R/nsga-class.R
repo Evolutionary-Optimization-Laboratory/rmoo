@@ -10,10 +10,8 @@
 #' @slot type a character string specifying the type of genetic algorithm used.
 #' @slot lower a vector providing for each decision variable the lower bounds of
 #' the search space in case of real-valued or permutation encoded optimisations.
-#' Formerly this slot was named min.
 #' @slot upper a vector providing for each decision variable the upper bounds of
 #' the search space in case of real-valued or permutation encoded optimizations.
-#' Formerly this slot was named max.
 #' @slot nBits a value specifying the number of bits to be used in binary
 #' encoded optimizations.
 #' @slot names a vector of character strings providing the names of decision

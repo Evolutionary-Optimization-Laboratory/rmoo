@@ -16,12 +16,10 @@ of 'numeric', 'logical' and 'matrix'.
 \item{\code{type}}{a character string specifying the type of genetic algorithm used.}
 
 \item{\code{lower}}{a vector providing for each decision variable the lower bounds of
-the search space in case of real-valued or permutation encoded optimisations.
-Formerly this slot was named min.}
+the search space in case of real-valued or permutation encoded optimisations.}
 
 \item{\code{upper}}{a vector providing for each decision variable the upper bounds of
-the search space in case of real-valued or permutation encoded optimizations.
-Formerly this slot was named max.}
+the search space in case of real-valued or permutation encoded optimizations.}
 
 \item{\code{nBits}}{a value specifying the number of bits to be used in binary
 encoded optimizations.}

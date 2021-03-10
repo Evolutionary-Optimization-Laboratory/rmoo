@@ -50,13 +50,11 @@ search}
 
 \item{lower}{a vector of length equal to the decision variables providing the
 lower bounds of the search space in case of real-valued or permutation
-encoded optimizations. Formerly this argument was named min; its usage is
-allowed but deprecated.}
+encoded optimizations.}
 
 \item{upper}{a vector of length equal to the decision variables providing the
 upper bounds of the search space in case of real-valued or permutation
-encoded optimizations. Formerly this argument was named max; its usage is
-allowed but deprecated.}
+encoded optimizations.}
 
 \item{nBits}{a value specifying the number of bits to be used in binary
 encoded optimizations}
