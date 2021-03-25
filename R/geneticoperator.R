@@ -251,7 +251,7 @@ nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
         children[2, j] <- child2
     }
     out <- list(children = children,
-                fitness = matrix(as.double(NA), ncol = n))
+                fitness = matrix(as.double(NA), ncol = ncol(object@fitness)))
     return(out)
 }
 
