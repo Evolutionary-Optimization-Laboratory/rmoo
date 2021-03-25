@@ -332,7 +332,7 @@ nsga_spCrossover <- function(object, parents) {
     children <- matrix(as.double(NA), nrow = 2, ncol = n)
     crossOverPoint <- sample(0:n, size = 1)
     if (crossOverPoint == 0) {
-        fitnessChildren <- matrix(as.double(NA), nrow = 2, ncol = 2)
+        fitnessChildren <- matrix(as.double(NA), nrow = 2, ncol = ncol(fitness))
         children[1:2, ] <- parents[2:1, ]
         fitnessChildren[1:2, ] <- fitness[2:1, ]
     } else if (crossOverPoint == n) {
