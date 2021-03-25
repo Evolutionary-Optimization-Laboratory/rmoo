@@ -220,8 +220,8 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
         lower <- as.vector(lower)
         upper <- as.vector(upper)
         nBits <- NA
-        if (length(lower) != length(upper))
-          stop("lower and upper must be vector of the same length")
+        #if (length(lower) != length(upper))
+        #  stop("lower and upper must be vector of the same length")
         if ((length(lower) != nObj) & (length(upper) != nObj))
           stop("The lower and upper limits must be vector of the same number of objectives")
         nvars <- length(upper)
