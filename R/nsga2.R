@@ -305,7 +305,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
     switch(type, binary = {
         Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
     }, `real-valued` = {
-        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
     }, permutation = {
         Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
     })
