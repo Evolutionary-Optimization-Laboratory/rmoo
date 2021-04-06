@@ -25,6 +25,7 @@ nsgaMonitor <- function(object, number_objectives, ...) {
 
   } else if (number_objectives == 2) {
     first_front <- fitness[object@f[[1]], ]
+  show(first_front)
     opar <- par('mar','xpd')
     on.exit(par(opar))
     par(mar = c(5.1, 4.1, 4.1, 8.1), xpd = TRUE)
