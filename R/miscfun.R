@@ -33,7 +33,7 @@ nsgaMonitor <- function(object, number_objectives, ...) {
         "Iter: ", iter),
       xlim = range(fitness[, 1]), ylim = range(fitness[, 2]),
       xlab = "f_1", ylab = "f_2")
-    if(nrow(first_front) > 2) {
+    if(length(first_front) > 0 && nrow(first_front) > 2) {
     	lines(first_front[, 1][order(first_front[, 1])],
       	first_front[, 2][order(first_front[, 1])],
       	xlim = range(first_front[, 1]),
