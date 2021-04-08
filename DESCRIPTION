@@ -40,6 +40,7 @@ Collate:
     'nsga3-class.R'
     'nsga3.R'
     'nsgaControl.R'
+    'reference_point_multi_layer.R'
     'rmoo.R'
     'performance_metrics.R'
     'plotting.R'

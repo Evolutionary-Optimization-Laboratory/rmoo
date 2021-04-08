@@ -4,10 +4,11 @@
 \alias{generate_reference_points}
 \title{Determination of Reference Points on a Hyper-Plane}
 \usage{
-generate_reference_points(m, h)
+generate_reference_points(m, h, scaling = NULL)
 }
 \arguments{
-\item{m, h}{Number of reference points 'h' in M-objective problems}
+\item{m, h, scaling}{Number of reference points 'h' in M-objective problems, and
+scaling that is the scale on which the points are distributed.}
 }
 \value{
 A matrix with the reference points uniformly distributed.

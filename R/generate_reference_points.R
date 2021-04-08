@@ -6,7 +6,8 @@
 #' systematic approach that places points on a normalized hyper-plane which is
 #' equally inclined to all objective axes and has an intercept of one on each axis.
 #'
-#' @param m,h Number of reference points 'h' in M-objective problems
+#' @param m,h,scaling Number of reference points 'h' in M-objective problems, and
+#' scaling that is the scale on which the points are distributed.
 #'
 #' @author Francisco Benitez
 #' \email{benitezfj94@gmail.com}
@@ -26,7 +27,33 @@
 #'
 #' @return A matrix with the reference points uniformly distributed.
 #' @export
-generate_reference_points <- function(m, h) {
+generate_reference_points <- function(m, h, scaling = NULL) {
     zr <- (get_fixed_rowsum_integer_matrix(m, h) / h)
+    if (!is.null(scaling)) zr <- scale_reference_directions(zr ,scaling)
     return(zr)
+}
+
+#' Scale Reference Points
+#'
+#' A implementation of Das and Dennis's Reference Points Generation.
+#'
+#' The implemented Reference Point Generation is based on the Das and Dennis's
+#' systematic approach that places points on a normalized hyper-plane which is
+#' equally inclined to all objective axes and has an intercept of one on each axis.
+#'
+#' @param ref_dirs,scaling where 'ref_dirs' are the reference points generated and
+#' 'scaling' are the scale on which the points are distributed.
+#'
+#' @author Francisco Benitez
+#' \email{benitezfj94@gmail.com}
+#'
+#' @references J. Blank and K. Deb, "Pymoo: Multi-Objective Optimization in Python," in
+#' IEEE Access, vol. 8, pp. 89497-89509, 2020, doi: 10.1109/ACCESS.2020.2990567.
+#'
+#' @seealso [generate_reference_points()] and [get_fixed_rowsum_integer_matrix()]
+#'
+#' @return A matrix with rescaled reference points uniformly distributed.
+#' @export
+scale_reference_directions <- function(ref_dirs, scaling){
+  return(ref_dirs * scaling + ((1 - scaling) / ncol(ref_dirs)))
 }

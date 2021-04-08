@@ -119,7 +119,7 @@ plotting_many_objective <- function(object, ...) {
       y = ~f_2,
       z = ~f_3,
       color = ~shapes,
-      colors = c('#BF382A', '#0C4B8E'),
+      colors = c('#0C4B8E', '#BF382A'),
       size = 1)
     fig <- fig %>% plotly::add_markers()
     fig <- fig %>% plotly::layout(scene = list(xaxis = list(title = 'f_1'),
@@ -176,6 +176,7 @@ plotting_pairwise <- function(object, ...){
     ggplot2::ggtitle(paste(algorithm, "No Objective:", nObj)) +
     ggplot2::scale_shape_manual(values=seq(nObj)) +
     ggplot2::scale_fill_manual(values = grDevices::rainbow(nObj)) +
+    ggplot2::theme(axis.text.x = element_text(angle = 90)) +
     ggplot2::ylab(NULL) +
     ggplot2::xlab(NULL)
 }
