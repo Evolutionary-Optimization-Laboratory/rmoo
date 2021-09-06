@@ -18,8 +18,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R build status](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/workflows/R-CMD-check/badge.svg/)](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/actions/)
 [![Codecov test coverage](https://codecov.io/gh/Evolutionary-Optimization-Laboratory/rmoo/branch/master/graph/badge.svg?token=QK4Z2yVUSw/)](https://codecov.io/gh/Evolutionary-Optimization-Laboratory/rmoo?branch=master/)
-[![CRAN status](https://www.r-pkg.org/badges/version/rmoo/)](https://CRAN.R-project.org/package=rmoo/)
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg/)](https://lifecycle.r-lib.org/articles/stages.html#stable/)
+[![CRAN status](https://www.r-pkg.org/badges/version/rmoo)](https://CRAN.R-project.org/package=rmoo/)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable/)
 <!-- badges: end -->
 
 ## Overview
