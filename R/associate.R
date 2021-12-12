@@ -1,3 +1,13 @@
+# Association Operator
+
+# Association process of each member of the population with the reference points.
+
+# The association operator will work with the normalized space, reference points
+# and population members. First, generating the reference lines corresponding to
+# each reference point and then calculating the perpendicular distance of each
+# population member from each reference line.
+# This code section corresponds to Algorithm 3 of the referenced paper.
+
 #' @export
 associate_to_niches <- function(object, utopian_epsilon = 0) {
     fitness <- object@fitness
@@ -46,24 +56,3 @@ compute_niche_count <- function(n_niches, niche_of_individuals) {
     return(niche_count)
 }
 
-
-# compute_perpendicular_distance <- function(N, ref_dirs) {
-#   u <- do.call(rbind, replicate(nrow(N), ref_dirs, simplify = FALSE))
-#   v <- matrix(rep(N, each=nrow(ref_dirs)), ncol = ncol(N))
-#   norm_u <- asd <- val <- c()
-#   for (i in 1:nrow(u)) {
-#     norm_u[i] <- norm(u[i,], type='2')
-#   }
-#   aux <- v * u
-#   for (i in 1:nrow(aux)) {
-#     asd[i] <- sum(aux[i, ])
-#   }
-#   aux <- c() scalar_proj <- asd / norm_u
-#   proj <- (scalar_proj * u) / norm_u
-#   aux <- proj - v
-#   for (i in 1:nrow(aux)) {
-#     val[i] <- norm(aux[i, ], type='2')
-#   }
-#   m <- matrix(val, nrow = nrow(N), ncol = nrow(ref_dirs), byrow = TRUE)
-#   return(m)
-# }

@@ -73,6 +73,7 @@ Summary <- function(object, ...) {
   return(summ)
 }
 
+#Summary for NSGA Algorithm
 nsgaSummary <- function(object, ...) {
   first <- object@f[[1]]
   first_front_fit <- object@fitness[first, ]
@@ -86,6 +87,7 @@ nsgaSummary <- function(object, ...) {
   return(result)
 }
 
+#Summary for NSGA-II Algorithm
 nsgaiiSummary <- function(object, ...) {
   first <- object@f[[1]]
   first_front_fit <- object@fitness[first, ]
@@ -99,6 +101,7 @@ nsgaiiSummary <- function(object, ...) {
   return(result)
 }
 
+#Summary for NSGA-III Algorithm
 nsgaiiiSummary <- function(object, ...) {
   first <- object@f[[1]]
   first_front_fit <- object@fitness[first, ]

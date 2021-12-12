@@ -56,18 +56,3 @@ nsgaControl <- function(...) {
                                         mutation = "nsgaperm_simMutation"),
   eps = sqrt(.Machine$double.eps),
   useRcpp = FALSE)
-
-# .ga.default <- list('binary' = list(population = 'gabin_Population',
-#                                       selection = 'gabin_lrSelection',
-#                                       crossover = 'gabin_spCrossover',
-#                                       mutation = 'gabin_raMutation'),
-#                       'real-valued' = list(population = 'gareal_Population',
-#                                            selection = 'gareal_lsSelection',
-#                                            crossover = 'gareal_laCrossover',
-#                                            mutation = 'gareal_raMutation'),
-#                       'permutation' = list(population = 'gaperm_Population',
-#                                            selection = 'gaperm_lrSelection',
-#                                            crossover = 'gaperm_oxCrossover',
-#                                            mutation = 'gaperm_simMutation'),
-#   'eps' = sqrt(.Machine$double.eps),
-#   'useRcpp' = TRUE )

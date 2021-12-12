@@ -7,7 +7,7 @@
 
 \title{Association Operation in Non-Dominated Genetic Algorithms III}
 
-\description{Function that associates each member of the population with a reference point. The function calculates the perpendicular distance of each individual from each of the reference lines}
+\description{Function that associates each member of the population with a reference point. The function calculates the perpendicular distance of each individual from each of the reference lines. This code section corresponds to Algorithm 3 of the referenced paper.}
 
 \usage{
   associate_to_niches(object, utopian_epsilon = 0)
