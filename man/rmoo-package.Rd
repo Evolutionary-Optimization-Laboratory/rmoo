@@ -6,13 +6,9 @@
 \alias{rmoo-package}
 \title{rmoo: Multi-Objective Optimization in R}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A multiobjective optimization package based on K. Deb's 
-    algorithm and inspired in 'GA' package by Luca Scrucca (2017) <DOI:10.32614/RJ-2017-008>. 
-    The 'rmoo' package is a framework for multi- and many-objective optimization, 
-    allowing to work with representation of real numbers, permutations and 
-    binaries, offering a high range of configurations.
+A multiobjective optimization package based on K. Deb's algorithm and inspired in 'GA' package by Luca Scrucca (2017) \doi{10.32614/RJ-2017-008}. The 'rmoo' package is a framework for multi- and many-objective optimization, allowing to work with representation of real numbers, permutations and binaries, offering a high range of configurations.
 }
 \seealso{
 Useful links:

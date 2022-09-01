@@ -205,8 +205,8 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
         nBits <- NA
         if (length(lower) != length(upper))
           stop("lower and upper must be vector of the same length")
-        if ((length(lower) != nObj) & (length(upper) != nObj))
-          stop("The lower and upper limits must be vector of the same number of objectives")
+        #if ((length(lower) != nObj) & (length(upper) != nObj))
+        #  stop("The lower and upper limits must be vector of the same number of objectives")
         nvars <- length(upper)
         if (is.null(names) & !is.null(lnames))
           names <- lnames
@@ -293,7 +293,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
         Pop <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
       },
       `real-valued` = {
-        Pop <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+        Pop <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
       },
       permutation = {
         Pop <- matrix(as.double(NA), nrow = popSize, ncol = nvars)

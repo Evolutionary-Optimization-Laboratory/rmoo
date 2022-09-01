@@ -1,25 +1,42 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-# rmoo - R Multi-Objective Optimization <img src="man/figures/logo.png" align="right" width="150px" alt=""/>
+
+# rmoo - R Multi-Objective Optimization <img src="man/figures/logo.png" align="right" width="150px" />
 
 <!-- badges: start -->
-[![R build status](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/workflows/R-CMD-check/badge.svg/)](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/actions/) [![Codecov test coverage](https://codecov.io/gh/Evolutionary-Optimization-Laboratory/rmoo/branch/master/graph/badge.svg?token=QK4Z2yVUSw/)](https://codecov.io/gh/Evolutionary-Optimization-Laboratory/rmoo?branch=master/) [![CRAN status](https://www.r-pkg.org/badges/version/rmoo)](https://CRAN.R-project.org/package=rmoo/) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable/) <!-- badges: end -->
+
+[![R build
+status](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/workflows/R-CMD-check/badge.svg/)](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/actions/)
+[![Codecov test
+coverage](https://codecov.io/gh/Evolutionary-Optimization-Laboratory/rmoo/branch/master/graph/badge.svg?token=QK4Z2yVUSw/)](https://app.codecov.io/gh/Evolutionary-Optimization-Laboratory/rmoo?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rmoo)](https://CRAN.R-project.org/package=rmoo/)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable/)
+<!-- badges: end -->
 
 ## Overview
 
-A Non-Dominated Sorting based Multi-Objective Optimization package, built upon the ['GA' package](https://CRAN.R-project.org/package=GA).
+A Non-Dominated Sorting based Multi-Objective Optimization package,
+built upon the [‘GA’ package](https://CRAN.R-project.org/package=GA).
 
-'rmoo' provides a complete and flexible framework for optimizing multiple supplied objectives. You will have at your disposal a wide range of configuration options for the NSGA, NSGA-II and NSGA-III algorithms, as well as representation of real numbers, permutations and binaries.
+‘rmoo’ provides a complete and flexible framework for optimizing
+multiple supplied objectives. You will have at your disposal a wide
+range of configuration options for the NSGA, NSGA-II and NSGA-III
+algorithms, as well as representation of real numbers, permutations and
+binaries.
 
 ## Installation
 
-You can install the **stable** version on [R CRAN](https://cran.r-project.org/package=rmoo):
+You can install the **stable** version on [R
+CRAN](https://cran.r-project.org/package=rmoo):
 
 ``` r
 install.packages("rmoo")
 ```
 
-Or you can install the **development** version from [GitHub](https://github.com/Evolutionary-Optimization-Laboratory/rmoo):
+Or you can install the **development** version from
+[GitHub](https://github.com/Evolutionary-Optimization-Laboratory/rmoo):
 
 ``` r
 # install.packages("devtools")

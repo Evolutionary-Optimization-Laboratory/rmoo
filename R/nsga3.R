@@ -259,8 +259,8 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
         nBits <- NA
         if (length(lower) != length(upper))
           stop("lower and upper must be vector of the same length")
-        if ((length(lower) != nObj) & (length(upper) != nObj))
-          stop("The lower and upper limits must be vector of the same number of objectives")
+        #if ((length(lower) != nObj) & (length(upper) != nObj))
+        #  stop("The lower and upper limits must be vector of the same number of objectives")
         nvars <- length(upper)
         if (is.null(names) & !is.null(lnames))
           names <- lnames
@@ -355,7 +355,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
         Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
       },
       `real-valued` = {
-        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
       },
       permutation = {
         Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
@@ -480,7 +480,12 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
       worst_of_population <- worst_of_front <- c()
 
       worst_of_population <- apply(object@fitness, 2, max)
-      worst_of_front <- apply(object@fitness[object@f[[1]], ], 2, max)
+
+      # worst_of_front <- apply(object@fitness[object@f[[1]], ], 2, max)
+      # If the first front is by a single fit
+      worst_of_front <- if (length(object@f[[1]]) == 1)
+                          object@fitness[object@f[[1]], ]
+                        else apply(object@fitness[object@f[[1]], ], 2, max)
 
       object@worst_of_population <- worst_of_population
       object@worst_of_front <- worst_of_front
@@ -500,7 +505,11 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
       last_front <- out$fit[[max(length(out$fit))]]
       rm(out)
 
-      outniches <- associate_to_niches(object)
+      # outniches <- associate_to_niches(object)
+      # If the first front is by a single fit
+      outniches <- if (length(object@f[[1]]) == 1)
+                      associate_to_niches(object, utopian_epsilon = 0.00001)
+                   else associate_to_niches(object)
       niche_of_individuals <- outniches$niches
       dist_to_niche <- outniches$distance
       rm(outniches)

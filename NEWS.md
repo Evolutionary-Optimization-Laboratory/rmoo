@@ -1,3 +1,10 @@
+# rmoo 0.1.8
+
+* Minor inconvenient the documentation fixed.
+* The structure of the non-dominated in the main functions modified: They did not 
+evaluate fronts with one individual.
+* Condition on validation into the main functions deleted: It was not necessary.
+
 # rmoo 0.1.6
 
 * Dataset: Add KRO dataset from TSPLIB to permutation operation in data and inst.
