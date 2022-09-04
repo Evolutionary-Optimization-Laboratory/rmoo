@@ -297,26 +297,64 @@ pcp <- function(object) {
 #' }
 #'
 #' @export
-heat_map <- function(fitness){
+heat_map <- function(object, ...){
+  if(!all(requireNamespace("ggplot2", quietly = TRUE),
+          requireNamespace("reshape2", quietly = TRUE),
+          requireNamespace("dplyr", quietly = TRUE)))
+    stop("packages 'ggplot2', 'dplyr' and 'reshape2' required for heat map plotting!")
+  callArgs <- list(...)
+  individual <- callArgs$individual
+  fitness <- object@fitness
+
+  if(is.null(individual))
+    stop("Please, define a vector with the individuals to plot")
+
+  if (length(individual) > 10) {
+    cat("Warning: Heatmap plot with more than 10 individuals will not be displayed correctly.\n
+                  The plot will still be displayed.")
+  }
+
+  fitness <- fitness[individual,]
+
   if (is.null(dim(fitness))){
     fitness <- t(matrix(fitness))
   }
+
   nObj <- ncol(fitness)
   colnames(fitness) <- sprintf("f_%s",seq(nObj))
   fitness <- reshape2::melt(fitness)
   fitness <- dplyr::rename(fitness,
-    'Pop' = Var1,
-    'Objective_Value' = value,
-    'Objective_No' = Var2)
+                           'Pop' = Var1,
+                           'Objective_Value' = value,
+                           'Objective_No' = Var2)
   ggplot2::ggplot(fitness, aes(x = Objective_No,
-    y = Pop,
-    fill = Objective_Value)) +
+                               y = Pop,
+                               fill = Objective_Value)) +
     ggplot2::geom_raster() +
     ggplot2::scale_y_continuous(labels = unique(as.character(fitness$Pop)),
                                 breaks = unique(fitness$Pop))
 }
 
-#' Polar Area Aiagram
+# heat_map <- function(fitness){
+#   if (is.null(dim(fitness))){
+#     fitness <- t(matrix(fitness))
+#   }
+#   nObj <- ncol(fitness)
+#   colnames(fitness) <- sprintf("f_%s",seq(nObj))
+#   fitness <- reshape2::melt(fitness)
+#   fitness <- dplyr::rename(fitness,
+#     'Pop' = Var1,
+#     'Objective_Value' = value,
+#     'Objective_No' = Var2)
+#   ggplot2::ggplot(fitness, aes(x = Objective_No,
+#     y = Pop,
+#     fill = Objective_Value)) +
+#     ggplot2::geom_raster() +
+#     ggplot2::scale_y_continuous(labels = unique(as.character(fitness$Pop)),
+#                                 breaks = unique(fitness$Pop))
+# }
+
+#' Polar Area Plot
 #'
 #' The `polar()` function is a viable tool for one dimesiona data
 #' visualization, which that shows magnitude of a phenomenon as color in two
@@ -364,24 +402,63 @@ heat_map <- function(fitness){
 #' }
 #'
 #' @export
-polar <- function(fitness) {
+polar <- function(object, ...){
+  if(!all(requireNamespace("ggplot2", quietly = TRUE),
+          requireNamespace("reshape2", quietly = TRUE),
+          requireNamespace("dplyr", quietly = TRUE)))
+    stop("packages 'ggplot2', 'dplyr' and 'reshape2' required for polar coordinate plotting!")
+
+  callArgs <- list(...)
+  individual <- callArgs$individual
+  fitness <- object@fitness
+
+  if(is.null(individual))
+    stop("Please, define a vector with the individuals to plot")
+
+  if (length(individual) > 10) {
+    cat("Warning: Polar Coordinate plot with more than 10 individuals will not be displayed correctly.\n
+                  The plot will still be displayed.")
+  }
+
+  fitness <- fitness[individual,]
+
   if (is.null(dim(fitness))){
     fitness <- t(matrix(fitness))
   }
+
   nObj <- ncol(fitness)
   colnames(fitness) <- sprintf("f_%s",seq(nObj))
   fitness <- reshape2::melt(fitness)
   fitness <- dplyr::rename(fitness,
-    'Pop' = Var1,
-    'Objective_Value' = value,
-    'Objective_No' = Var2)
+                           'Pop' = Var1,
+                           'Objective_Value' = value,
+                           'Objective_No' = Var2)
   ggplot2::ggplot(fitness, aes(x = Objective_No,
-    y = Objective_Value,
-    fill = Objective_No)) +
+                               y = Objective_Value,
+                               fill = Objective_No)) +
     ggplot2::geom_bar(width = 1, stat="identity") +
     ggplot2::coord_polar() + ggplot2::theme_light() +
     ggplot2::facet_wrap(~Pop, nrow = 1)
 }
+
+# polar <- function(fitness) {
+#   if (is.null(dim(fitness))){
+#     fitness <- t(matrix(fitness))
+#   }
+#   nObj <- ncol(fitness)
+#   colnames(fitness) <- sprintf("f_%s",seq(nObj))
+#   fitness <- reshape2::melt(fitness)
+#   fitness <- dplyr::rename(fitness,
+#     'Pop' = Var1,
+#     'Objective_Value' = value,
+#     'Objective_No' = Var2)
+#   ggplot2::ggplot(fitness, aes(x = Objective_No,
+#     y = Objective_Value,
+#     fill = Objective_No)) +
+#     ggplot2::geom_bar(width = 1, stat="identity") +
+#     ggplot2::coord_polar() + ggplot2::theme_light() +
+#     ggplot2::facet_wrap(~Pop, nrow = 1)
+# }
 
 
 utils::globalVariables(c("Pop","Objective_No", "Objective_Value", "Var1", "Var2", "color", "columns", "f_1", "f_2", "label_both", "rows", "value", "x", "y"))
