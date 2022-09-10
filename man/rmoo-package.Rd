@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A multiobjective optimization package based on K. Deb's algorithm and inspired in 'GA' package by Luca Scrucca (2017) \doi{10.32614/RJ-2017-008}. The 'rmoo' package is a framework for multi- and many-objective optimization, allowing to work with representation of real numbers, permutations and binaries, offering a high range of configurations.
+The 'rmoo' package is a framework for multi- and many-objective optimization, which allows researchers and users versatility in parameter configuration, as well as tools for analysis, replication and visualization of results. The 'rmoo' package was built as a fork of the 'GA' package by Luca Scrucca(2017) \doi{10.32614/RJ-2017-008} and implementing the Non-Dominated Sorting Genetic Algorithms proposed by K. Deb's.
 }
 \seealso{
 Useful links:

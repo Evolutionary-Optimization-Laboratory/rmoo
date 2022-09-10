@@ -88,7 +88,7 @@
 #'
 #' @seealso [nsga2()], [nsga3()]
 #'
-#' @return Returns an object of class nsga-class. See [nsga-class] for a
+#' @return Returns an object of class nsga1-class. See [nsga1-class] for a
 #' description of available slots information.
 #'
 #' @examples
@@ -141,9 +141,9 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
 
     type <- match.arg(type, choices = eval(formals(nsga2)$type))
 
-    algorithm <- "NSGA"
-
     callArgs <- list(...)
+
+    callArgs$strategy <- NULL
 
     if (!is.function(population))
       population <- get(population)
@@ -257,7 +257,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
     fitnessSummary <- vector("list", maxiter)
 
     #Creacion del objetivo tipo nsga
-    object <- new("nsga",
+    object <- new("nsga1",
         call = call,
         type = type,
         lower = lower,
@@ -392,10 +392,10 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
       rm(out)
 
       if (summary == TRUE) {
-        fitnessSummary[[iter]] <- Summary(object)
+        fitnessSummary[[iter]] <- progress(object, callArgs)
         object@summary <- fitnessSummary
       } else {
-        object@summary <- list()
+        object@summary <- list(NULL)
       }
 
       #Plot front non-dominated by iteration
@@ -413,3 +413,106 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
 
     return(solution)
 }
+
+#' @export
+setMethod("plot", signature(x="nsga1", y="missing"), .get.plotting)
+
+#' @export
+setMethod("progress", "nsga1", .nsga1.progress)
+
+#' @export
+setMethod("getDummyFitness", "nsga1",
+          function(obj) {
+            cat("NSGA-I Dummy Fitness: \n")
+            cat("\n#========================================#\n")
+            print(obj@dumFitness)
+            n_dum <- ncol(obj@dumFitness)
+            dum_Fitness <- data.frame(obj@dumFitness)
+            colnames(dum_Fitness) <- sprintf("FitDummy_%s",seq(n_dum))
+            return(invisible(dum_Fitness))
+          }
+)
+
+#' @export
+setMethod("print", "nsga1",
+          function(x=object, y="missing", ...) {
+            algorithm <- class(x)[1]
+            # Print
+            cat("\nSlots Configuration:\n")
+            print(as.list(slotNames(x)))
+            cat("\n#========================================#\n")
+            cat("\nTotal iterations: ", x@iter)
+            cat("\nPopulation size: ", x@popSize)
+            cat("\nLower Bounds: ", x@lower)
+            cat("\nLower Bounds:  ", x@upper)
+            cat("\nDelta Distance (dShare):  ", x@dShare)
+            cat("\nDistance of sharing function:  ", x@deltaDummy)
+            cat("\nNumber of Nondominated Front:  ", length(x@f[[1]]))
+            cat("\n#========================================#\n")
+
+          }
+)
+
+
+#' @export
+setMethod("summary", "nsga1",
+          function(object, ...){
+            callArgs <- list(...)
+            nullRP <- is.null(callArgs$reference_dirs)
+
+            # Calculate information for summary
+
+            first <- object@f[[1]]
+            first_front_fit <-
+              first_front_pop <- object@population[first, ]
+            nadir_point <- apply(object@fitness[first, ], 2, max)
+
+            #first_dum <- object@dumFitness[first, ] for nsga1 summary method
+
+            if("ecr" %in% rownames(utils::installed.packages())){
+              if (nullRP) {
+                cat("Warning: reference points not provided:\n
+                      value necessary to evaluate GD and IGD.")
+
+              } else{
+                gd <- ecr::computeGenerationalDistance(t(object@fitness), t(callArgs$reference_dirs))
+                igd <- ecr::computeInvertedGenerationalDistance(t(object@fitness), t(callArgs$reference_dirs))
+              }
+            }
+
+            if("emoa" %in% rownames(utils::installed.packages())){
+              if(nullRP) {
+                cat("Warning: reference points not provided:\n
+                      using the maximum in each dimension to evaluate Hypervolumen")
+                reference_point <- nadir_point
+              } else {reference_point <- apply(callArgs$reference_dirs, 2, max)}
+              hv <- emoa::dominated_hypervolume(points = t(object@fitness[first, ]), ref = reference_point)
+            }
+
+            cat("\nSummary of NSGA-I run")
+            cat("\n#====================================")
+            cat("\nNumber of Objectives evaluated: ", ncol(object@fitness))
+            cat("\nTotal iterations: ", object@iter)
+            cat("\nPopulation size: ", object@popSize)
+            #cat("\nFeasible points found: ", nfeas,paste0("(", signif(100 * nfeas / npts, 3), "%"),"of total)")
+            cat("\nNondominated points found: ", length(first),
+                paste0("(", signif(100 * length(first) / object@popSize, 3), "%"),
+                "of total)")
+            cat("\nShare Distance: ", object@dShare)
+            cat("\nSharing Values calculated: ", object@deltaDummy)
+            #cat("\nEstimated nadir point: ", round(object@nadir_point, 3))
+            cat("\nMutation Probability: ",
+                paste0(signif(100 * object@pmutation, 3), "%"))
+            cat("\nCrossover Probability: ",
+                paste0(signif(100 * object@pcrossover, 3), "%"))
+            if("ecr" %in% rownames(utils::installed.packages())){
+              if(!nullRP) cat("\nEstimated IGD: ", igd)
+              if(!nullRP) cat("\nEstimated GD: ", gd)
+            } else cat("\n\nPlease install package 'ecr' to calculate IGD and GD.")
+            if("emoa" %in% rownames(utils::installed.packages())) {
+              cat("\nEstimated HV: ", hv)
+              cat("\nRef point used for HV: ", reference_point)
+            } else cat("\n\nPlease install package 'emoa' to calculate hypervolume.")
+            cat("\n#====================================")
+          }
+)

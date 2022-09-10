@@ -1,6 +1,6 @@
 Package: rmoo
 Title: Multi-Objective Optimization in R
-Version: 0.1.8
+Version: 0.2.0
 Authors@R: 
     c(person(given = "Francisco",
              family = "Benitez",
@@ -11,11 +11,13 @@ Authors@R:
              role = "aut",
              email = "dpinto@pol.una.py",
              comment = c(ORCID = "0000-0003-2479-9876")))
-Description: A multiobjective optimization package based on K. Deb's 
-    algorithm and inspired in 'GA' package by Luca Scrucca (2017) <DOI:10.32614/RJ-2017-008>. 
-    The 'rmoo' package is a framework for multi- and many-objective optimization, 
-    allowing to work with representation of real numbers, permutations and 
-    binaries, offering a high range of configurations.
+Description: The 'rmoo' package is a framework for multi- and many-objective
+        optimization, which allows researchers and users versatility
+        in parameter configuration, as well as tools for analysis, replication
+        and visualization of results. The 'rmoo' package was built as a fork of
+        the 'GA' package by Luca Scrucca(2017) <DOI:10.32614/RJ-2017-008> and
+        implementing the Non-Dominated Sorting Genetic Algorithms proposed
+        by K. Deb's.
 License: GPL (>= 2)
 Encoding: UTF-8
 Language: es
@@ -23,6 +25,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Collate: 
+    'AllClasses.R'
     'associate.R'
     'crowding_distance.R'
     'data.R'
@@ -30,40 +33,37 @@ Collate:
     'geneticoperator.R'
     'get_fixed_rowsum_integer_matrix.R'
     'miscfun.R'
+    'AllGenerics.R'
     'niching.R'
     'non_dominated_fronts.R'
-    'numberOrNAOrMatrix-class.R'
-    'nsga-class.R'
     'nsga.R'
-    'nsga2-class.R'
     'nsga2.R'
-    'nsga3-class.R'
     'nsga3.R'
     'nsgaControl.R'
+    'performance_metrics.R'
     'reference_point_multi_layer.R'
     'rmoo.R'
-    'performance_metrics.R'
-    'plotting.R'
+    'rmoo_func.R'
     'sharing.R'
     'update_points.R'
     'zzz.R'
 Imports: 
     stats,
     utils,
-    ecr,
     graphics,
-    methods,
-    grDevices,
-    ggplot2,
-    reshape2,
-    dplyr,
-    cdata,
-    plotly
+    methods
 URL: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/
 BugReports: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/issues/
 Suggests: 
     testthat,
     covr,
-    rgl
+    rgl,
+    ecr,
+    ggplot2,
+    plotly,
+    cdata,
+    dplyr,
+    reshape2,
+    grDevices
 Depends: 
     R (>= 2.10)

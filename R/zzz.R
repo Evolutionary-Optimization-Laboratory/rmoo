@@ -16,11 +16,11 @@
 
 NSGAStartupMessage <- function() {
     msg <- paste0("
-       __   _   ____  ____    _
-      |   \\ | ||  __|/ ___|  / \\  Non-Dominated
-      | |\\ \\| ||__|  | |  _  / _ \\  Genetic
-      | | \\ \\ | __| || |_| |/ ___ \\  Algorithms' Family
-      |_| \\__||____|\\____/_/   \\_\\  version ",
+       _____ __    __   _____  _____
+      |  _  || \\  /  | |  _  ||  _  | R
+      |  _ _|| |\\//| | | | | || | | | Multi-/Many-
+      |  |\\\  | | \\ | | | |_| || |_| | Objective
+      |__| \\\ |_|   |_| |_____||_____| Optimization Package ",
         packageVersion("rmoo"))
     return(msg)
 }
@@ -44,10 +44,12 @@ options(rmoo.description = list(Title = "Multi-Objective Optimization in R",
                                 email = \"dpinto@pol.una.py\",
                                 role = c(\"aut\"),
                                 comment = c(ORCID = \"0000-0003-2479-9876\")))",
-        Description = "A multiobjective optimization package based on K. Deb's
-    algorithm and inspired in 'GA' package by Luca Scrucca (2017) <DOI:10.32614/RJ-2017-008>.
-  The 'rmoo' package is a framework for multi- and many-objective optimization,
-  allowing to work with representation of real numbers, permutations and binaries,
-  offering a high range of configurations.",
+        Description = "The 'rmoo' package is a framework for omulti- and many-
+        objective optimization, which allows researchers and users versatility
+        in parameter configuration, as well as tools for analysis, replication
+        and visualization of results. The 'rmoo' package was built as a fork of
+        the 'GA' package by Luca Scrucca(2017) <DOI:10.32614/RJ-2017-008> and
+        implementing the Non-Dominated Sorting Genetic Algorithms proposed
+        by K. Deb's.",
         License = "GPL (>= 2)",
         Language = "es"))

@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 #' @import stats utils graphics methods
+#' @importFrom GA ga
 #' @importFrom grDevices rainbow
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line

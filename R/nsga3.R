@@ -175,9 +175,9 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
 
     type <- match.arg(type, choices = eval(formals(nsga3)$type))
 
-    algorithm <- "NSGA-III"
-
     callArgs <- list(...)
+
+    callArgs$strategy <- NULL
 
     if (!is.function(population))
       population <- get(population)
@@ -542,10 +542,10 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
       rm(out)
 
       if (summary == TRUE) {
-        fitnessSummary[[iter]] <- Summary(object)
+        fitnessSummary[[iter]] <- progress(object, callArgs)
         object@summary <- fitnessSummary
       } else {
-        object@summary <- list()
+        object@summary <- list(NULL)
       }
 
       #Plot front non-dominated by iteration
@@ -563,3 +563,91 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
 
     return(solution)
 }
+
+#' @export
+setMethod("progress", "nsga3", .nsga3.progress)
+
+#' @export
+setMethod("plot", signature(x="nsga3", y="missing"), .get.plotting)
+
+#' @export
+setMethod("print", "nsga3",
+          function(x=object, y="missing", ...) {
+            # algorithm <- class(object)[1]
+            # Print
+            cat("Slots Configuration:\n")
+            print(as.list(slotNames(x)))
+            cat("\n#========================================#\n")
+            cat("\nTotal iterations: ", x@iter)
+            cat("\nPopulation size: ", x@popSize)
+            cat("\nLower Bounds: ", x@lower)
+            cat("\nUpper Bounds:  ", x@upper)
+            cat("\nEstimated Ideal Point:  ", x@ideal_point)
+            cat("\nEstimated Worst Point:  ", x@worst_point)
+            cat("\nEstimated Nadir Point:  ", x@nadir_point)
+            cat("\nNumber of Nondominated Front:  ", length(x@f[[1]]))
+            cat("\n#========================================#\n")
+          }
+)
+
+#' @export
+setMethod("summary", "nsga3",
+          function(object, ...){
+            callArgs <- list(...)
+            nullRP <- is.null(callArgs$reference_dirs)
+
+            # Calculate information for summary
+
+            first <- object@f[[1]]
+            first_front_fit <- object@fitness[first, ]
+            first_front_pop <- object@population[first, ]
+            nadir_point <- object@nadir_point
+
+            #first_dum <- object@dumFitness[first, ] for nsga1 summary method
+
+            if("ecr" %in% rownames(utils::installed.packages())){
+              if (nullRP) {
+                cat("Warning: reference points not provided:\n
+                      value necessary to evaluate GD and IGD.")
+
+              } else{
+                gd <- ecr::computeGenerationalDistance(t(object@fitness), t(callArgs$reference_dirs))
+                igd <- ecr::computeInvertedGenerationalDistance(t(object@fitness), t(callArgs$reference_dirs))
+              }
+            }
+
+            if("emoa" %in% rownames(utils::installed.packages())){
+              if(nullRP) {
+                cat("Warning: reference points not provided:\n
+                      using the maximum in each dimension to evaluate Hypervolumen")
+                reference_point <- nadir_point
+              } else {reference_point <- apply(callArgs$reference_dirs, 2, max)}
+              hv <- emoa::dominated_hypervolume(points = t(object@fitness[first, ]), ref = reference_point)
+            }
+
+            cat("\nSummary of NSGA-III run")
+            cat("\n#====================================")
+            cat("\nNumber of Objectives evaluated: ", ncol(object@fitness))
+            cat("\nTotal iterations: ", object@iter)
+            cat("\nPopulation size: ", object@popSize)
+            #cat("\nFeasible points found: ", nfeas,paste0("(", signif(100 * nfeas / npts, 3), "%"),"of total)")
+            cat("\nNondominated points found: ", length(first),
+                paste0("(", signif(100 * length(first) / object@popSize, 3), "%"),
+                "of total)")
+            cat("\nEstimated ideal point: ", round(object@ideal_point, 3))
+            cat("\nEstimated nadir point: ", round(object@nadir_point, 3))
+            cat("\nMutation Probability: ",
+                paste0(signif(100 * object@pmutation, 3), "%"))
+            cat("\nCrossover Probability: ",
+                paste0(signif(100 * object@pcrossover, 3), "%"))
+            if("ecr" %in% rownames(utils::installed.packages())){
+              if(!nullRP) cat("\nEstimated IGD: ", igd)
+              if(!nullRP) cat("\nEstimated GD: ", gd)
+            } else cat("\n\nPlease install package 'ecr' to calculate IGD and GD.")
+            if("emoa" %in% rownames(utils::installed.packages())) {
+              cat("\nEstimated HV: ", hv)
+              cat("\nRef point used for HV: ", reference_point)
+            } else cat("\n\nPlease install package 'emoa' to calculate hypervolume.")
+            cat("\n#====================================")
+          }
+)

@@ -120,7 +120,7 @@ This argument can be used to replicate the results of a NSGA search. Note
 that if parallel computing is required, the doRNG package must be installed.}
 }
 \value{
-Returns an object of class nsga-class. See \linkS4class{nsga} for a
+Returns an object of class nsga1-class. See \linkS4class{nsga1} for a
 description of available slots information.
 }
 \description{

@@ -1,13 +1,30 @@
-#'Virtual Parent Class Algorithm, it will use when other algorithms are implemented.
-#' Equivalent to a Abstract class in other languages.
-# @export
-setClass("algorithm", contains = "VIRTUAL")
-#setClassUnion("algorithm", "nsga")
-
-#' Virtual Class 'nsga - Simple Class for subassigment Values'
+#' Virtual Class 'numberOrNAOrMatrix - Simple Class for subassigment Values'
 #'
-#' The class 'nsga' is a simple class union ([setClassUnion()])
-#' of 'numeric', 'logical' and 'matrix'.
+#' The class 'numberOrNAOrMatrix' is a simple class union ([setClassUnion()])
+#' of 'numeric', 'logical', 'logical' and 'matrix'.
+#'
+#' @section Objects from the Class:
+#' Since it is a virtual Class, no objects may be created from it.
+#'
+#' @examples
+#' showClass('numberOrNAOrMatrix')
+
+# A new class is created with the union of numeric, logical and matrix
+#' @export
+setClassUnion("numberOrNAOrMatrix",  members = c("numeric", "logical", "matrix", "NULL"))
+
+
+#' Virtual Parent Class Algorithm
+#'
+#' It will use when other algorithms are implemented. Equivalent to a Abstract
+#' class in other languages.
+#' @export
+setClass("algorithm", contains = "VIRTUAL")
+
+#' Virtual Class 'nsga'
+#'
+#' The 'nsga' class is the parent superclass of the \linkS4class{nsga1},
+#' \linkS4class{nsga2},  and \linkS4class{nsga3} classes
 #'
 #' @section Objects from the Class:
 #' Since it is a virtual Class, no objects may be created from it.
@@ -45,39 +62,37 @@ setClass("algorithm", contains = "VIRTUAL")
 #'
 #' @examples
 #' showClass('nsga')
-# @export
+#' @export
 setClass(Class = "nsga",
          slots = list(call = "language",
                      type = "character",
-                     lower = "OptNumberOrMatrix",
-                     upper = "OptNumberOrMatrix",
-                     nBits = "OptNumberOrMatrix",
+                     lower = "numberOrNAOrMatrix",
+                     upper = "numberOrNAOrMatrix",
+                     nBits = "numberOrNAOrMatrix",
                      names = "character",
                      popSize = "numeric",
-                     front = "OptNumberOrMatrix",
+                     front = "numberOrNAOrMatrix",
                      f = "list",
                      iter = "numeric",
                      run = "numeric",
                      maxiter = "numeric",
                      suggestions = "matrix",
-                     population = "OptNumberOrMatrix",
+                     population = "numberOrNAOrMatrix",
                      pcrossover = "numeric",
-                     pmutation = "OptNumberOrMatrix",
-                     fitness = "OptNumberOrMatrix",
+                     pmutation = "numberOrNAOrMatrix",
+                     fitness = "numberOrNAOrMatrix",
                      summary = "list",
                      solution = "matrix",
-                     fitnessValue = "OptNumberOrMatrix"),
+                     fitnessValue = "numberOrNAOrMatrix"),
          contains = "algorithm"
 )
 
 
-#' Virtual Class 'nsga1 - Simple Class for subassigment Values'
+#' Class 'nsga1'
 #'
-#' The class 'nsga1' is a simple class union ([setClassUnion()])
-#' of 'numeric', 'logical' and 'matrix'.
-#'
-#' @section Objects from the Class:
-#' Since it is a virtual Class, no objects may be created from it.
+#' The class 'nsga1' is instantiated within the execution of rmoo and will be
+#' returned as a result of it. All data generated during execution will be
+#' stored in it.
 #'
 #' @slot dumFitness a large dummy fitness value assigned to individuals from
 #' the nondominated front.
@@ -90,27 +105,17 @@ setClass(Class = "nsga",
 #' showClass('nsga1')
 #' @export
 setClass(Class = "nsga1",
-         slots = list(dumFitness = "OptNumberOrMatrix",
+         slots = list(dumFitness = "numberOrNAOrMatrix",
                       dShare = "numeric",
                       deltaDummy = "numeric"),
          contains = "nsga"
 )
 
-# validNSGAIObject <- function(object) {
-#   if(length(object@x) == length(object@y)) TRUE
-#   else paste("Unequal x,y lengths: ", length(object@x), ", ",
-#              length(object@y), sep="")
-# }
-#
-# setValidity("nsga1", validNSGAIObject)
-
-#' Virtual Class 'nsga2 - Simple Class for subassigment Values'
+#' Class 'nsga2'
 #'
-#' The class 'nsga2' is a simple class union ([setClassUnion()])
-#' of 'numeric', 'logical' and 'matrix'.
-#'
-#' @section Objects from the Class:
-#' Since it is a virtual Class, no objects may be created from it.
+#' The class 'nsga2' is instantiated within the execution of rmoo and will be
+#' returned as a result of it. All data generated during execution will be
+#' stored in it.
 #'
 #' @slot crowdingDistance Crowding-comparison approach to estiate of the
 #' perimeter of the cuboid formed by using the nearest neighbors as the vertices.
@@ -119,25 +124,16 @@ setClass(Class = "nsga1",
 #' showClass('nsga2')
 #' @export
 setClass(Class = "nsga2",
-         slots = list(crowdingDistance = "OptNumberOrMatrix"),
+         slots = list(crowdingDistance = "numberOrNAOrMatrix"),
          contains = "nsga"
 )
 
-# validNSGAIIObject <- function(object) {
-#   if(length(object@x) == length(object@y)) TRUE
-#   else paste("Unequal x,y lengths: ", length(object@x), ", ",
-#              length(object@y), sep="")
-# }
-#
-# setValidity("nsga2", validNSGAIIObject)
 
-#' Virtual Class 'nsga3 - Simple Class for subassigment Values'
+#' Class 'nsga3'
 #'
-#' The class 'nsga3' is a simple class union ([setClassUnion()])
-#' of 'numeric', 'logical' and 'matrix'.
-#'
-#' @section Objects from the Class:
-#' Since it is a virtual Class, no objects may be created from it.
+#' The class 'nsga3' is instantiated within the execution of rmoo and will be
+#' returned as a result of it. All data generated during execution will be
+#' stored in it.
 #'
 #' @slot ideal_point Nadir point estimate used as lower bound in normalization.
 #' @slot worst_point Worst point generated over generations.
@@ -158,22 +154,14 @@ setClass(Class = "nsga2",
 #' showClass('nsga3')
 #' @export
 setClass(Class = "nsga3",
-         slots = list(ideal_point = "OptNumberOrMatrix",
-                      worst_point = "OptNumberOrMatrix",
-                      smin = "OptNumberOrMatrix",
-                      extreme_points = "OptNumberOrMatrix",
-                      worst_of_population = "OptNumberOrMatrix",
-                      worst_of_front = "OptNumberOrMatrix",
-                      nadir_point = "OptNumberOrMatrix",
-                      reference_points = "OptNumberOrMatrix"),
+         slots = list(ideal_point = "numberOrNAOrMatrix",
+                      worst_point = "numberOrNAOrMatrix",
+                      smin = "numberOrNAOrMatrix",
+                      extreme_points = "numberOrNAOrMatrix",
+                      worst_of_population = "numberOrNAOrMatrix",
+                      worst_of_front = "numberOrNAOrMatrix",
+                      nadir_point = "numberOrNAOrMatrix",
+                      reference_points = "numberOrNAOrMatrix"),
          contains = "nsga"
 )
 
-#
-# validNSGAIIIObject <- function(object) {
-#   if(length(object@x) == length(object@y)) TRUE
-#   else paste("Unequal x,y lengths: ", length(object@x), ", ",
-#              length(object@y), sep="")
-# }
-#
-# setValidity("nsga3", validNSGAIIIObject)

@@ -45,7 +45,7 @@ nsgaperm_Population <- function(object) {
 ## Selection Operators ----
 #' @export
 nsga_tourSelection <- function(object, k = 3, ...) {
-    switch(class(object)[1], nsga = {
+    switch(class(object)[1], nsga1 = {
         popSize <- object@popSize
         front <- object@front
         fit <- object@dumFitness
