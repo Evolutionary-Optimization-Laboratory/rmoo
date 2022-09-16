@@ -439,15 +439,20 @@ setMethod("print", "nsga1",
             algorithm <- class(x)[1]
             # Print
             cat("\nSlots Configuration:\n")
-            print(as.list(slotNames(x)))
+            print((slotNames(x)))
             cat("\n#========================================#\n")
             cat("\nTotal iterations: ", x@iter)
+            cat("\nRepresentation Type: ", x@type)
             cat("\nPopulation size: ", x@popSize)
-            cat("\nLower Bounds: ", x@lower)
-            cat("\nLower Bounds:  ", x@upper)
+            if (x@type == "binary") {
+              cat("\nNumber of Bits: ", x@nBits)
+            } else{
+              cat("\nLower Bounds: ", x@lower)
+              cat("\nLower Bounds: ", x@upper)
+            }
             cat("\nDelta Distance (dShare):  ", x@dShare)
-            cat("\nDistance of sharing function:  ", x@deltaDummy)
-            cat("\nNumber of Nondominated Front:  ", length(x@f[[1]]))
+            cat("\nDistance of sharing function: ", x@deltaDummy)
+            cat("\nNumber of Nondominated Front: ", length(x@f[[1]]))
             cat("\n#========================================#\n")
 
           }
@@ -471,7 +476,7 @@ setMethod("summary", "nsga1",
 
             if("ecr" %in% rownames(utils::installed.packages())){
               if (nullRP) {
-                cat("Warning: reference points not provided:\n
+                cat("Warning! \nReference points not provided:\n
                       value necessary to evaluate GD and IGD.")
 
               } else{
@@ -482,8 +487,7 @@ setMethod("summary", "nsga1",
 
             if("emoa" %in% rownames(utils::installed.packages())){
               if(nullRP) {
-                cat("Warning: reference points not provided:\n
-                      using the maximum in each dimension to evaluate Hypervolumen")
+                cat("\nUsing the maximum in each dimension to evaluate Hypervolumen")
                 reference_point <- nadir_point
               } else {reference_point <- apply(callArgs$reference_dirs, 2, max)}
               hv <- emoa::dominated_hypervolume(points = t(object@fitness[first, ]), ref = reference_point)

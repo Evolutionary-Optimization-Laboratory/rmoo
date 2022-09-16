@@ -212,10 +212,12 @@ NULL
 if (!isGeneric("summary"))
   setGeneric("summary", function(x, y, ...) standardGeneric("summary"))
 
-#' Methods for Function 'summary' in Package 'rmoo'
+#' Methods for Function 'progress' in Package 'rmoo'
 #'
-#' Method used to summarize the results of the evaluations, passing additional
-#' arguments in the summary method the performance metrics is evaluated.
+#' Method used to save the progress of the evaluation results, similar to the
+#' summary method. Passing additional arguments to the progress method evaluates
+#' performance metrics per iteration. This method cannot be called outside of
+#' rmoo execution.
 #'
 #' @name progress-method
 #'
@@ -228,48 +230,38 @@ if (!isGeneric("summary"))
 #' @author Francisco Benitez
 #' \email{benitezfj94@gmail.com}
 #'
-#' @return A summary of the values resulting from the execution of an algorithm.
+#' @return A list of length equal to the number of iterations, where the progress made during execution is saved.
 #'
 #' @examples
-#' # Where 'out' is an object of class nsga1, nsga2, or nsga3
+#' # Where 'out' is an object of class nsga1, nsga2, or nsga3, and callArgs are
+#' # the additional arguments passed when calling the rmoo function, for the
+#' # evaluation of performance metrics, reference points are expected to be passed
+#' # as an argument to reference_dirs.
 #' #
-#' # summary(out)
+#' # progress(object, callArgs)
 #' #
-#' # For the evaluation of the metrics, pass the reference point
-#' #
-#' # ref_points <- generate_reference_points(3,12)
-#' # summary(out, reference_dirs = ref_points)
 #'
 #' @export
 setGeneric("progress", function(object, ...) standardGeneric("progress"))
 
-#' Methods for Function 'summary' in Package 'rmoo'
-#'
-#' Method used to summarize the results of the evaluations, passing additional
-#' arguments in the summary method the performance metrics is evaluated.
+#' Accessor methods to the metrics evaluated during execution
 #'
 #' @name getMetrics-method
 #'
-#' @param x,y Objects of either class \linkS4class{nsga1},
-#'   \linkS4class{nsga2},  or \linkS4class{nsga3}.
-#' @param ... other arguments passed on to methods. Passing \code{"reference_dirs"}
-#' as arguments will evaluate the performance metrics Hypervolumen,
-#' Generational Distance, and Inverse Generational Distance.
+#' @param obj an object resulting from the execution of NSGA-I, NSGA-II or NSGA-III
+#' algorithm. During the execution of the performance metrics must be evaluated.
 #'
 #' @author Francisco Benitez
 #' \email{benitezfj94@gmail.com}
 #'
-#' @return A summary of the values resulting from the execution of an algorithm.
+#' @return A dataframe with performance metrics evaluated iteration by iteration.
 #'
 #' @examples
-#' # Where 'out' is an object of class nsga1, nsga2, or nsga3
+#' # Where 'out' is an object resulting from the execution of the rmoo.
 #' #
-#' # summary(out)
+#' # metrics_result <- getMetrics(out)
 #' #
-#' # For the evaluation of the metrics, pass the reference point
-#' #
-#' # ref_points <- generate_reference_points(3,12)
-#' # summary(out, reference_dirs = ref_points)
+#' # metrics_result
 #'
 #' @export
 setGeneric("getMetrics", function(obj) standardGeneric("getMetrics"))
@@ -305,17 +297,30 @@ setMethod("print", "nsga",
             # algorithm <- class(object)[1]
             # Print
             cat("Slots Configuration:\n")
-            print(as.list(slotNames(x)))
+            print((slotNames(x)))
             cat("\n#========================================#\n")
             cat("\nTotal iterations: ", x@iter)
             cat("\nPopulation size: ", x@popSize)
-            cat("\nLower Bounds: ", x@lower)
-            cat("\nLower Bounds:  ", x@upper)
+            if (x@type == "binary") {
+              cat("\nNumber of Bits: ", x@nBits)
+            } else{
+              cat("\nLower Bounds: ", x@lower)
+              cat("\nLower Bounds: ", x@upper)
+            }
             cat("\nNumber of Nondominated Front:  ", length(x@f[[1]]))
             cat("\n#========================================#\n")
           }
 )
 
+#' @export
+setMethod("plot", signature(x="nsga", y="missing"), .get.plotting)
+
+#' @export
+setMethod("summary", "nsga",
+          function(object, ...) {
+            str(object)
+          }
+)
 
 
 #' @export

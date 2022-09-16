@@ -55,7 +55,7 @@ A simple example of running nsga3 solving the DTLZ1 problem:
 ``` r
 library(rmoo)
 
-DTLZ1 <- function (x, nobj = 3) 
+DTLZ1 <- function (x, nobj = 3, ...) 
 {
     if (is.null(dim(x))) {
         x <- matrix(x, 1)
@@ -72,38 +72,41 @@ DTLZ1 <- function (x, nobj = 3)
     return(f)
 }
 
-result <- nsga3(fitness = DTLZ1,
+result <- rmoo(fitness = DTLZ1,
                 type = "real-valued",
+                strategy = "NSGA-III",
                 lower = c(0,0,0),
                 upper = c(1,1,1),
+                monitor = FALSE,
+                summary = FALSE,
                 popSize = 92,
                 n_partitions = 12,
                 maxiter = 300)
                 
-pcp(object = result)
+plot(result, type="pcp")
 ```
 ![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-1.png)<!-- -->
 
 ``` r
 #Scatter without optimal points
-scatter(object = result)
+plot(result)
 ```
 ![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-2.png)<!-- -->
 
 ``` r
 #Scatter with optimal points (Using reference points as optimal points)
-scatter(object = result, optimal = result@reference_points)
+plot(result, optimal = result@reference_points)
 ```
 ![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-3.png)<!-- -->
 
 ``` r
 #Polar Coordinates
-polar(fitness = result@fitness[1:3,])
+plot(result, type="polar", individual = c(1:3))
 ```
 ![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-4.png)<!-- -->
 
 ``` r
 #Heatmap Plot
-heat_map(fitness = result@fitness[1:3,])
+plot(result, type="heatmap", individual = c(1:3))
 ```
 ![](https://github.com/Evolutionary-Optimization-Laboratory/rmoo/blob/master/man/figures/README-example-5.png)<!-- -->

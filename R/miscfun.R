@@ -154,12 +154,14 @@ nsgaMonitor <- function(object, number_objectives, ...) {
   worst_point <- object@worst_point
   extreme_points <- object@extreme_points
 
+  reference_dirs <- callArgs$reference_dirs
+
   if("ecr" %in% rownames(utils::installed.packages())){
-    gd <- ecr::computeGenerationalDistance(t(object@fitness), t(object@reference_points))
-    igd <- ecr::computeInvertedGenerationalDistance(t(object@fitness), t(object@reference_points))
+    gd <- ecr::computeGenerationalDistance(t(object@fitness), t(reference_dirs))
+    igd <- ecr::computeInvertedGenerationalDistance(t(object@fitness), t(reference_dirs))
   }
   if("emoa" %in% rownames(utils::installed.packages())){
-    hv <- ecr::computeHV(t(object@fitness), ref.point = apply(object@reference_points, 2, max))
+    hv <- ecr::computeHV(t(object@fitness), ref.point = apply(reference_dirs, 2, max))
   }
   if (all((c("ecr", "emoa") %in% rownames(utils::installed.packages())))) {
     metric <- data.frame(Iternation = object@iter,
@@ -257,7 +259,7 @@ plotting_multi_objective <- function(object, ...) {
       ggplot2::labs(title = paste(algorithm, "No Objective:", ncol(object@fitness)),
                     color = "Values") +
       ggplot2::scale_color_manual(labels = "Objective_Value",
-                                  values = "green")
+                                  values = "black")
   }
 }
 
@@ -375,7 +377,7 @@ heat_map <- function(object, ...){
     stop("Please, define a vector with the individuals to plot")
 
   if (length(individual) > 10) {
-    cat("Warning: Heatmap plot with more than 10 individuals will not be displayed correctly.\n
+    cat("Warning! Heatmap plot with more than 10 individuals will not be displayed correctly.\n
                   The plot will still be displayed.")
   }
 
@@ -414,7 +416,7 @@ polar <- function(object, ...){
     stop("Please, define a vector with the individuals to plot")
 
   if (length(individual) > 10) {
-    cat("Warning: Polar Coordinate plot with more than 10 individuals will not be displayed correctly.\n
+    cat("Warning! Polar Coordinate plot with more than 10 individuals will not be displayed correctly.\n
                   The plot will still be displayed.")
   }
 

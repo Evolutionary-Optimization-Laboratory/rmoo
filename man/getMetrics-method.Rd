@@ -2,34 +2,26 @@
 % Please edit documentation in R/AllGenerics.R
 \name{getMetrics-method}
 \alias{getMetrics-method}
-\title{Methods for Function 'summary' in Package 'rmoo'}
+\title{Accessor methods to the metrics evaluated during execution}
 \usage{
 getMetrics(obj)
 }
 \arguments{
-\item{x, y}{Objects of either class \linkS4class{nsga1},
-\linkS4class{nsga2},  or \linkS4class{nsga3}.}
-
-\item{...}{other arguments passed on to methods. Passing \code{"reference_dirs"}
-as arguments will evaluate the performance metrics Hypervolumen,
-Generational Distance, and Inverse Generational Distance.}
+\item{obj}{an object resulting from the execution of NSGA-I, NSGA-II or NSGA-III
+algorithm. During the execution of the performance metrics must be evaluated.}
 }
 \value{
-A summary of the values resulting from the execution of an algorithm.
+A dataframe with performance metrics evaluated iteration by iteration.
 }
 \description{
-Method used to summarize the results of the evaluations, passing additional
-arguments in the summary method the performance metrics is evaluated.
+Accessor methods to the metrics evaluated during execution
 }
 \examples{
-# Where 'out' is an object of class nsga1, nsga2, or nsga3
+# Where 'out' is an object resulting from the execution of the rmoo.
 #
-# summary(out)
+# metrics_result <- getMetrics(out)
 #
-# For the evaluation of the metrics, pass the reference point
-#
-# ref_points <- generate_reference_points(3,12)
-# summary(out, reference_dirs = ref_points)
+# metrics_result
 
 }
 \author{

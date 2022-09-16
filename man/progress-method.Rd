@@ -2,7 +2,7 @@
 % Please edit documentation in R/AllGenerics.R
 \name{progress-method}
 \alias{progress-method}
-\title{Methods for Function 'summary' in Package 'rmoo'}
+\title{Methods for Function 'progress' in Package 'rmoo'}
 \usage{
 progress(object, ...)
 }
@@ -15,21 +15,22 @@ Generational Distance, and Inverse Generational Distance.}
 \linkS4class{nsga2},  or \linkS4class{nsga3}.}
 }
 \value{
-A summary of the values resulting from the execution of an algorithm.
+A list of length equal to the number of iterations, where the progress made during execution is saved.
 }
 \description{
-Method used to summarize the results of the evaluations, passing additional
-arguments in the summary method the performance metrics is evaluated.
+Method used to save the progress of the evaluation results, similar to the
+summary method. Passing additional arguments to the progress method evaluates
+performance metrics per iteration. This method cannot be called outside of
+rmoo execution.
 }
 \examples{
-# Where 'out' is an object of class nsga1, nsga2, or nsga3
+# Where 'out' is an object of class nsga1, nsga2, or nsga3, and callArgs are
+# the additional arguments passed when calling the rmoo function, for the
+# evaluation of performance metrics, reference points are expected to be passed
+# as an argument to reference_dirs.
 #
-# summary(out)
+# progress(object, callArgs)
 #
-# For the evaluation of the metrics, pass the reference point
-#
-# ref_points <- generate_reference_points(3,12)
-# summary(out, reference_dirs = ref_points)
 
 }
 \author{

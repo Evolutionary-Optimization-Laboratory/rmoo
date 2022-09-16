@@ -235,12 +235,14 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
 
     #Generate reference points, otherwise, assign the provided matrix
     if (is.function(reference_dirs)) {
-      ref_dirs <- reference_dirs(nObj, n_partitions)
-    } else {
-      ref_dirs <- reference_dirs
+      reference_dirs <- reference_dirs(nObj, n_partitions)
+      #ref_dirs <- reference_dirs(nObj, n_partitions)
     }
+    # else {
+    #   ref_dirs <- reference_dirs
+    # }
 
-    if (ncol(ref_dirs) != nObj) {
+    if (ncol(reference_dirs) != nObj) {
       stop("Dimensionality of reference points must be equal to the number of objectives")
     }
 
@@ -341,7 +343,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
         pmutation = if (is.numeric(pmutation))
           pmutation
         else NA,
-        reference_points = ref_dirs, #Agregar en nsga3-class
+        reference_points = reference_dirs, #Agregar en nsga3-class
         fitness = Fitness,
         summary = fitnessSummary)
 
@@ -576,12 +578,16 @@ setMethod("print", "nsga3",
             # algorithm <- class(object)[1]
             # Print
             cat("Slots Configuration:\n")
-            print(as.list(slotNames(x)))
+            print((slotNames(x)))
             cat("\n#========================================#\n")
             cat("\nTotal iterations: ", x@iter)
             cat("\nPopulation size: ", x@popSize)
-            cat("\nLower Bounds: ", x@lower)
-            cat("\nUpper Bounds:  ", x@upper)
+            if (x@type == "binary") {
+              cat("\nNumber of Bits: ", x@nBits)
+            } else{
+              cat("\nLower Bounds: ", x@lower)
+              cat("\nLower Bounds: ", x@upper)
+            }
             cat("\nEstimated Ideal Point:  ", x@ideal_point)
             cat("\nEstimated Worst Point:  ", x@worst_point)
             cat("\nEstimated Nadir Point:  ", x@nadir_point)
@@ -607,7 +613,7 @@ setMethod("summary", "nsga3",
 
             if("ecr" %in% rownames(utils::installed.packages())){
               if (nullRP) {
-                cat("Warning: reference points not provided:\n
+                cat("Warning! \nReference points not provided:\n
                       value necessary to evaluate GD and IGD.")
 
               } else{
@@ -618,8 +624,7 @@ setMethod("summary", "nsga3",
 
             if("emoa" %in% rownames(utils::installed.packages())){
               if(nullRP) {
-                cat("Warning: reference points not provided:\n
-                      using the maximum in each dimension to evaluate Hypervolumen")
+                cat("\nUsing the maximum in each dimension to evaluate Hypervolumen")
                 reference_point <- nadir_point
               } else {reference_point <- apply(callArgs$reference_dirs, 2, max)}
               hv <- emoa::dominated_hypervolume(points = t(object@fitness[first, ]), ref = reference_point)
