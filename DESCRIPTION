@@ -51,20 +51,20 @@ Imports:
     stats,
     utils,
     graphics,
-    methods
+    methods,
+    GA,
+    grDevices,
+    ggplot2,
+    plotly
 URL: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/
 BugReports: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/issues/
 Suggests: 
     testthat,
-    GA,
     covr,
     rgl,
     ecr,
-    ggplot2,
-    plotly,
     cdata,
     dplyr,
-    reshape2,
-    grDevices
+    reshape2
 Depends: 
     R (>= 2.10)

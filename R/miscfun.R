@@ -3,9 +3,13 @@ nsgaMonitor <- function(object, number_objectives, ...) {
   if (!requireNamespace("rgl", quietly = TRUE)){
     stop("packages 'rgl' required for Monitor, please install it!")
   }
+  # if(!all(requireNamespace("rgl", quietly = TRUE),
+  #         requireNamespace("grDevices", quietly = TRUE))){
+  #   stop("packages 'rgl' and 'grDevices' required for Monitor, please install it!")
+  # }
   fitness <- object@fitness
   iter <- object@iter
-  cl <- rainbow(object@popSize)
+  cl <- grDevices::rainbow(object@popSize)
 
   if (number_objectives == 3) {
     rgl::plot3d(fitness)
@@ -147,14 +151,15 @@ nsgaMonitor <- function(object, number_objectives, ...) {
 
 
 .nsga3.progress <- function(object, ...) {
+  callArgs <- as.list(...)
+  reference_dirs <- callArgs$reference_dirs
+
   first <- object@f[[1]]
   first_front_fit <- object@fitness[first, ]
   first_front_pop <- object@population[first, ]
   ideal_point <- object@ideal_point
   worst_point <- object@worst_point
   extreme_points <- object@extreme_points
-
-  reference_dirs <- callArgs$reference_dirs
 
   if("ecr" %in% rownames(utils::installed.packages())){
     gd <- ecr::computeGenerationalDistance(t(object@fitness), t(reference_dirs))
@@ -203,12 +208,12 @@ nsgaMonitor <- function(object, number_objectives, ...) {
 }
 
 scatter <- function(object, ...){
-  if(!all(requireNamespace("ggplot2", quietly = TRUE),
-          requireNamespace("reshape2", quietly = TRUE),
-          requireNamespace("plotly", quietly = TRUE),
-          requireNamespace("grDevices", quietly = TRUE),
+  if(!all(requireNamespace("reshape2", quietly = TRUE),
+          #requireNamespace("ggplot2", quietly = TRUE),
+          #requireNamespace("plotly", quietly = TRUE),
+          #requireNamespace("grDevices", quietly = TRUE),
           requireNamespace("cdata", quietly = TRUE))){
-    stop("packages 'ggplot2', 'reshape2', 'plotly', 'grDevices' and 'cdata' required for scatter plotting!")
+    stop("packages 'reshape2' and 'cdata' required for scatter plotting!")
   }
   #algorithm <- class(object)[1]
   n_obj <- ncol(object@fitness)
@@ -346,14 +351,20 @@ plotting_pairwise <- function(object, ...){
 }
 
 pcp <- function(object) {
-  if(!all(requireNamespace("ggplot2", quietly = TRUE),
-          requireNamespace("reshape2", quietly = TRUE),
-          requireNamespace("dplyr", quietly = TRUE)))
-    stop("packages 'ggplot2', 'dplyr' and 'reshape2' required for pcp plotting!")
+
+  if (!requireNamespace("reshape2", quietly = TRUE)){
+    stop("packages 'reshape2' required for pcp plotting!")
+  }
+
+  # if(!all(requireNamespace("ggplot2", quietly = TRUE),
+  #         requireNamespace("grDevices", quietly = TRUE),
+  #         requireNamespace("reshape2", quietly = TRUE),
+  #         requireNamespace("dplyr", quietly = TRUE)))
+  #   stop("packages 'ggplot2', 'dplyr' and 'reshape2' required for pcp plotting!")
   nObj <- ncol(object@fitness)
   colnames(object@fitness) <- sprintf("f_%s",seq(nObj))
   fitness <- reshape2::melt(object@fitness)
-  fitness$color <- rainbow(object@popSize)
+  fitness$color <- grDevices::rainbow(object@popSize)
   fitness <- dplyr::rename(fitness,
                            'Objective_Value' = value,
                            'Objective_No' = Var2)
@@ -365,10 +376,13 @@ pcp <- function(object) {
 }
 
 heat_map <- function(object, ...){
-  if(!all(requireNamespace("ggplot2", quietly = TRUE),
-          requireNamespace("reshape2", quietly = TRUE),
-          requireNamespace("dplyr", quietly = TRUE)))
-    stop("packages 'ggplot2', 'dplyr' and 'reshape2' required for heat map plotting!")
+  if (!requireNamespace("reshape2", quietly = TRUE)){
+    stop("packages 'reshape2' required for heat map plotting!")
+  }
+  # if(!all(requireNamespace("ggplot2", quietly = TRUE),
+  #         requireNamespace("reshape2", quietly = TRUE),
+  #         requireNamespace("dplyr", quietly = TRUE)))
+  #   stop("packages 'ggplot2', 'dplyr' and 'reshape2' required for heat map plotting!")
   callArgs <- list(...)
   individual <- callArgs$individual
   fitness <- object@fitness
@@ -403,10 +417,13 @@ heat_map <- function(object, ...){
 }
 
 polar <- function(object, ...){
-  if(!all(requireNamespace("ggplot2", quietly = TRUE),
-          requireNamespace("reshape2", quietly = TRUE),
-          requireNamespace("dplyr", quietly = TRUE)))
-    stop("packages 'ggplot2', 'dplyr' and 'reshape2' required for polar coordinate plotting!")
+  if (!requireNamespace("reshape2", quietly = TRUE)){
+    stop("packages 'reshape2' required for polar coordinate plotting!")
+  }
+  # if(!all(requireNamespace("ggplot2", quietly = TRUE),
+  #         requireNamespace("reshape2", quietly = TRUE),
+  #         requireNamespace("dplyr", quietly = TRUE)))
+  #   stop("packages 'ggplot2', 'dplyr' and 'reshape2' required for polar coordinate plotting!")
 
   callArgs <- list(...)
   individual <- callArgs$individual

@@ -241,6 +241,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
     # else {
     #   ref_dirs <- reference_dirs
     # }
+    callArgs$reference_dirs <- reference_dirs
 
     if (ncol(reference_dirs) != nObj) {
       stop("Dimensionality of reference points must be equal to the number of objectives")

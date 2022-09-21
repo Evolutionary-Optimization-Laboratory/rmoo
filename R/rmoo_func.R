@@ -219,8 +219,8 @@ getAlgorithm <- function(rmoo.input.pars, algorithm, ...){
     do.call(rmoo::nsga3,
             args = rmoo.input.pars)
   } else if (algorithm == "GA"){
-    requireNamespace("GA", quietly=TRUE) ||
-      stop("GA package is not available")
+    # requireNamespace("GA", quietly=TRUE) ||
+    #   stop("GA package is not available. Please install it to run the Genetic Algorithm.")
     do.call(GA::ga,
             args = rmoo.input.pars)
   }

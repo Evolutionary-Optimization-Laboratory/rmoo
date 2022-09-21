@@ -105,6 +105,8 @@ setGeneric("getFitness", function(obj) standardGeneric("getFitness"))
 #'  \item{}{"Polar Coordinate"}
 #' }
 #'
+#' @name plot
+#'
 #' @param x,y Objects of either class \linkS4class{nsga1},
 #'   \linkS4class{nsga2},  or \linkS4class{nsga3}.
 #' @param ... other arguments passed on to methods
@@ -143,18 +145,19 @@ setGeneric("getFitness", function(obj) standardGeneric("getFitness"))
 #' #
 #' # plot(out, type = "polar", individual = c(1:5))
 #'
-#' @name plot-method
-NULL
-
-#' @rdname plot-method
 #' @export
 if (!isGeneric("plot"))
    setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 
+# @name plot-method
+NULL
+# @name plot-method
 
 #' Methods for Function 'print' in Package 'rmoo'.
 #'
 #' Method used to print the slots and relevant values of the object.
+#'
+#' @name print
 #'
 #' @param x,y Objects of either class \linkS4class{nsga1},
 #'   \linkS4class{nsga2},  or \linkS4class{nsga3}.
@@ -170,18 +173,20 @@ if (!isGeneric("plot"))
 #' #
 #' # print(out)
 #'
-#' @name print-method
-NULL
-
-#' @rdname print-method
 #' @export
 if (!isGeneric("print"))
    setGeneric("print", function(x, y, ...) standardGeneric("print"))
+
+# @name print-method
+NULL
+# @name print-method
 
 #' Methods for Function 'summary' in Package 'rmoo'
 #'
 #' Method used to summarize the results of the evaluations, passing additional
 #' arguments in the summary method the performance metrics is evaluated.
+#'
+#' @name summary
 #'
 #' @param x,y Objects of either class \linkS4class{nsga1},
 #'   \linkS4class{nsga2},  or \linkS4class{nsga3}.
@@ -204,13 +209,13 @@ if (!isGeneric("print"))
 #' # ref_points <- generate_reference_points(3,12)
 #' # summary(out, reference_dirs = ref_points)
 #'
-#' @name summary-method
-NULL
-
-#' @rdname summary-method
 #' @export
 if (!isGeneric("summary"))
   setGeneric("summary", function(x, y, ...) standardGeneric("summary"))
+
+# @name summary-method
+NULL
+# @name summary-method
 
 #' Methods for Function 'progress' in Package 'rmoo'
 #'
@@ -321,7 +326,6 @@ setMethod("summary", "nsga",
             str(object)
           }
 )
-
 
 #' @export
 setMethod("getMetrics", "nsga",
