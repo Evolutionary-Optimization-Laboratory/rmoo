@@ -567,15 +567,21 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
     return(solution)
 }
 
-#' @export
+# @export
+#' @rdname progress-methods
+#' @aliases progress,nsga3-method
 setMethod("progress", "nsga3", .nsga3.progress)
 
-#' @export
+# @export
+#' @rdname plot-methods
+#' @aliases plot,nsga3-method
 setMethod("plot", signature(x="nsga3", y="missing"), .get.plotting)
 
-#' @export
+# @export
+#' @rdname print-methods
+#' @aliases print,nsga3-method
 setMethod("print", "nsga3",
-          function(x=object, y="missing", ...) {
+          function(x, ...) {
             # algorithm <- class(object)[1]
             # Print
             cat("Slots Configuration:\n")
@@ -597,7 +603,9 @@ setMethod("print", "nsga3",
           }
 )
 
-#' @export
+# @export
+#' @rdname summary-methods
+#' @aliases summary,nsga3-method
 setMethod("summary", "nsga3",
           function(object, ...){
             callArgs <- list(...)

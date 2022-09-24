@@ -446,16 +446,24 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
     return(solution)
 }
 
-#' @export
+# @export
+#' @rdname progress-methods
+#' @aliases progress,nsga2-method
 setMethod("progress", "nsga2", .nsga2.progress)
 
-#' @export
+# @export
+#' @rdname plot-methods
+#' @aliases plot,nsga2-method
 setMethod("plot", signature(x="nsga2", y="missing"), .get.plotting)
 
-#' @export
+# @export
+#' @rdname getCrowdingDistance-methods
+#' @aliases getCrowdingDistance,nsga2-method
 setMethod("getCrowdingDistance", "nsga2", function(obj) print(obj@crowdingDistance))
 
-#' @export
+# @export
+#' @rdname summary-methods
+#' @aliases summary,nsga2-method
 setMethod("summary", "nsga2",
           function(object, ...){
             callArgs <- list(...)

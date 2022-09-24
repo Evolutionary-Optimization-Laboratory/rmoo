@@ -14,11 +14,11 @@ test_that("Scatter Plot for 2-objective works", {
     seed = 1, monitor = FALSE,
     summary = FALSE, maxiter = 1, nObj = 2)
 
-  expect_message(scatter(object = out), NA)
+  expect_message(plot(x = out), NA)
 })
 
 test_that("Scatter Plot for 3-objective works", {
-  testfunction <- function (x){
+  testfunction <- function (x,...){
     return(x)
   }
 
@@ -32,13 +32,13 @@ test_that("Scatter Plot for 3-objective works", {
     seed = 1, monitor = FALSE,
     summary = FALSE, maxiter = 1, nObj = 3)
 
-  expect_message(scatter(object = out), NA)
-  expect_message(scatter(object = out,
+  expect_message(plot(x = out), NA)
+  expect_message(plot(x = out,
                  optimal = out@reference_points), NA)
 })
 
 test_that("Scatter Plot for n-objective works", {
-  testfunction <- function (x){
+  testfunction <- function (x,...){
     return(x)
   }
 
@@ -52,5 +52,5 @@ test_that("Scatter Plot for n-objective works", {
     seed = 1, monitor = FALSE,
     summary = FALSE, maxiter = 1, nObj = 4)
 
-  expect_message(scatter(object = out), NA)
+  expect_message(plot(x = out), NA)
 })

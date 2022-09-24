@@ -190,7 +190,10 @@ nsgaMonitor <- function(object, number_objectives, ...) {
 }
 
 .get.plotting <- function(x, y="missing",
-                          type="scatter", ...){
+                          type=c("scatter", "pcp", "heatmap", "polar"),
+                          ...){
+  type <- match.arg(type)
+
   switch(type,
          "scatter" = {
            scatter(x, ...)
@@ -249,7 +252,7 @@ plotting_multi_objective <- function(object, ...) {
                               color = "Objective_Value")) +
       ggplot2::labs(title = paste(algorithm, "No Objective:", ncol(object@fitness)),
                     color = "Values") +
-      ggplot2::scale_color_manual(labels = c(name_optimal, "Objective_Value"),
+      ggplot2::scale_color_manual(labels = c("Objective_Value", name_optimal),
                                   values = c("green", "black"))
 
   } else {

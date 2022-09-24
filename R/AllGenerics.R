@@ -1,7 +1,5 @@
 #' Accessor methods to the crowding distance for NSGA-II results
 #'
-#' @name getCrowdingDistance-method
-#'
 #' @param obj an object resulting from the execution of NSGA-II algorithm
 #'
 #' @author Francisco Benitez
@@ -17,11 +15,11 @@
 #' #
 #'
 #' @export
+#' @docType methods
+#' @rdname getCrowdingDistance-methods
 setGeneric("getCrowdingDistance", function(obj) standardGeneric("getCrowdingDistance"))
 
 #' Accessor methods to the dummy fitness for NSGA-I results
-#'
-#' @name getDummyFitness-method
 #'
 #' @param obj an object resulting from the execution of NSGA-I algorithm
 #'
@@ -38,11 +36,11 @@ setGeneric("getCrowdingDistance", function(obj) standardGeneric("getCrowdingDist
 #' #
 #'
 #' @export
+#' @docType methods
+#' @rdname getDummyFitness-methods
 setGeneric("getDummyFitness", function(obj) standardGeneric("getDummyFitness"))
 
 #' Accessor methods to the population for rmoo results
-#'
-#' @name getPopulation-method
 #'
 #' @param obj an object resulting from the execution of NSGA-I, NSGA-II or NSGA-III
 #' algorithm
@@ -63,11 +61,11 @@ setGeneric("getDummyFitness", function(obj) standardGeneric("getDummyFitness"))
 #' # population_result
 #'
 #' @export
+#' @docType methods
+#' @rdname getPopulation-methods
 setGeneric("getPopulation", function(obj) standardGeneric("getPopulation"))
 
 #' Accessor methods to the fitness for rmoo results
-#'
-#' @name getFitness-method
 #'
 #' @param obj an object resulting from the execution of NSGA-I, NSGA-II or NSGA-III
 #' algorithm
@@ -88,6 +86,8 @@ setGeneric("getPopulation", function(obj) standardGeneric("getPopulation"))
 #' # fitness_result
 #'
 #' @export
+#' @docType methods
+#' @rdname getFitness-methods
 setGeneric("getFitness", function(obj) standardGeneric("getFitness"))
 
 
@@ -105,14 +105,12 @@ setGeneric("getFitness", function(obj) standardGeneric("getFitness"))
 #'  \item{}{"Polar Coordinate"}
 #' }
 #'
-#' @name plot
-#'
 #' @param x,y Objects of either class \linkS4class{nsga1},
 #'   \linkS4class{nsga2},  or \linkS4class{nsga3}.
+#' @param type Type of graph to draw, the graphs can be of the type "scatter",
+#' 	"pcp", "heatmap", or "polar"
 #' @param ... other arguments passed on to methods
 #' \describe{
-#' 	\item{"type"}{Type of graph to draw, the graphs can be of the type "scatter",
-#' 	"pcp", "heatmap", or "polar"}
 #'	\item{"optimal"}{An argument passed to the "scatter" plot. A matrix of
 #'	dimension equal to the fitness with which they are compared. This value can
 #'	only be compared in 2 and 3 dimensional "scatter" plots.}
@@ -146,9 +144,11 @@ setGeneric("getFitness", function(obj) standardGeneric("getFitness"))
 #' # plot(out, type = "polar", individual = c(1:5))
 #'
 #' @export
-if (!isGeneric("plot"))
-   setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
+#' @docType methods
+#' @rdname plot-methods
+setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 
+#if (!isGeneric("plot"))
 # @name plot-method
 NULL
 # @name plot-method
@@ -157,9 +157,7 @@ NULL
 #'
 #' Method used to print the slots and relevant values of the object.
 #'
-#' @name print
-#'
-#' @param x,y Objects of either class \linkS4class{nsga1},
+#' @param x Objects of either class \linkS4class{nsga1},
 #'   \linkS4class{nsga2},  or \linkS4class{nsga3}.
 #' @param ... other arguments passed on to methods
 #'
@@ -174,9 +172,11 @@ NULL
 #' # print(out)
 #'
 #' @export
-if (!isGeneric("print"))
-   setGeneric("print", function(x, y, ...) standardGeneric("print"))
+#' @docType methods
+#' @rdname print-methods
+setGeneric("print", function(x, ...) standardGeneric("print"))
 
+#if (!isGeneric("print"))
 # @name print-method
 NULL
 # @name print-method
@@ -186,9 +186,7 @@ NULL
 #' Method used to summarize the results of the evaluations, passing additional
 #' arguments in the summary method the performance metrics is evaluated.
 #'
-#' @name summary
-#'
-#' @param x,y Objects of either class \linkS4class{nsga1},
+#' @param object Objects of either class \linkS4class{nsga1},
 #'   \linkS4class{nsga2},  or \linkS4class{nsga3}.
 #' @param ... other arguments passed on to methods. Passing \code{"reference_dirs"}
 #' as arguments will evaluate the performance metrics Hypervolumen,
@@ -210,9 +208,11 @@ NULL
 #' # summary(out, reference_dirs = ref_points)
 #'
 #' @export
-if (!isGeneric("summary"))
-  setGeneric("summary", function(x, y, ...) standardGeneric("summary"))
+#' @docType methods
+#' @rdname summary-methods
+setGeneric("summary", function(object, ...) standardGeneric("summary"))
 
+# if (!isGeneric("summary"))
 # @name summary-method
 NULL
 # @name summary-method
@@ -224,9 +224,7 @@ NULL
 #' performance metrics per iteration. This method cannot be called outside of
 #' rmoo execution.
 #'
-#' @name progress-method
-#'
-#' @param x,y Objects of either class \linkS4class{nsga1},
+#' @param object Objects of either class \linkS4class{nsga1},
 #'   \linkS4class{nsga2},  or \linkS4class{nsga3}.
 #' @param ... other arguments passed on to methods. Passing \code{"reference_dirs"}
 #' as arguments will evaluate the performance metrics Hypervolumen,
@@ -247,11 +245,11 @@ NULL
 #' #
 #'
 #' @export
+#' @docType methods
+#' @rdname progress-methods
 setGeneric("progress", function(object, ...) standardGeneric("progress"))
 
 #' Accessor methods to the metrics evaluated during execution
-#'
-#' @name getMetrics-method
 #'
 #' @param obj an object resulting from the execution of NSGA-I, NSGA-II or NSGA-III
 #' algorithm. During the execution of the performance metrics must be evaluated.
@@ -269,11 +267,14 @@ setGeneric("progress", function(object, ...) standardGeneric("progress"))
 #' # metrics_result
 #'
 #' @export
+#' @docType methods
+#' @rdname getMetrics-methods
 setGeneric("getMetrics", function(obj) standardGeneric("getMetrics"))
 # if (!isGeneric("progress"))
 
 
-#' @export
+#' @rdname getPopulation-methods
+#' @aliases getPopulation,nsga,nsga-method
 setMethod("getPopulation", "nsga",
           function(obj) {
             print(obj@population)
@@ -284,7 +285,9 @@ setMethod("getPopulation", "nsga",
           }
 )
 
-#' @export
+# @export
+#' @rdname getPopulation-methods
+#' @aliases getFitness,nsga,nsga-method
 setMethod("getFitness", "nsga",
           function(obj) {
             print(obj@fitness)
@@ -296,9 +299,11 @@ setMethod("getFitness", "nsga",
 )
 
 
-#' @export
-setMethod("print", "nsga",
-          function(x=object, y="missing", ...) {
+# @export
+#' @rdname print-methods
+#' @aliases print,nsga,missing-method
+setMethod("print", signature(x = "nsga"),
+          function(x, ...) {
             # algorithm <- class(object)[1]
             # Print
             cat("Slots Configuration:\n")
@@ -317,17 +322,45 @@ setMethod("print", "nsga",
           }
 )
 
-#' @export
+# @export
+#' @rdname plot-methods
+#' @aliases plot,nsga,missing
 setMethod("plot", signature(x="nsga", y="missing"), .get.plotting)
 
-#' @export
-setMethod("summary", "nsga",
+# @export
+#' @rdname summary-methods
+#' @aliases summary,nsga,nsga-method
+setMethod("summary", signature(object = "nsga"),
           function(object, ...) {
             str(object)
           }
 )
 
-#' @export
+# @export
+#' @rdname progress-methods
+#' @aliases progress,nsga,nsga-method
+setMethod("progress", signature(object = "nsga"),
+          function(object, ...) {
+            callArgs <- as.list(...)
+
+            nullRP <- is.null(callArgs$reference_dirs)
+
+            first <- object@f[[1]]
+            first_front_fit <- object@fitness[first, ]
+            first_front_pop <- object@population[first, ]
+
+            result <- list(Iternation = object@iter,
+                           first_front_fit = first_front_fit,
+                           first_front_pop = first_front_pop)
+
+            return(invisible(result))
+          }
+)
+
+
+# @export
+#' @rdname getMetrics-methods
+#' @aliases getMetrics,nsga,nsga-method
 setMethod("getMetrics", "nsga",
           function(obj) {
             iter <- obj@iter

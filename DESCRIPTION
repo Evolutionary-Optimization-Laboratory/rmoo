@@ -63,6 +63,7 @@ Suggests:
     covr,
     rgl,
     ecr,
+    emoa,
     cdata,
     dplyr,
     reshape2

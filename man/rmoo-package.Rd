@@ -2,8 +2,8 @@
 % Please edit documentation in R/rmoo.R
 \docType{package}
 \name{rmoo-package}
-\alias{rmoo}
 \alias{rmoo-package}
+\alias{_PACKAGE}
 \title{rmoo: Multi-Objective Optimization in R}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}

@@ -1,4 +1,5 @@
 #' @keywords internal
+#' @aliases rmoo-package
 "_PACKAGE"
 
 #' @import stats utils graphics methods

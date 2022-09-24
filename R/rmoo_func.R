@@ -24,6 +24,7 @@
 #' The purpose of the algorithms is to find an efficient way to optimize
 #' multi-objectives functions (more than three).
 #'
+#' @name rmoo_func
 #'
 #' @param ... argument in which all the values necessary for the configuration
 #' will be passed as parameters. The user is encouraged to see the documentations
@@ -54,7 +55,7 @@
 #' doi: 10.1109/TEVC.2013.2281535.
 #'
 #' @return Returns an object of class ga-class, nsga1-class, nsga2-class or
-#' nsga3-class. See [nsga1-class, nsga2-class, nsga3-class] for a description of
+#' nsga3-class. See [nsga1-class], [nsga2-class], [nsga3-class] for a description of
 #' available slots information.
 #'
 #' @seealso [nsga()], [nsga2()], [nsga3()]
@@ -184,6 +185,7 @@
 #' }
 #'
 #' @export
+#' @aliases rmoo-func,rmoo-function
 rmoo <- function (...) {
 
   call <- match.call()

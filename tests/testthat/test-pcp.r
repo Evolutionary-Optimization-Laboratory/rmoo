@@ -1,7 +1,7 @@
 context("test-pcp-.r")
 
 test_that("Parallel Coordinate Plot for n-objective works", {
-  testfunction <- function (x){
+  testfunction <- function (x,...){
     return(x)
   }
 
@@ -15,7 +15,7 @@ test_that("Parallel Coordinate Plot for n-objective works", {
     seed = 1, monitor = FALSE,
     summary = FALSE, maxiter = 1, nObj = 4)
 
-  expect_message(pcp(object = out), NA)
-  expect_message(heat_map(fitness = out@fitness), NA)
-  expect_message(polar(fitness = out@fitness[1:3,]), NA)
+  expect_message(plot(x = out, type = "pcp"), NA)
+  expect_message(plot(x = out, type = "heatmap", individual = c(1:5)), NA)
+  expect_message(plot(x = out, type = "polar", individual = c(1:5)), NA)
 })

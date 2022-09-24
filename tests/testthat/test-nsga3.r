@@ -1,7 +1,7 @@
 context("Executing nsga3")
 
 test_that("nsga3() return the value suggestions", {
-  testfunction <- function (x){
+  testfunction <- function (x,...){
     return(x)
   }
 

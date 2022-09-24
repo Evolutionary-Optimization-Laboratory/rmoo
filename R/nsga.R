@@ -414,13 +414,19 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
     return(solution)
 }
 
-#' @export
+# @export
+#' @rdname plot-methods
+#' @aliases plot,nsga1-method
 setMethod("plot", signature(x="nsga1", y="missing"), .get.plotting)
 
-#' @export
+# @export
+#' @rdname progress-methods
+#' @aliases progress,nsga1-method
 setMethod("progress", "nsga1", .nsga1.progress)
 
-#' @export
+# @export
+#' @rdname getDummyFitness-methods
+#' @aliases getDummyFitness,nsga1-method
 setMethod("getDummyFitness", "nsga1",
           function(obj) {
             cat("NSGA-I Dummy Fitness: \n")
@@ -433,9 +439,11 @@ setMethod("getDummyFitness", "nsga1",
           }
 )
 
-#' @export
+# @export
+#' @rdname print-methods
+#' @aliases print,nsga1-method
 setMethod("print", "nsga1",
-          function(x=object, y="missing", ...) {
+          function(x, ...) {
             algorithm <- class(x)[1]
             # Print
             cat("\nSlots Configuration:\n")
@@ -459,7 +467,9 @@ setMethod("print", "nsga1",
 )
 
 
-#' @export
+# @export
+#' @rdname summary-methods
+#' @aliases summary,nsga1-method
 setMethod("summary", "nsga1",
           function(object, ...){
             callArgs <- list(...)
