@@ -1,6 +1,6 @@
 Package: rmoo
 Title: Multi-Objective Optimization in R
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
     c(person(given = "Francisco",
              family = "Benitez",

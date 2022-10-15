@@ -6,7 +6,7 @@ nsgareal_Population <- function(object) {
     lower <- object@lower
     upper <- object@upper
     nvars <- length(lower)
-    population <- matrix(as.double(NA), nrow = object@popSize, ncol = nvars)
+    population <- matrix(NA_real_, nrow = object@popSize, ncol = nvars)
     for (j in 1:nvars) {
         population[, j] <- runif(object@popSize, lower[j], upper[j])
     }
@@ -18,7 +18,7 @@ nsgareal_Population <- function(object) {
 # Generate a binary random population ----
 #' @export
 nsgabin_Population <- function(object) {
-    population <- matrix(as.double(NA),
+    population <- matrix(NA_real_,
                          nrow = object@popSize,
                          ncol = object@nBits)
     for (j in 1:object@nBits) {
@@ -137,7 +137,7 @@ nsgareal_lrSelection <- nsga_lrSelection
 nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
     parents <- object@population[parents, ]
     n <- ncol(parents)
-    children <- matrix(as.double(NA), nrow = 2, ncol = n)
+    children <- matrix(NA_real_, nrow = 2, ncol = n)
     for (j in 1:n) {
         parent1 <- parents[1, j]
         parent2 <- parents[2, j]
@@ -195,7 +195,7 @@ nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
         children[2, j] <- child2
     }
     out <- list(children = children,
-                fitness = matrix(as.double(NA), ncol = n))
+                fitness = matrix(NA_real_, ncol = n))
     return(out)
 }
 
@@ -204,10 +204,10 @@ nsga_spCrossover <- function(object, parents) {
     fitness <- object@fitness[parents, ]
     parents <- object@population[parents, ]
     n <- ncol(parents)
-    children <- matrix(as.double(NA), nrow = 2, ncol = n)
+    children <- matrix(NA_real_, nrow = 2, ncol = n)
     crossOverPoint <- sample(0:n, size = 1)
     if (crossOverPoint == 0) {
-        fitnessChildren <- matrix(as.double(NA), nrow = 2, ncol = ncol(fitness))
+        fitnessChildren <- matrix(NA_real_, nrow = 2, ncol = ncol(fitness))
         children[1:2, ] <- parents[2:1, ]
         fitnessChildren[1:2, ] <- fitness[2:1, ]
     } else if (crossOverPoint == n) {
@@ -234,7 +234,7 @@ nsgaperm_oxCrossover <- function(object, parents) {
     #
     cxPoints <- sample(seq(2, n - 1), size = 2)
     cxPoints <- seq(min(cxPoints), max(cxPoints))
-    children <- matrix(as.double(NA), nrow = 2, ncol = n)
+    children <- matrix(NA_real_, nrow = 2, ncol = n)
     children[, cxPoints] <- parents[, cxPoints]
     #
     for (j in 1:2) {

@@ -290,13 +290,13 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
 
     switch(type,
       binary = {
-        Pop <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
+        Pop <- matrix(NA_real_, nrow = popSize, ncol = nBits)
       },
       `real-valued` = {
-        Pop <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
+        Pop <- matrix(NA_real_, nrow = popSize, ncol = nvars)
       },
       permutation = {
-        Pop <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
+        Pop <- matrix(NA_real_, nrow = popSize, ncol = nvars)
       }
     )
 

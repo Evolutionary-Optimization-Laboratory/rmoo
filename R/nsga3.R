@@ -352,16 +352,16 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
     if (maxiter == 0)
       return(object)
 
-    p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+    p_fit <- q_fit <- matrix(NA_real_, nrow = popSize, ncol = nObj)
     switch(type,
       binary = {
-        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
+        Pop <- P <- Q <- matrix(NA_real_, nrow = popSize, ncol = nBits)
       },
       `real-valued` = {
-        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
+        Pop <- P <- Q <- matrix(NA_real_, nrow = popSize, ncol = nvars)
       },
       permutation = {
-        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
+        Pop <- P <- Q <- matrix(NA_real_, nrow = popSize, ncol = nvars)
       }
     )
 

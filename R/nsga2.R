@@ -301,13 +301,13 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
     if (maxiter == 0)
         return(object)
 
-    p_fit <- q_fit <- matrix(as.double(NA), nrow = popSize, ncol = nObj)
+    p_fit <- q_fit <- matrix(NA_real_, nrow = popSize, ncol = nObj)
     switch(type, binary = {
-        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nBits)
+        Pop <- P <- Q <- matrix(NA_real_, nrow = popSize, ncol = nBits)
     }, `real-valued` = {
-        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
+        Pop <- P <- Q <- matrix(NA_real_, nrow = popSize, ncol = nvars)
     }, permutation = {
-        Pop <- P <- Q <- matrix(as.double(NA), nrow = popSize, ncol = nvars)
+        Pop <- P <- Q <- matrix(NA_real_, nrow = popSize, ncol = nvars)
     })
 
     ng <- min(nrow(suggestions), popSize)
@@ -334,7 +334,7 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
     out <- non_dominated_fronts(object)
     object@f <- out$fit
     object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
-    object@crowdingDistance <- matrix(as.double(NA), nrow = popSize)
+    object@crowdingDistance <- matrix(NA_real_, nrow = popSize)
 
     for (iter in seq_len(maxiter)) {
         object@iter <- iter
