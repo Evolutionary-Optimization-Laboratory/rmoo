@@ -84,7 +84,8 @@ setClass(Class = "nsga",
                      summary = "list",
                      solution = "matrix",
                      fitnessValue = "numberOrNAOrMatrix"),
-         contains = "algorithm"
+         contains = c("VIRTUAL", "algorithm"),
+         #contains = "algorithm"
 )
 
 
