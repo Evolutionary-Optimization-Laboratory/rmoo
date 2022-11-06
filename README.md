@@ -146,8 +146,8 @@ Until the submission of the formal article that introduces **rmoo**,
 please cite using:
 
 > Benitez F., Pinto-Roa Diego P. (2022). *rmoo: Multi-Objective
-> Optimization in R*. R package version 0.2.1
-> <https://github.com/Evolutionary-Optimization-Laboratory/rmoo/>.
+> Optimization in R*. R package version 0.2.2
+> <https://CRAN.R-project.org/package=rmoo/>.
 
 BibTeX entries for LaTeX users:
 
@@ -155,6 +155,6 @@ BibTeX entries for LaTeX users:
         title = {{rmoo}: Multi-Objective Optimization in R},
         author = {Francisco Benitez and Diego P. {Pinto-Roa}},
         year = {2022},
-        note = {R package version 0.2.1},
-        url = {https://github.com/Evolutionary-Optimization-Laboratory/rmoo/},
+        note = {R package version 0.2.2},
+        url = {https://CRAN.R-project.org/package=rmoo/},
     }
