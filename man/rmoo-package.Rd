@@ -23,7 +23,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Diego Pinto Roa \email{dpinto@pol.una.py} (\href{https://orcid.org/0000-0003-2479-9876}{ORCID})
+  \item Diego P. Pinto-Roa \email{dpinto@pol.una.py} (\href{https://orcid.org/0000-0003-2479-9876}{ORCID})
 }
 
 }

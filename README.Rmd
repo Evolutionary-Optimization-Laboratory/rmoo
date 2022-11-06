@@ -137,3 +137,21 @@ Other methods available in `rmoo` that may be of interest are `getFitness()`,
 `getPopulation()`, `getMetrics()`, `print()`, `summary()` and others. 
 We do not show the functionality of all these functions since they will be 
 detailed in depth in the future article and vignettes.
+
+## Citation
+
+Until the submission of the formal article that introduces **rmoo**, please cite using:
+
+> Benitez F., Pinto-Roa Diego P. (2022). _rmoo: Multi-Objective Optimization in R_. 
+> R package version 0.2.1 <https://github.com/Evolutionary-Optimization-Laboratory/rmoo/>.
+
+BibTeX entries for LaTeX users:
+```
+@Manual{,
+    title = {{rmoo}: Multi-Objective Optimization in R},
+    author = {Francisco Benitez and Diego P. {Pinto-Roa}},
+    year = {2022},
+    note = {R package version 0.2.1},
+    url = {https://github.com/Evolutionary-Optimization-Laboratory/rmoo/},
+}
+```
