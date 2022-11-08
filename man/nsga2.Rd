@@ -24,6 +24,7 @@ nsga2(
   maxFitness = Inf,
   names = NULL,
   suggestions = NULL,
+  parallel = FALSE,
   monitor = if (interactive()) nsgaMonitor else FALSE,
   summary = FALSE,
   seed = NULL
@@ -100,6 +101,9 @@ variables.}
 \item{suggestions}{a matrix of solutions strings to be included in the
 initial population. If provided the number of columns must match the number
 of decision variables.}
+
+\item{parallel}{An optional argument which allows to specify if the NSGA-II
+should be run sequentially or in parallel.}
 
 \item{monitor}{a logical or an R function which takes as input the current
 state of the nsga-class object and show the evolution of the search. By

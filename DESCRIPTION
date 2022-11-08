@@ -37,6 +37,7 @@ Collate:
     'AllGenerics.R'
     'niching.R'
     'non_dominated_fronts.R'
+    'parallel.R'
     'nsga.R'
     'nsga2.R'
     'nsga3.R'
