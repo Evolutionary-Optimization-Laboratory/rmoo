@@ -29,7 +29,7 @@ test_that("Scatter Plot for 3-objective works", {
     popSize = 10, suggestions = x,
     n_partitions = 3,
     pcrossover = 0.1, pmutation = 0.1,
-    seed = 1, monitor = FALSE,
+    seed = 1, parallel = FALSE, monitor = FALSE,
     summary = FALSE, maxiter = 1, nObj = 3)
 
   expect_message(plot(x = out), NA)
@@ -49,7 +49,7 @@ test_that("Scatter Plot for n-objective works", {
     popSize = 10, suggestions = x,
     n_partitions = 2,
     pcrossover = 0.1, pmutation = 0.1,
-    seed = 1, monitor = FALSE,
+    seed = 1, parallel = FALSE, monitor = FALSE,
     summary = FALSE, maxiter = 1, nObj = 4)
 
   expect_message(plot(x = out), NA)

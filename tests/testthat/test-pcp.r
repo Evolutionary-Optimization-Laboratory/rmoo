@@ -12,7 +12,7 @@ test_that("Parallel Coordinate Plot for n-objective works", {
     popSize = 10, suggestions = x,
     n_partitions = 2,
     pcrossover = 0.1, pmutation = 0.1,
-    seed = 1, monitor = FALSE,
+    seed = 1, parallel = FALSE, monitor = FALSE,
     summary = FALSE, maxiter = 1, nObj = 4)
 
   expect_message(plot(x = out, type = "pcp"), NA)

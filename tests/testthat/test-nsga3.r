@@ -12,7 +12,7 @@ test_that("nsga3() return the value suggestions", {
                popSize = 10, suggestions = x,
                n_partitions = 3,
                pcrossover = 0.1, pmutation = 0.1,
-               seed = 1, monitor = FALSE,
+               seed = 1, parallel = FALSE, monitor = FALSE,
                summary = FALSE, maxiter = 1, nObj = 3)
 
   expect_identical(dim(out@fitness), dim(x))

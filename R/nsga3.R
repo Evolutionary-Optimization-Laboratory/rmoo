@@ -65,6 +65,8 @@
 #' @param suggestions a matrix of solutions strings to be included in the initial
 #' population. If provided the number of columns must match the number of
 #' decision variables.
+#' @param parallel An optional argument which allows to specify if the NSGA-II
+#' should be run sequentially or in parallel.
 #' @param monitor a logical or an R function which takes as input the current
 #' state of the nsga-class object and show the evolution of the search.
 #' By default, for interactive sessions the function nsgaMonitor prints the
@@ -167,6 +169,7 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
     maxFitness = Inf,
     names = NULL,
     suggestions = NULL,
+    parallel = FALSE,
     monitor = if (interactive()) nsgaMonitor else FALSE,
     summary = FALSE,
     seed = NULL)
@@ -303,6 +306,24 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
     }
     if (is.null(monitor)) monitor <- FALSE
 
+    # Start parallel computing (if needed)
+    if(is.logical(parallel)){
+      if(parallel) {
+        parallel <- startParallel(parallel)
+        stopCluster <- TRUE
+      } else {
+        parallel <- stopCluster <- FALSE
+      }
+    }else {
+      stopCluster <- if(inherits(parallel, "cluster")) FALSE else TRUE
+      parallel <- startParallel(parallel)
+    }
+    on.exit(if(parallel & stopCluster)
+      stopParallel(attr(parallel, "cluster")))
+    # define operator to use depending on parallel being TRUE or FALSE
+    `%DO%` <- if(parallel && requireNamespace("doRNG", quietly = TRUE)){
+      doRNG::`%dorng%` } else if (parallel){ foreach::`%dopar%` } else { foreach::`%do%` }
+
     # set seed for reproducibility
     if (!is.null(seed))
       set.seed(seed)
@@ -375,11 +396,20 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
     }
     object@population <- Pop
 
-    for (i in seq_len(popSize)) {
-      if (is.na(Fitness[i])) {
-        fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
-        Fitness[i, ] <- fit
+    if(!parallel) {
+      for (i in seq_len(popSize)) {
+        if (is.na(Fitness[i])) {
+          fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
+          Fitness[i, ] <- fit
+        }
       }
+    } else {
+      Fitness <- foreach(i. = seq_len(popSize), .combine = "rbind") %DO%
+        { if(is.na(Fitness[i.]))
+          do.call(fitness, c(list(Pop[i.,]), callArgs))
+          else
+            Fitness[i.,]
+        }
     }
 
     object@population <- P <- Pop
@@ -439,11 +469,20 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
       object@fitness <- q_fit <- Fitness
 
       #Evaluate Fitness
-      for (i in seq_len(popSize)) {
-        if (is.na(Fitness[i])) {
-          fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
-          Fitness[i,] <- fit
+      if(!parallel) {
+        for (i in seq_len(popSize)) {
+          if (is.na(Fitness[i])) {
+            fit <- do.call(fitness, c(list(Pop[i, ]), callArgs))
+            Fitness[i, ] <- fit
+          }
         }
+      } else {
+        Fitness <- foreach(i. = seq_len(popSize), .combine = "rbind") %DO%
+          { if(is.na(Fitness[i.]))
+            do.call(fitness, c(list(Pop[i.,]), callArgs))
+            else
+              Fitness[i.,]
+          }
       }
 
       object@population <- Q <- Pop
