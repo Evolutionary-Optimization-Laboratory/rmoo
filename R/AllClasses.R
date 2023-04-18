@@ -118,7 +118,7 @@ setClass(Class = "nsga1",
 #' returned as a result of it. All data generated during execution will be
 #' stored in it.
 #'
-#' @slot crowdingDistance Crowding-comparison approach to estiate of the
+#' @slot crowdingDistance Crowding-comparison approach to estimate of the
 #' perimeter of the cuboid formed by using the nearest neighbors as the vertices.
 #'
 #' @examples
@@ -128,6 +128,31 @@ setClass(Class = "nsga2",
          slots = list(crowdingDistance = "numberOrNAOrMatrix"),
          contains = "nsga"
 )
+
+
+#' Class 'rnsga2'
+#'
+#' The class 'rnsga2' is instantiated within the execution of rmoo and will be
+#' returned as a result of it. All data generated during execution will be
+#' stored in it.
+#'
+#' @slot crowdingDistance Crowding-comparison approach to estimate of the
+#' perimeter of the cuboid formed by using the nearest neighbors as the vertices.
+#' @slot reference_points R-NSGA-II uses a set of reference points defined by the user to
+#' ensure diversity in obtained solutions.
+#' @slot extreme_points are selected using the ASF in the ([PerformScalarizing()]).
+#' Necessary in the  nadir point generation.
+#' @slot smin Index used to obtain the extreme points.
+#'
+#' @examples
+#' showClass('rnsga2')
+#' @export
+setClass(Class = "rnsga2",
+         slots = list(crowdingDistance = "numberOrNAOrMatrix",
+                      reference_points = "numberOrNAOrMatrix",
+                      extreme_points = "numberOrNAOrMatrix",
+                      smin = "numberOrNAOrMatrix"),
+         contains = "nsga2")
 
 
 #' Class 'nsga3'

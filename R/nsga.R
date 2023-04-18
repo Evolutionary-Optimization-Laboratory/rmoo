@@ -124,7 +124,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
     crossover = nsgaControl(type)$crossover,
     mutation = nsgaControl(type)$mutation,
     popSize = 50,
-    nObj = ncol(fitness(matrix(10000, ncol = 100, nrow = 100))),
+    nObj = NULL,
     dshare,
     pcrossover = 0.8,
     pmutation = 0.1,
@@ -139,7 +139,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
 {
     call <- match.call()
 
-    type <- match.arg(type, choices = eval(formals(nsga2)$type))
+    type <- match.arg(type, choices = eval(formals(nsga)$type))
 
     callArgs <- list(...)
 
@@ -153,6 +153,14 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
       crossover <- get(crossover)
     if (!is.function(mutation))
       mutation <- get(mutation)
+
+    if (is.null(nObj)) {
+      stop("Please, define the objective number (nObj)")
+    } else {
+      if (!is.numeric(nObj) | (nObj%%1!=0)) {
+        stop("Objective number (nObj) is a character or is not an integer.")
+      }
+    }
 
     if (missing(fitness)) {
       stop("A fitness function must be provided")
@@ -182,9 +190,9 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
       stop("A lower and upper range of values (for 'real-valued' or 'permutation') or nBits (for 'binary') must be provided!")
     }
 
-    if (is.null(nObj)) {
-      nObj <- ncol(fitness(matrix(10000, ncol = 100, nrow = 100)))
-    }
+    # if (is.null(nObj)) {
+    #   nObj <- ncol(fitness(matrix(10000, ncol = 100, nrow = 100)))
+    # }
 
     dum_Fitness <- matrix(NA, nrow = popSize, ncol = nObj);
     initialDummy <- popSize

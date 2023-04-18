@@ -27,10 +27,14 @@ knitr::opts_chunk$set(
 A Non-Dominated Sorting based Multi-Objective Optimization package, built upon 
 the ['GA' package](https://CRAN.R-project.org/package=GA).
 
-`rmoo` provides a complete, flexible and modular framework for optimizing multiple 
-supplied  objectives. You will have at your disposal a wide range of configuration
-options  for the NSGA, NSGA-II and NSGA-III algorithms, as well as representation of 
-real numbers, permutations and binaries.
+`rmoo` provides a comprehensive, flexible and modular framework for multi/many 
+objectives optimization. The user will have at their disposal a wide range of configuration
+options, as well as representation of real numbers, permutations and binaries. 
+
+Algorithms available in `rmoo`: GA, NSGA-I, NSGA-II, R-NSGA-II and NSGA-III.
+
+The algorithms that can be executed in parallel using master-slave and 
+island techniques are: GA, NSGA-II, R-NSGA-II and NSGA-III
 
 
 ## Installation

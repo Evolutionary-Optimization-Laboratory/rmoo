@@ -42,7 +42,7 @@ nsgaperm_Population <- function(object) {
 }
 
 
-## Selection Operators ----
+## Selection Operators ---- //Change to method
 #' @export
 nsga_tourSelection <- function(object, k = 3, ...) {
     switch(class(object)[1], nsga1 = {
@@ -79,6 +79,23 @@ nsga_tourSelection <- function(object, k = 3, ...) {
         out <- list(population = object@population[sel, ],
                     fitness = object@fitness[sel, ])
         return(out)
+    }, rnsga2 = {
+      popSize <- object@popSize
+      front <- object@front
+      fit <- object@fitness
+      sel <- rep(NA, popSize)
+      for (i in 1:popSize) {
+        s <- sample(1:popSize, size = k)
+        s <- s[which.min(front[s, ])]
+        if (length(s) > 1 & !anyNA(fit[s, ])) {
+          sel[i] <- s[which.max(front[s, ])]
+        } else {
+          sel[i] <- s[which.min(front[s, ])]
+        }
+      }
+      out <- list(population = object@population[sel, ],
+                  fitness = object@fitness[sel, ])
+      return(out)
     }, nsga3 = {
         popSize <- object@popSize
         front <- object@front
@@ -137,6 +154,7 @@ nsgareal_lrSelection <- nsga_lrSelection
 nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
     parents <- object@population[parents, ]
     n <- ncol(parents)
+    nObj <- ncol(object@fitness)
     children <- matrix(NA_real_, nrow = 2, ncol = n)
     for (j in 1:n) {
         parent1 <- parents[1, j]
@@ -195,7 +213,7 @@ nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
         children[2, j] <- child2
     }
     out <- list(children = children,
-                fitness = matrix(NA_real_, ncol = n))
+                fitness = matrix(NA_real_, ncol = nObj))
     return(out)
 }
 
@@ -250,35 +268,33 @@ nsgaperm_oxCrossover <- function(object, parents) {
 
 ## Mutation Operator ----
 #' @export
-nsgareal_polMutation <- function(object, parent, nm = 0.2) {
-    mutate <- parent <- as.vector(object@population[parent, ])
-    n <- length(parent)
-    upper <- object@upper
-    lower <- object@lower
-    delta <- upper - lower
-    delta1 <- (mutate - lower) / (upper - lower)
-    delta2 <- (upper - mutate) / (upper - lower)
-    mut_pow <- 1/(nm + 1)
-    u <- runif(1)
-    if (u <= 0.5) {
-        xy <- 1 - delta1
+nsgareal_polMutation <- function(object, parent, nm = 0.2, indpb = 0.2) {
+  mutate <- parent <- as.vector(object@population[parent, ])
+  n <- length(parent)
+  upper <- object@upper
+  lower <- object@lower
+  delta <- upper - lower
+  delta1 <- (mutate - lower) / (upper - lower)
+  delta2 <- (upper - mutate) / (upper - lower)
+  mut_pow <- 1/(nm + 1)
+  for (i in seq_len(n)) {
+    if(runif(1) <= indpb) {
+      x <- parent[i]
+      u <- runif(1)
+      if (u <= 0.5) {
+        xy <- 1 - delta1[i]
         val <- 2 * u + (1 - 2 * u) * (xy^(nm + 1))
         deltaq <- (val^mut_pow) - 1
-    } else {
-        xy <- 1 - delta2
+      } else {
+        xy <- 1 - delta2[i]
         val <- 2 * (1 - u) + 2 * (u - 0.5) * (xy^(nm + 1))
         deltaq <- 1 - (val^mut_pow)
+      }
+      mutate[i] <- deltaq * delta[i]
+      mutate[i] <- min(max(c(x[1], lower[i])), upper[i])
     }
-    mutate <- deltaq * delta
-    for (i in 1:n) {
-        if (mutate[i] < lower[i]) {
-            mutate[i] <- lower[i]
-        }
-        if (mutate[i] > upper[i]) {
-            mutate[i] <- upper[i]
-        }
-    }
-    return(mutate)
+  }
+  return(mutate)
 }
 
 #' @export
