@@ -1,6 +1,4 @@
-## Real Value NSGA operators ----
-
-# Generate a real random population ----
+# Real Value NSGA operators: Generate a real random population ----
 #' @export
 nsgareal_Population <- function(object) {
     lower <- object@lower
@@ -13,9 +11,7 @@ nsgareal_Population <- function(object) {
     return(population)
 }
 
-## Binary NSGA operators ----
-
-# Generate a binary random population ----
+# Binary NSGA operators: Generate a binary random population ----
 #' @export
 nsgabin_Population <- function(object) {
     population <- matrix(NA_real_,
@@ -28,9 +24,7 @@ nsgabin_Population <- function(object) {
     return(population)
 }
 
-## Permutation NSGA operators ----
-
-# Generate a permutation random population ----
+# Permutation NSGA operators: Generate a permutation random population ----
 #' @export
 nsgaperm_Population <- function(object) {
     int <- seq.int(object@lower, object@upper)
@@ -41,80 +35,162 @@ nsgaperm_Population <- function(object) {
     return(population)
 }
 
+# Integer NSGA operators: Generate a discrete random population ----
+#' @export
+nsgaint_Population <- function(object) {
+  lower <- object@lower
+  upper <- object@upper
+  popSize <- object@popSize
+  nvars <- object@nvars
+
+  population <- matrix(sample(x = lower:upper,
+                              size = popSize * nvars,
+                              replace = TRUE),
+                       ncol = nvars,
+                       nrow = popSize)
+
+  storage.mode(population) <- "integer"
+  return(population)
+}
+# nsgaint_Population <- function(object) {
+#   lower <- object@lower
+#   upper <- object@upper
+#   popSize <- object@popSize
+#   nvars <- object@nvars
+#
+#   population <- matrix(sample(x = lower:upper,
+#                               size = popSize * nvars,
+#                               replace = TRUE),
+#                        nrow = popSize,
+#                        ncol = nvars)
+#   storage.mode(population) <- "integer"
+#   return(population)
+# }
+#
+# nsgaint_Population <- function(object) {
+#   lower <- object@lower
+#   upper <- object@upper
+#   popSize <- object@popSize
+#   nvars <- object@nvars
+#
+#   population <- matrix(NA_integer_, nrow = popSize, ncol = nvars)
+#   for (i in 1:popSize) {
+#     population[i, ] <- sample(lower:upper, nvars, replace = TRUE)
+#   }
+#   storage.mode(population) <- "integer"
+#   return(population)
+# }
 
 ## Selection Operators ---- //Change to method
 #' @export
-nsga_tourSelection <- function(object, k = 3, ...) {
-    switch(class(object)[1], nsga1 = {
-        popSize <- object@popSize
-        front <- object@front
-        fit <- object@dumFitness
-        sel <- rep(NA, popSize)
-        for (i in 1:popSize) {
-            s <- sample(1:popSize, size = k)
-            s <- s[which.min(front[s, ])]
-            if (length(s) > 1 & !anyNA(fit[s, ])) {
-                sel[i] <- s[which.max(front[s, ])]
-            } else {
-                sel[i] <- s[which.min(front[s, ])]
-            }
-        }
-        out <- list(population = object@population[sel, ],
-                    fitness = object@fitness[sel, ])
-        return(out)
-    }, nsga2 = {
-        popSize <- object@popSize
-        front <- object@front
-        cd <- object@crowdingDistance
-        sel <- rep(NA, popSize)
-        for (i in 1:popSize) {
-            s <- sample(1:popSize, size = k)
-            s <- s[which.min(front[s, ])]
-            if (!anyNA(cd[s, ])) {
-                sel[i] <- s[which.max(cd[s, ])]
-            } else {
-                sel[i] <- s[which.min(front[s, ])]
-            }
-        }
-        out <- list(population = object@population[sel, ],
-                    fitness = object@fitness[sel, ])
-        return(out)
-    }, rnsga2 = {
-      popSize <- object@popSize
-      front <- object@front
-      fit <- object@fitness
-      sel <- rep(NA, popSize)
-      for (i in 1:popSize) {
-        s <- sample(1:popSize, size = k)
-        s <- s[which.min(front[s, ])]
-        if (length(s) > 1 & !anyNA(fit[s, ])) {
-          sel[i] <- s[which.max(front[s, ])]
-        } else {
-          sel[i] <- s[which.min(front[s, ])]
-        }
+nsga_tourSelection <- function(object, k = 2, ...) {
+  class_object <- class(object)[1]
+
+  if (class_object == "nsga2") {
+    popSize <- object@popSize
+    front <- object@front
+    cd <- crowding_distance(object, ncol(object@fitness))
+    sel <- rep(NA, popSize)
+    for (i in seq_len(popSize)) {
+      s <- sample(seq_len(popSize), size = k)
+      s <- s[which.min(front[s, ])]
+      if (!anyNA(cd[s, ])) {
+        sel[i] <- s[which.max(cd[s, ])]
+      } else {
+        sel[i] <- s[which.min(front[s, ])]
       }
-      out <- list(population = object@population[sel, ],
-                  fitness = object@fitness[sel, ])
-      return(out)
-    }, nsga3 = {
-        popSize <- object@popSize
-        front <- object@front
-        fit <- object@fitness
-        sel <- rep(NA, popSize)
-        for (i in 1:popSize) {
-            s <- sample(1:popSize, size = k)
-            s <- s[which.min(front[s, ])]
-            if (length(s) > 1 & !anyNA(fit[s, ])) {
-                sel[i] <- s[which.max(front[s, ])]
-            } else {
-                sel[i] <- s[which.min(front[s, ])]
-            }
-        }
-        out <- list(population = object@population[sel, ],
-                    fitness = object@fitness[sel, ])
-        return(out)
-    })
+    }
+  } else if (class_object == "rnsga2" || class_object == "nsga3") {
+    popSize <- object@popSize
+    front <- object@front
+    fit <- object@fitness
+    sel <- rep(NA, popSize)
+    for (i in seq_len(popSize)) {
+      s <- sample(seq_len(popSize), size = k)
+      s <- s[which.min(front[s, ])]
+      if (length(s) > 1 & !anyNA(fit[s, ])) {
+        sel[i] <- s[which.max(front[s, ])]
+      } else {
+        sel[i] <- s[which.min(front[s, ])]
+      }
+    }
+  }
+  out <- list(population = object@population[sel, ],
+              fitness = object@fitness[sel, ])
+  return(out)
 }
+
+# nsga_tourSelection <- function(object, k = 3, ...) {
+#     switch(class(object)[1], nsga1 = {
+#         popSize <- object@popSize
+#         front <- object@front
+#         fit <- object@dumFitness
+#         sel <- rep(NA, popSize)
+#         for (i in 1:popSize) {
+#             s <- sample(1:popSize, size = k)
+#             s <- s[which.min(front[s, ])]
+#             if (length(s) > 1 & !anyNA(fit[s, ])) {
+#                 sel[i] <- s[which.max(front[s, ])]
+#             } else {
+#                 sel[i] <- s[which.min(front[s, ])]
+#             }
+#         }
+#         out <- list(population = object@population[sel, ],
+#                     fitness = object@fitness[sel, ])
+#         return(out)
+#     }, nsga2 = {
+#         popSize <- object@popSize
+#         front <- object@front
+#         cd <- object@crowdingDistance
+#         sel <- rep(NA, popSize)
+#         for (i in 1:popSize) {
+#             s <- sample(1:popSize, size = k)
+#             s <- s[which.min(front[s, ])]
+#             if (!anyNA(cd[s, ])) {
+#                 sel[i] <- s[which.max(cd[s, ])]
+#             } else {
+#                 sel[i] <- s[which.min(front[s, ])]
+#             }
+#         }
+#         out <- list(population = object@population[sel, ],
+#                     fitness = object@fitness[sel, ])
+#         return(out)
+#     }, rnsga2 = {
+#       popSize <- object@popSize
+#       front <- object@front
+#       fit <- object@fitness
+#       sel <- rep(NA, popSize)
+#       for (i in 1:popSize) {
+#         s <- sample(1:popSize, size = k)
+#         s <- s[which.min(front[s, ])]
+#         if (length(s) > 1 & !anyNA(fit[s, ])) {
+#           sel[i] <- s[which.max(front[s, ])]
+#         } else {
+#           sel[i] <- s[which.min(front[s, ])]
+#         }
+#       }
+#       out <- list(population = object@population[sel, ],
+#                   fitness = object@fitness[sel, ])
+#       return(out)
+#     }, nsga3 = {
+#         popSize <- object@popSize
+#         front <- object@front
+#         fit <- object@fitness
+#         sel <- rep(NA, popSize)
+#         for (i in 1:popSize) {
+#             s <- sample(1:popSize, size = k)
+#             s <- s[which.min(front[s, ])]
+#             if (length(s) > 1 & !anyNA(fit[s, ])) {
+#                 sel[i] <- s[which.max(front[s, ])]
+#             } else {
+#                 sel[i] <- s[which.min(front[s, ])]
+#             }
+#         }
+#         out <- list(population = object@population[sel, ],
+#                     fitness = object@fitness[sel, ])
+#         return(out)
+#     })
+# }
 
 #' @export
 nsgareal_tourSelection <- nsga_tourSelection
@@ -122,6 +198,8 @@ nsgareal_tourSelection <- nsga_tourSelection
 nsgabin_tourSelection <- nsga_tourSelection
 #' @export
 nsgaperm_tourSelection <- nsga_tourSelection
+# @export
+nsgaint_tourSelection <- nsga_tourSelection
 
 #' @export
 nsga_lrSelection <- function(object, r, q) {
@@ -148,6 +226,9 @@ nsgaperm_lrSelection <- nsga_lrSelection
 
 #' @export
 nsgareal_lrSelection <- nsga_lrSelection
+
+# @export
+# nsgaint_lrSelection <- nsga_lrSelection
 
 ## Crossover Operators ----
 #' @export
@@ -266,6 +347,55 @@ nsgaperm_oxCrossover <- function(object, parents) {
     return(out)
 }
 
+#' @export
+nsgaint_uxCrossover <- function(object, parents) {
+  parents <- object@population[parents, ]
+
+  n_matings <- nrow(parents)
+  n <- ncol(parents)
+
+  M <- matrix(runif(n_matings * n) < 0.5, nrow = n_matings)
+  fitnessChildren <- matrix(NA_integer_, ncol = ncol(object@fitness))
+
+  children <- crossover_mask(parents, M)
+
+  storage.mode(children) <- "integer"
+
+  out <- list(children = children,
+              fitness = fitnessChildren)
+  return(out)
+}
+
+#' @export
+nsgaint_huxCrossover <- function(object, parents, prob_hux=0.5) {
+  parents <- object@population[parents, ]
+
+  n_matings <- nrow(parents)
+  n <- ncol(parents)
+
+  M <- matrix(FALSE, nrow = n_matings, ncol = n)
+  fitnessChildren <- matrix(NA_integer_, ncol = ncol(object@fitness))
+
+  not_equal <- (parents[1, ] != parents[2, ])
+
+  for (i in 1:n_matings) {
+    ind <- which(not_equal[i])
+
+    n <- ceiling(length(ind) / 2)
+    if (n > 0) {
+      indx <- ind[sample(length(ind), size = n)]
+      M[i, indx] <- TRUE
+    }
+  }
+
+  children <- crossover_mask(parents, M)
+  storage.mode(children) <- "integer"
+
+  out <- list(children = children,
+              fitness = fitnessChildren)
+  return(out)
+}
+
 ## Mutation Operator ----
 #' @export
 nsgareal_polMutation <- function(object, parent, nm = 0.2, indpb = 0.2) {
@@ -330,3 +460,35 @@ nsgaperm_simMutation <- function(object, parent) {
     mutate <- parent[i]
     return(mutate)
 }
+
+#' @export
+nsgaint_uxMutation <- function(object, parent, indpb=0.1) {
+  mutate <- parent <- as.vector(object@population[parent, ])
+
+  n <- length(parent)
+  lower <- rep(object@lower,n)
+  upper <- rep(object@upper,n)
+
+  for (i in seq_along(parent)) {
+    if (runif(1) < indpb) {
+      mutate[i] <- sample(lower[i]:upper[i], 1)
+    }
+  }
+
+  storage.mode(mutate) <- "integer"
+  return(mutate)
+}
+
+
+crossover_mask <- function(X, M) {
+  parent <- X
+  parent[1,][M[2,]] <- X[2,][M[2,]]
+  parent[2,][M[1,]] <- X[1,][M[1,]]
+  return(parent)
+}
+
+# roundingRepair <- function(pop) {
+#   pop[] <- as.integer(round(pop))
+#   return(pop)
+# }
+

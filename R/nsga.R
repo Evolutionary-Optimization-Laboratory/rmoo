@@ -65,7 +65,7 @@
 #' of decision variables.
 #' @param monitor a logical or an R function which takes as input the current
 #' state of the nsga-class object and show the evolution of the search. By
-#' default, for interactive sessions the function nsgaMonitor prints the average
+#' default, for interactive sessions the function rmooMonitor prints the average
 #' and best fitness values at each iteration. If set to plot these information
 #' are plotted on a graphical device. Other functions can be written by the user
 #' and supplied as argument. In non interactive sessions, by default
@@ -110,6 +110,7 @@
 #'                lower = c(0,0),
 #'                upper = c(1,1),
 #'                popSize = 100,
+#'                nObj = 2,
 #'                dshare = 1,
 #'                monitor = FALSE,
 #'                maxiter = 500)
@@ -119,10 +120,10 @@
 nsga <- function (type = c("binary", "real-valued", "permutation"),
     fitness, ...,
     lower, upper, nBits,
-    population = nsgaControl(type)$population,
-    selection = nsgaControl(type)$selection,
-    crossover = nsgaControl(type)$crossover,
-    mutation = nsgaControl(type)$mutation,
+    population = rmooControl(type)$population,
+    selection = rmooControl(type)$selection,
+    crossover = rmooControl(type)$crossover,
+    mutation = rmooControl(type)$mutation,
     popSize = 50,
     nObj = NULL,
     dshare,
@@ -133,7 +134,7 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
     maxFitness = Inf,
     names = NULL,
     suggestions = NULL,
-    monitor = if (interactive()) nsgaMonitor else FALSE,
+    monitor = if (interactive()) rmooMonitor else FALSE,
     summary = FALSE,
     seed = NULL)
 {
@@ -250,7 +251,8 @@ nsga <- function (type = c("binary", "real-valued", "permutation"),
 
     # check monitor arg
     if (is.logical(monitor)) {
-      if (monitor) monitor <- nsgaMonitor
+      if (monitor)
+        monitor <- rmooMonitor
     }
     if (is.null(monitor)) monitor <- FALSE
 

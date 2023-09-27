@@ -17,19 +17,16 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 
 ## Overview
 
-A Non-Dominated Sorting based Multi-Objective Optimization package,
-built upon the [‘GA’ package](https://CRAN.R-project.org/package=GA).
+`rmoo` is a non-dominated sorting based multi-objective optimization
+package built upon the [‘GA’
+package](https://CRAN.R-project.org/package=GA). It provides a
+comprehensive, flexible, and modular framework for multi/many-objective
+optimization. Users have a wide range of configuration options at their
+disposal, including the representation of real-values, permutations, and
+binaries.
 
-`rmoo` provides a comprehensive, flexible and modular framework for
-multi/many objectives optimization. The user will have at their disposal
-a wide range of configuration options, as well as representation of real
-numbers, permutations and binaries.
-
-Algorithms available in `rmoo`: GA, NSGA-I, NSGA-II, R-NSGA-II and
-NSGA-III.
-
-The algorithms that can be executed in parallel using master-slave and
-island techniques are: GA, NSGA-II, R-NSGA-II and NSGA-III
+The algorithms available in `rmoo` include GA, NSGA-I, NSGA-II,
+R-NSGA-II, and NSGA-III.
 
 ## Installation
 
@@ -150,8 +147,8 @@ vignettes.
 Until the submission of the formal article that introduces **rmoo**,
 please cite using:
 
-> Benitez F., Pinto-Roa Diego P. (2022). *rmoo: Multi-Objective
-> Optimization in R*. R package version 0.2.2
+> Benitez F., Pinto-Roa Diego P. (2023). *rmoo: Multi-Objective
+> Optimization in R*. R package version 0.2.3
 > <https://CRAN.R-project.org/package=rmoo/>.
 
 BibTeX entries for LaTeX users:
@@ -159,7 +156,7 @@ BibTeX entries for LaTeX users:
     @Manual{,
         title = {{rmoo}: Multi-Objective Optimization in R},
         author = {Francisco Benitez and Diego P. {Pinto-Roa}},
-        year = {2022},
-        note = {R package version 0.2.2},
+        year = {2023},
+        note = {R package version 0.2.3},
         url = {https://CRAN.R-project.org/package=rmoo/},
     }

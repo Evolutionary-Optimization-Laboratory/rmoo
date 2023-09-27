@@ -1,7 +1,7 @@
 Package: rmoo
 Title: Multi-Objective Optimization in R
-Version: 0.2.2
-Date: 2022-11-05
+Version: 0.3.0
+Date: 2023-09-01
 Authors@R: 
     c(person(given = "Francisco",
              family = "Benitez",
@@ -24,7 +24,7 @@ Encoding: UTF-8
 Language: es
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Collate: 
     'AllClasses.R'
     'associate.R'
@@ -38,14 +38,17 @@ Collate:
     'niching.R'
     'non_dominated_fronts.R'
     'parallel.R'
+    'utils.R'
     'nsga.R'
     'nsga2.R'
     'nsga3.R'
-    'nsgaControl.R'
+    'rnsga2.R'
+    'modified_crowding_distance.R'
+    'rmooControl.R'
     'performance_metrics.R'
     'reference_point_multi_layer.R'
     'rmoo.R'
-    'rmoo_func.R'
+    'rmoo_main.R'
     'sharing.R'
     'update_points.R'
     'zzz.R'

@@ -1,5 +1,5 @@
 #' @export
-nsgaMonitor <- function(object, number_objectives, ...) {
+rmooMonitor <- function(object, number_objectives, ...) {
   if (!requireNamespace("rgl", quietly = TRUE)){
     stop("packages 'rgl' required for Monitor, please install it!")
   }

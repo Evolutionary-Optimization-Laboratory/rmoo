@@ -12,7 +12,7 @@ stored in it.
 \section{Slots}{
 
 \describe{
-\item{\code{crowdingDistance}}{Crowding-comparison approach to estiate of the
+\item{\code{crowdingDistance}}{Crowding-comparison approach to estimate of the
 perimeter of the cuboid formed by using the nearest neighbors as the vertices.}
 }}
 

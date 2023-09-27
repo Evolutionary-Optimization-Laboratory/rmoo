@@ -21,59 +21,174 @@
 #' @return A list with 'non-dominated fronts' and 'occupied positions' on the fronts.
 #' @export
 non_dominated_fronts <- function(object) {
-    pop_count <- 0
-    pop_size <- nrow(object@population)
-    dominated_count <- vector("list", pop_size)
-    domination_set <- vector("list", pop_size)
-    front <- vector("list", pop_size)
-    fitness <- object@fitness
-    q <- c()
-    front_index <- 1
+  fitness <- object@fitness
+  pop_size <- nrow(fitness)
+  dominated_count <- numeric(pop_size)
+  domination_set <- vector("list", pop_size)
+  front <- numeric(pop_size)
+  front_index <- 1
 
-    for (i in seq_len(pop_size)) {
-        dominated_count[[i]] <- 0
+  for (i in seq_len(pop_size - 1)) {
+    for (j in seq(i + 1, pop_size)) {
+      if (all(fitness[i, ] <= fitness[j, ]) && any(fitness[i, ] < fitness[j, ])) {
+        domination_set[[i]] <- c(domination_set[[i]], j)
+        dominated_count[j] <- dominated_count[j] + 1
+      } else if (all(fitness[j, ] <= fitness[i, ]) && any(fitness[j, ] < fitness[i, ])) {
+        domination_set[[j]] <- c(domination_set[[j]], i)
+        dominated_count[i] <- dominated_count[i] + 1
+      }
     }
-    for (i in seq_len(pop_size)) {
-        for (j in seq_len(pop_size)) {
-            if (i != j & i < j) {
-                if (all(fitness[i, ] <= fitness[j, ]) && any(fitness[i, ] < fitness[j, ])) {
-                  domination_set[[i]] <- c(domination_set[[i]], j)
-                  dominated_count[[j]] <- dominated_count[[j]] + 1
+  }
 
-                }
-                if (all(fitness[j, ] <= fitness[i, ]) && any(fitness[j, ] < fitness[i, ])) {
-                  domination_set[[j]] <- c(domination_set[[j]], i)
-                  dominated_count[[i]] <- dominated_count[[i]] + 1
-                }
-            }
-        }
+  front_index <- 1
+  q <- which(dominated_count == 0)
+  front[q] <- front_index
 
-        if (dominated_count[[i]] == 0) {
-            q <- c(q, i)
-            front[[i]] <- front_index
-            pop_count <- (pop_count + 1)
+  while (length(q) > 0) {
+    front_index <- front_index + 1
+    new_q <- integer()
+    for (i in q) {
+      for (j in domination_set[[i]]) {
+        dominated_count[j] <- dominated_count[j] - 1
+        if (dominated_count[j] == 0) {
+          new_q <- c(new_q, j)
+          front[j] <- front_index
         }
+      }
     }
-    f <- list()
-    f[front_index] <- list(sort(q))
+    q <- new_q
+  }
 
-    while (TRUE) {
-        q <- c()
-        for (i in f[[front_index]]) {
-            for (j in domination_set[[i]]) {
-                dominated_count[[j]] <- dominated_count[[j]] - 1
-                if (dominated_count[j] == 0) {
-                  q <- c(q, j)
-                  front[[j]] <- front_index + 1
-                  pop_count <- pop_count + 1
-                }
-            }
-        }
-        if (is.null(q))
-            break
-        front_index <- front_index + 1
-        f[front_index] <- list(sort(q))
-    }
-    out <- list(fit = f, fronts = front)
-    return(out)
+  out <- list(fit = split(seq_len(pop_size), front), fronts = front)
+  return(out)
 }
+
+
+
+
+
+# non_dominated_fronts <- function(object) {
+#     pop_count <- 0
+#     pop_size <- nrow(object@population)
+#     dominated_count <- vector("list", pop_size)
+#     domination_set <- vector("list", pop_size)
+#     front <- vector("list", pop_size)
+#     fitness <- object@fitness
+#     q <- c()
+#     front_index <- 1
+#
+#     for (i in seq_len(pop_size)) {
+#         dominated_count[[i]] <- 0
+#     }
+#     for (i in seq_len(pop_size)) {
+#         for (j in seq_len(pop_size)) {
+#             if (i != j & i < j) {
+#                 if (all(fitness[i, ] <= fitness[j, ]) && any(fitness[i, ] < fitness[j, ])) {
+#                   domination_set[[i]] <- c(domination_set[[i]], j)
+#                   dominated_count[[j]] <- dominated_count[[j]] + 1
+#
+#                 }
+#                 if (all(fitness[j, ] <= fitness[i, ]) && any(fitness[j, ] < fitness[i, ])) {
+#                   domination_set[[j]] <- c(domination_set[[j]], i)
+#                   dominated_count[[i]] <- dominated_count[[i]] + 1
+#                 }
+#             }
+#         }
+#
+#         if (dominated_count[[i]] == 0) {
+#             q <- c(q, i)
+#             front[[i]] <- front_index
+#             pop_count <- (pop_count + 1)
+#         }
+#     }
+#     f <- list()
+#     f[front_index] <- list(sort(q))
+#
+#     while (TRUE) {
+#         q <- c()
+#         for (i in f[[front_index]]) {
+#             for (j in domination_set[[i]]) {
+#                 dominated_count[[j]] <- dominated_count[[j]] - 1
+#                 if (dominated_count[j] == 0) {
+#                   q <- c(q, j)
+#                   front[[j]] <- front_index + 1
+#                   pop_count <- pop_count + 1
+#                 }
+#             }
+#         }
+#         if (is.null(q))
+#             break
+#         front_index <- front_index + 1
+#         f[front_index] <- list(sort(q))
+#     }
+#     out <- list(fit = f, fronts = front)
+#     return(out)
+# }
+
+
+
+
+
+# cppFunction('
+# List non_dominated_fronts_rcpp(NumericMatrix fitness) {
+#   int pop_size = fitness.nrow();
+#   NumericVector dominated_count(pop_size, 0.0);
+#   List domination_set(pop_size);
+#   IntegerVector front(pop_size, 0);
+#   int front_index = 1;
+#
+#   for (int i = 0; i < pop_size - 1; ++i) {
+#     for (int j = i + 1; j < pop_size; ++j) {
+#       bool i_dominates_j = true;
+#       bool j_dominates_i = true;
+#
+#       for (int k = 0; k < fitness.ncol(); ++k) {
+#         if (fitness(i, k) > fitness(j, k)) {
+#           i_dominates_j = false;
+#         }
+#         if (fitness(j, k) > fitness(i, k)) {
+#           j_dominates_i = false;
+#         }
+#       }
+#
+#       if (i_dominates_j && !j_dominates_i) {
+#         IntegerVector dom_set = domination_set[i];
+#         dom_set.push_back(j);
+#         dominated_count[j]++;
+#         domination_set[i] = dom_set;
+#       } else if (!i_dominates_j && j_dominates_i) {
+#         IntegerVector dom_set = domination_set[j];
+#         dom_set.push_back(i);
+#         dominated_count[i]++;
+#         domination_set[j] = dom_set;
+#       }
+#     }
+#   }
+#
+#   front_index = 1;
+#   IntegerVector q = which(dominated_count == 0);
+#   for (int i = 0; i < q.size(); ++i) {
+#     front[q[i]] = front_index;
+#   }
+#
+#   while (q.size() > 0) {
+#     front_index++;
+#     IntegerVector new_q;
+#     for (int i = 0; i < q.size(); ++i) {
+#       IntegerVector dom_set = domination_set[q[i]];
+#       for (int j = 0; j < dom_set.size(); ++j) {
+#         dominated_count[dom_set[j]]--;
+#         if (dominated_count[dom_set[j]] == 0) {
+#           new_q.push_back(dom_set[j]);
+#           front[dom_set[j]] = front_index;
+#         }
+#       }
+#     }
+#     q = new_q;
+#   }
+#
+#   List out;
+#   out["fit"] = split(seq_len(pop_size), front);
+#   out["fronts"] = front;
+#   return out;
+# }')

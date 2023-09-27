@@ -69,6 +69,7 @@ setClass(Class = "nsga",
                      lower = "numberOrNAOrMatrix",
                      upper = "numberOrNAOrMatrix",
                      nBits = "numberOrNAOrMatrix",
+                     nvars = "numberOrNAOrMatrix",
                      names = "character",
                      popSize = "numeric",
                      front = "numberOrNAOrMatrix",
@@ -83,7 +84,8 @@ setClass(Class = "nsga",
                      fitness = "numberOrNAOrMatrix",
                      summary = "list",
                      solution = "matrix",
-                     fitnessValue = "numberOrNAOrMatrix"),
+                     fitnessValue = "numberOrNAOrMatrix",
+                     execution_time = "numberOrNAOrMatrix"),
          contains = c("VIRTUAL", "algorithm"),
          #contains = "algorithm"
 )
@@ -191,3 +193,11 @@ setClass(Class = "nsga3",
          contains = "nsga"
 )
 
+# Agregar a la clases NSGA
+# Atributos necesarios para el elitismo de las soluciones
+# p_fit, q_fit
+# p_pop, q_pop
+
+
+# Agregar a la clases R-NSGA-II
+# smin

@@ -14,22 +14,22 @@
     invisible()
 }
 
-NSGAStartupMessage <- function() {
+rmooStartupMessage <- function() {
     msg <- paste0("
-       _____ __    __   _____  _____
-      |  _  || \\  /  | |  _  ||  _  | R
-      |  _ _|| |\\//| | | | | || | | | Multi-/Many-
-      |  |\\\  | | \\ | | | |_| || |_| | Objective
-      |__| \\\ |_|   |_| |_____||_____| Optimization Package ",
+       ____   __     __  _____  _____
+      |  _ |  | \\  /  ||  _  ||  _  | R
+      |  __|  | |\\/ / || | | || | | | Multi-/Many-
+      | |\\\  | | \\/| || |_| || |_| | Objective
+      |_| \\\ |_|    |_||_____||_____| Optimization Package ",
         packageVersion("rmoo"))
     return(msg)
 }
 
 .onAttach <- function(lib, pkg) {
-    # unlock .nsga.default variable allowing its modification
-    unlockBinding(".nsga.default", asNamespace("rmoo"))
+    # unlock .rmoo.default variable allowing its modification
+    unlockBinding(".rmoo.default", asNamespace("rmoo"))
     # startup message
-    msg <- NSGAStartupMessage()
+    msg <- rmooStartupMessage()
     if (!interactive())
         msg[1] <- paste("Package 'rmoo' version", packageVersion("rmoo"))
     packageStartupMessage(msg)

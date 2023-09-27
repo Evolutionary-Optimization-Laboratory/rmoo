@@ -73,3 +73,40 @@ niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to
     }
     return(survivors)
 }
+
+
+# niching <- function(pop, n_remaining, niche_count, niche_of_individuals, dist_to_niche) {
+#   survivors <- c()
+#   mask <- rep(TRUE, nrow(pop))
+#
+#   available_niches <- unique(niche_of_individuals)
+#   n_available_niches <- length(available_niches)
+#
+#   while (length(survivors) < n_remaining) {
+#     n <- n_remaining - length(survivors)
+#
+#     available_niches_mask <- available_niches[niche_count[available_niches] > 0]
+#     available_niches_min_count <- min(niche_count[available_niches_mask])
+#     selected_niches <- available_niches_mask[niche_count[available_niches_mask] == available_niches_min_count]
+#
+#     if (length(selected_niches) > n) {
+#       selected_niches <- sample(selected_niches, n)
+#     }
+#
+#     for (i in selected_niches) {
+#       niche_of_individual <- which(niche_of_individuals == i & mask)
+#
+#       if (length(niche_of_individual) > 1) {
+#         niche_of_individual <- sample(niche_of_individual)
+#       }
+#
+#       s <- niche_of_individual[which.min(dist_to_niche[niche_of_individual])]
+#
+#       mask[s] <- FALSE
+#       niche_count[i] <- niche_count[i] + 1
+#       survivors <- c(survivors, s)
+#     }
+#   }
+#
+#   return(survivors)
+# }

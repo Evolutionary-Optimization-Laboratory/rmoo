@@ -1,6 +1,6 @@
 #' @export
-nsgaControl <- function(...) {
-    current <- .nsga.default
+rmooControl <- function(...) {
+    current <- .rmoo.default
     if (nargs() == 0)
         return(current)
     args <- list(...)
@@ -8,7 +8,7 @@ nsgaControl <- function(...) {
         arg <- args[[1]]
         switch(mode(arg),
           list = args <- arg,
-          character = return(.nsga.default[[arg]]),
+          character = return(.rmoo.default[[arg]]),
           stop("invalid argument: ", dQuote(arg))
         )
     }
@@ -37,12 +37,12 @@ nsgaControl <- function(...) {
 
     if (sys.parent() == 0)
         env <- asNamespace("rmoo") else env <- parent.frame()
-    assign(".nsga.default", current, envir = env)
+    assign(".rmoo.default", current, envir = env)
     invisible(current)
 }
 
 
-.nsga.default <- list(binary = list(population = "nsgabin_Population",
+.rmoo.default <- list(binary = list(population = "nsgabin_Population",
                                     selection = "nsgabin_tourSelection",
                                     crossover = "nsgabin_spCrossover",
                                     mutation = "nsgabin_raMutation"),
@@ -54,5 +54,9 @@ nsgaControl <- function(...) {
                                         selection = "nsgaperm_tourSelection",
                                         crossover = "nsgaperm_oxCrossover",
                                         mutation = "nsgaperm_simMutation"),
+                     discrete = list(population = "nsgaint_Population",
+                                        selection = "nsgaint_tourSelection",
+                                        crossover = "nsgaint_uxCrossover",
+                                        mutation = "nsgaint_uxMutation"),
   eps = sqrt(.Machine$double.eps),
   useRcpp = FALSE)
