@@ -6,7 +6,7 @@
 \usage{
 modifiedCrowdingDistance(
   object,
-  epsilon = 0.001,
+  epsilon,
   weights = NULL,
   normalization = "front",
   extreme_points_as_ref_dirs = FALSE

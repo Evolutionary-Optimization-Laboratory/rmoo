@@ -1,12 +1,12 @@
-\name{nsgaControl}
-\alias{nsgaControl}
+\name{rmooControl}
+\alias{rmooControl}
 
 \title{A function for setting or retrieving defaults non-dominated genetic operators}
 
 \description{Default settings for non-dominated genetic operators used in the 'rmoo' package.}
 
 \usage{
-  nsgaControl(\dots)
+  rmooControl(\dots)
 }
 
 \arguments{
@@ -19,26 +19,34 @@
     \itemize{
       \item{\code{"binary"}}{
         \itemize{
-          \item{\code{population}} = \code{"nsgabin_Population"}
-          \item{\code{selection}} = \code{"nsgabin_tourSelection"}
-          \item{\code{crossover}} = \code{"nsgabin_spCrossover"}
-          \item{\code{mutation}} = \code{"nsgabin_raMutation"}
+          \item{\code{population}} = \code{"rmoobin_Population"}
+          \item{\code{selection}} = \code{"rmoobin_tourSelection"}
+          \item{\code{crossover}} = \code{"rmoobin_spCrossover"}
+          \item{\code{mutation}} = \code{"rmoobin_raMutation"}
         }
       }
       \item{\code{"real-valued"}}{
         \itemize{
-          \item{\code{population}} = \code{"nsgareal_Population"}
-          \item{\code{selection}} = \code{"nsgareal_tourSelection"}
-          \item{\code{crossover}} = \code{"nsgareal_sbxCrossover"}
-          \item{\code{mutation}} = \code{"nsgareal_polMutation"}
+          \item{\code{population}} = \code{"rmooreal_Population"}
+          \item{\code{selection}} = \code{"rmooreal_tourSelection"}
+          \item{\code{crossover}} = \code{"rmooreal_sbxCrossover"}
+          \item{\code{mutation}} = \code{"rmooreal_polMutation"}
         }
       }
       \item{\code{"permutation"}}{
         \itemize{
-          \item{\code{population}} = \code{"nsgaperm_Population"}
-          \item{\code{selection}} = \code{"nsgaperm_tourSelection"}
-          \item{\code{crossover}} = \code{"nsgaperm_oxCrossover"}
-          \item{\code{mutation}} = \code{"nsgaperm_simMutation"}
+          \item{\code{population}} = \code{"rmooperm_Population"}
+          \item{\code{selection}} = \code{"rmooperm_tourSelection"}
+          \item{\code{crossover}} = \code{"rmooperm_oxCrossover"}
+          \item{\code{mutation}} = \code{"rmooperm_simMutation"}
+        }
+      }
+      \item{\code{"discrete"}}{
+        \itemize{
+          \item{\code{population}} = \code{"rmooint_Population"}
+          \item{\code{selection}} = \code{"rmooint_tourSelection"}
+          \item{\code{crossover}} = \code{"rmooint_uxCrossover"}
+          \item{\code{mutation}} = \code{"rmooint_uxMutation"}
         }
       }
 
@@ -66,25 +74,25 @@
 }
 
 \seealso{
-  \code{\link[=nsga]{nsga()}},
-  \code{\link[=nsga2]{nsga2()}} and
+  \code{\link[=nsga2]{nsga2()}},
+  \code{\link[=rnsga2]{rnsga2()}} and
   \code{\link[=nsga3]{nsga3()}}
 }
 
 \examples{
   # get and save defaults
-  defaultControl <- nsgaControl()
+  defaultControl <- rmooControl()
   print(defaultControl)
   # get current defaults only for real-valued search
-  nsgaControl("real-valued")
+  rmooControl("real-valued")
   # set defaults for selection operator of real-valued search
-  nsgaControl("real-valued" = list(selection = "nsgareal_lrSelection"))
-  nsgaControl("real-valued")
+  rmooControl("real-valued" = list(selection = "rmooreal_lrSelection"))
+  rmooControl("real-valued")
   # set defaults for selection and crossover operators of real-valued search
-  nsgaControl("real-valued" = list(selection = "nsgareal_lrSelection",
-                                   crossover = "nsgareal_spCrossover"))
-  nsgaControl("real-valued")
+  rmooControl("real-valued" = list(selection = "rmooreal_lrSelection",
+                                   crossover = "rmooreal_spCrossover"))
+  rmooControl("real-valued")
   # restore defaults
-  nsgaControl(defaultControl)
-  nsgaControl()
+  rmooControl(defaultControl)
+  rmooControl()
 }

@@ -57,6 +57,7 @@ Imports:
     utils,
     graphics,
     methods,
+    foreach,
     GA,
     grDevices,
     ggplot2,
@@ -71,6 +72,9 @@ Suggests:
     emoa,
     cdata,
     dplyr,
-    reshape2
+    reshape2,
+    parallel,
+    doParallel,
+    doRNG (>= 1.6)
 Depends: 
     R (>= 2.10)

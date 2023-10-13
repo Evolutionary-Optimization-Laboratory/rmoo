@@ -16,11 +16,11 @@
 
 rmooStartupMessage <- function() {
     msg <- paste0("
-       ____   __     __  _____  _____
-      |  _ |  | \\  /  ||  _  ||  _  | R
-      |  __|  | |\\/ / || | | || | | | Multi-/Many-
-      | |\\\  | | \\/| || |_| || |_| | Objective
-      |_| \\\ |_|    |_||_____||_____| Optimization Package ",
+       ____  __    __  _____  _____
+      |  _ | | \\  /  ||  _  ||  _  | R
+      |  __| | |\\/ / || | | || | | | Multi-/Many-
+      | |\\\\  | | \\/| || |_| || |_| | Objective
+      |_| \\\\ |_|   |_||_____||_____| Optimization Package ",
         packageVersion("rmoo"))
     return(msg)
 }

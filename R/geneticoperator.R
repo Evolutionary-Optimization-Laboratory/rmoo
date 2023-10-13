@@ -1,6 +1,6 @@
 # Real Value NSGA operators: Generate a real random population ----
 #' @export
-nsgareal_Population <- function(object) {
+rmooreal_Population <- function(object) {
     lower <- object@lower
     upper <- object@upper
     nvars <- length(lower)
@@ -13,7 +13,7 @@ nsgareal_Population <- function(object) {
 
 # Binary NSGA operators: Generate a binary random population ----
 #' @export
-nsgabin_Population <- function(object) {
+rmoobin_Population <- function(object) {
     population <- matrix(NA_real_,
                          nrow = object@popSize,
                          ncol = object@nBits)
@@ -26,7 +26,7 @@ nsgabin_Population <- function(object) {
 
 # Permutation NSGA operators: Generate a permutation random population ----
 #' @export
-nsgaperm_Population <- function(object) {
+rmooperm_Population <- function(object) {
     int <- seq.int(object@lower, object@upper)
     n <- length(int)
     population <- matrix(NA, nrow = object@popSize, ncol = n)
@@ -37,7 +37,7 @@ nsgaperm_Population <- function(object) {
 
 # Integer NSGA operators: Generate a discrete random population ----
 #' @export
-nsgaint_Population <- function(object) {
+rmooint_Population <- function(object) {
   lower <- object@lower
   upper <- object@upper
   popSize <- object@popSize
@@ -52,7 +52,7 @@ nsgaint_Population <- function(object) {
   storage.mode(population) <- "integer"
   return(population)
 }
-# nsgaint_Population <- function(object) {
+# rmooint_Population <- function(object) {
 #   lower <- object@lower
 #   upper <- object@upper
 #   popSize <- object@popSize
@@ -67,7 +67,7 @@ nsgaint_Population <- function(object) {
 #   return(population)
 # }
 #
-# nsgaint_Population <- function(object) {
+# rmooint_Population <- function(object) {
 #   lower <- object@lower
 #   upper <- object@upper
 #   popSize <- object@popSize
@@ -83,7 +83,7 @@ nsgaint_Population <- function(object) {
 
 ## Selection Operators ---- //Change to method
 #' @export
-nsga_tourSelection <- function(object, k = 2, ...) {
+rmoo_tourSelection <- function(object, k = 2, ...) {
   class_object <- class(object)[1]
 
   if (class_object == "nsga2") {
@@ -120,7 +120,7 @@ nsga_tourSelection <- function(object, k = 2, ...) {
   return(out)
 }
 
-# nsga_tourSelection <- function(object, k = 3, ...) {
+# rmoo_tourSelection <- function(object, k = 3, ...) {
 #     switch(class(object)[1], nsga1 = {
 #         popSize <- object@popSize
 #         front <- object@front
@@ -193,16 +193,16 @@ nsga_tourSelection <- function(object, k = 2, ...) {
 # }
 
 #' @export
-nsgareal_tourSelection <- nsga_tourSelection
+rmooreal_tourSelection <- rmoo_tourSelection
 #' @export
-nsgabin_tourSelection <- nsga_tourSelection
+rmoobin_tourSelection <- rmoo_tourSelection
 #' @export
-nsgaperm_tourSelection <- nsga_tourSelection
+rmooperm_tourSelection <- rmoo_tourSelection
 # @export
-nsgaint_tourSelection <- nsga_tourSelection
+rmooint_tourSelection <- rmoo_tourSelection
 
 #' @export
-nsga_lrSelection <- function(object, r, q) {
+rmoo_lrSelection <- function(object, r, q) {
   if (missing(r))
     r <- 2 / (object@popSize * (object@popSize - 1))
   if (missing(q))
@@ -219,20 +219,20 @@ nsga_lrSelection <- function(object, r, q) {
 }
 
 #' @export
-nsgabin_lrSelection <- nsga_lrSelection
+rmoobin_lrSelection <- rmoo_lrSelection
 
 #' @export
-nsgaperm_lrSelection <- nsga_lrSelection
+rmooperm_lrSelection <- rmoo_lrSelection
 
 #' @export
-nsgareal_lrSelection <- nsga_lrSelection
+rmooreal_lrSelection <- rmoo_lrSelection
 
 # @export
-# nsgaint_lrSelection <- nsga_lrSelection
+rmooint_lrSelection <- rmoo_lrSelection
 
 ## Crossover Operators ----
 #' @export
-nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
+rmooreal_sbxCrossover <- function(object, parents, nc = 20) {
     parents <- object@population[parents, ]
     n <- ncol(parents)
     nObj <- ncol(object@fitness)
@@ -299,7 +299,7 @@ nsgareal_sbxCrossover <- function(object, parents, nc = 20) {
 }
 
 #' @export
-nsga_spCrossover <- function(object, parents) {
+rmoo_spCrossover <- function(object, parents) {
     fitness <- object@fitness[parents, ]
     parents <- object@population[parents, ]
     n <- ncol(parents)
@@ -322,12 +322,14 @@ nsga_spCrossover <- function(object, parents) {
     return(out)
 }
 #' @export
-nsgabin_spCrossover <- nsga_spCrossover
+rmoobin_spCrossover <- rmoo_spCrossover
 #' @export
-nsgareal_spCrossover <- nsga_spCrossover
+rmooreal_spCrossover <- rmoo_spCrossover
+#' @export
+rmooint_spCrossover <- rmoo_spCrossover
 
 #' @export
-nsgaperm_oxCrossover <- function(object, parents) {
+rmooperm_oxCrossover <- function(object, parents) {
     parents <- object@population[parents, ]
     n <- ncol(parents)
     #
@@ -348,7 +350,7 @@ nsgaperm_oxCrossover <- function(object, parents) {
 }
 
 #' @export
-nsgaint_uxCrossover <- function(object, parents) {
+rmoo_uxCrossover <- function(object, parents) {
   parents <- object@population[parents, ]
 
   n_matings <- nrow(parents)
@@ -365,9 +367,13 @@ nsgaint_uxCrossover <- function(object, parents) {
               fitness = fitnessChildren)
   return(out)
 }
+#' @export
+rmooint_uxCrossover <- rmoo_uxCrossover
+#' @export
+rmoobin_uxCrossover <- rmoo_uxCrossover
 
 #' @export
-nsgaint_huxCrossover <- function(object, parents, prob_hux=0.5) {
+rmoo_huxCrossover <- function(object, parents, prob_hux=0.5) {
   parents <- object@population[parents, ]
 
   n_matings <- nrow(parents)
@@ -395,10 +401,14 @@ nsgaint_huxCrossover <- function(object, parents, prob_hux=0.5) {
               fitness = fitnessChildren)
   return(out)
 }
+#' @export
+rmooint_huxCrossover <- rmoo_huxCrossover
+#' @export
+rmoobin_huxCrossover <- rmoo_huxCrossover
 
 ## Mutation Operator ----
 #' @export
-nsgareal_polMutation <- function(object, parent, nm = 0.2, indpb = 0.2) {
+rmooreal_polMutation <- function(object, parent, nm = 0.2, indpb = 0.2) {
   mutate <- parent <- as.vector(object@population[parent, ])
   n <- length(parent)
   upper <- object@upper
@@ -428,7 +438,7 @@ nsgareal_polMutation <- function(object, parent, nm = 0.2, indpb = 0.2) {
 }
 
 #' @export
-nsgareal_raMutation <- function(object, parent) {
+rmooreal_raMutation <- function(object, parent) {
     mutate <- parent <- as.vector(object@population[parent, ])
     n <- length(parent)
     j <- sample(1:n, size = 1)
@@ -437,7 +447,7 @@ nsgareal_raMutation <- function(object, parent) {
 }
 
 #' @export
-nsgabin_raMutation <- function(object, parent) {
+rmoobin_raMutation <- function(object, parent) {
     mutate <- parent <- as.vector(object@population[parent, ])
     n <- length(parent)
     j <- sample(1:n, size = 1)
@@ -446,7 +456,7 @@ nsgabin_raMutation <- function(object, parent) {
 }
 
 #' @export
-nsgaperm_simMutation <- function(object, parent) {
+rmooperm_simMutation <- function(object, parent) {
     parent <- as.vector(object@population[parent, ])
     n <- length(parent)
     m <- sort(sample(1:n, size = 2))
@@ -462,7 +472,7 @@ nsgaperm_simMutation <- function(object, parent) {
 }
 
 #' @export
-nsgaint_uxMutation <- function(object, parent, indpb=0.1) {
+rmoo_uxMutation <- function(object, parent, indpb=0.1) {
   mutate <- parent <- as.vector(object@population[parent, ])
 
   n <- length(parent)
@@ -478,7 +488,10 @@ nsgaint_uxMutation <- function(object, parent, indpb=0.1) {
   storage.mode(mutate) <- "integer"
   return(mutate)
 }
-
+#' @export
+rmooint_uxMutation <- rmoo_uxMutation
+#' @export
+rmoobin_uxMutation <- rmoo_uxMutation
 
 crossover_mask <- function(X, M) {
   parent <- X

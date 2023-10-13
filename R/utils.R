@@ -5,21 +5,26 @@ check_numeric_arg <- function(arg=NULL, name, check_negative = FALSE) {
     stop(paste(name, "must be a numeric value."))
   if ((arg %% 1 != 0))
     stop(paste(name, "must be a non-negative integer."))
-  if (check_negative && arg < 0)
+  if (!check_negative && arg < 0)
     stop(paste(name, "must not be negative."))
 }
 
 #' @export
-check_probability_arg <- function(arg, name, check_negative = FALSE) {
-  if (!is.numeric(arg) || arg < 0 || arg > 1)
+check_probability_arg <- function(arg, name) {
+  if (!is.numeric(arg))
+    stop(paste(name, "must be a numeric value."))
+  if (arg < 0 || arg > 1)
     stop(paste(name, "must be a numeric value in [0, 1]."))
-  if (check_negative && arg < 0)
-    stop(paste(name, "must not be negative."))
+  # if (!is.numeric(arg) || arg < 0 || arg > 1)
+  #   stop(paste(name, "must be a numeric value in [0, 1]."))
+  # , check_negative = FALSE
+  # if (!check_negative && arg < 0)
+  #   stop(paste(name, "must not be negative."))
 }
 
 #' @export
-check_function_arg <- function(arg, name) {
-  if (missing(arg)) stop(paste("Please, define the", name))
+check_function_arg <- function(arg=NULL, name) {
+  if (is.null(arg)) stop(paste("Please, define the", name))
   if (!is.function(arg))
     stop(paste(name, "must be a function."))
 }
@@ -32,7 +37,7 @@ check_matrix_arg <- function(arg, name) {
 }
 
 #' @export
-check_algorithm_arg <- function(nObj, reference_dirs, epsilon, normalization, extreme_points_as_ref_dirs, weights, algorithm){
+check_algorithm_arg <- function(nObj, algorithm, normalization=NULL, reference_dirs=NULL){
   if (algorithm == "NSGA-III"){
     check_matrix_arg(reference_dirs, "Reference points")
     if (ncol(reference_dirs) != nObj) {

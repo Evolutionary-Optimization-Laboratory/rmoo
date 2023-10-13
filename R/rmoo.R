@@ -2,7 +2,7 @@
 #' @aliases rmoo-package
 "_PACKAGE"
 
-#' @import stats utils graphics methods
+#' @import stats utils graphics methods foreach
 #' @importFrom GA ga
 #' @importFrom grDevices rainbow
 #' @importFrom ggplot2 aes

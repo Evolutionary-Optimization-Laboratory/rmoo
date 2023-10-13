@@ -167,8 +167,8 @@ rmoo <- function(type = c("binary", "real-valued", "permutation", "discrete"),
                  pmutation = 0.1,
                  popSize = 50,
                  maxiter = 100,
-                 run = maxiter,
-                 maxFitness = Inf,
+                 # run = maxiter,
+                 # maxFitness = Inf,
                  nObj = NULL,
                  names = NULL,
                  suggestions = NULL,
@@ -197,9 +197,9 @@ rmoo <- function(type = c("binary", "real-valued", "permutation", "discrete"),
   check_numeric_arg(nObj, "Objective number (nObj)", check_negative = TRUE)
   check_numeric_arg(maxiter, "Maximum number of iterations (maxiter)", check_negative = TRUE)
   check_function_arg(fitness, "Fitness function")
-  check_probability_arg(pcrossover, "Probability of crossover (pcrossover)", check_negative = TRUE)
-  check_probability_arg(pmutation, "Probability of mutation (pmutation)", check_negative = TRUE)
-  check_algorithm_arg(nObj, reference_dirs, epsilon, normalization, extreme_points_as_ref_dirs, weights, algorithm)
+  check_probability_arg(pcrossover, "Probability of crossover (pcrossover)")
+  check_probability_arg(pmutation, "Probability of mutation (pmutation)")
+  check_algorithm_arg(nObj, algorithm, normalization, reference_dirs)
   if (popSize < 10) warning("The population size is less than 10.")
 
   switch(type,
@@ -433,15 +433,15 @@ rmoo <- function(type = c("binary", "real-valued", "permutation", "discrete"),
       monitor(object = object, number_objective = nObj)
     }
 
-    if (max(Fitness, na.rm = TRUE) >= maxFitness)
-      break
+    # if (max(Fitness, na.rm = TRUE) >= maxFitness)
+    #   break
     if (object@iter == maxiter)
       break
   }
-  solution@execution_time <- as.numeric(Sys.time() - start_time)*60
-  solution <- object
+  object@execution_time <- as.numeric(Sys.time() - start_time)
+  # solution <- object
 
-  return(solution)
+  return(object)
 }
 
 

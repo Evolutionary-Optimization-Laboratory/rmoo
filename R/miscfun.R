@@ -461,7 +461,7 @@ polar <- function(object, ...){
     ggplot2::facet_wrap(~Pop, nrow = 1)
 }
 
-utils::globalVariables(c("Pop","Objective_No", "Objective_Value", "Var1", "Var2", "color", "columns", "f_1", "f_2", "label_both", "rows", "value", "x", "y"))
+utils::globalVariables(c("Pop","Objective_No", "Objective_Value", "Var1", "Var2", "color", "columns", "f_1", "f_2", "label_both", "rows", "value", "x", "y", "i.", "%DO%"))
 
 
 
