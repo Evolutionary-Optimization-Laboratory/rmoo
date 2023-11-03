@@ -33,18 +33,18 @@
 #' @param nBits a value specifying the number of bits to be used in binary
 #' encoded optimizations.
 #' @param population an R function for randomly generating an initial population.
-#' See [nsga_Population()] for available functions.
+#' See [rmoo_Population()] for available functions.
 #' @param selection an R function performing selection, i.e. a function which
 #' generates a new population of individuals from the current population
-#' probabilistically according to individual fitness. See [nsga_Selection()]
+#' probabilistically according to individual fitness. See [rmoo_Selection()]
 #' for available functions.
 #' @param crossover an R function performing crossover, i.e. a function which
 #' forms offsprings by combining part of the
-#' genetic information from their parents. See [nsga_Crossover()]
+#' genetic information from their parents. See [rmoo_Crossover()]
 #' for available functions.
 #' @param mutation an R function performing mutation, i.e. a function which
 #' randomly alters the values of some genes in a parent chromosome.
-#' See [nsga_Mutation()] for available functions.
+#' See [rmoo_Mutation()] for available functions.
 #' @param popSize the population size.
 #' @param nObj number of objective in the fitness function.
 #' @param n_partitions Partition number of generated reference points
@@ -615,9 +615,12 @@ nsga3 <- function(type = c("binary", "real-valued", "permutation"),
 }
 
 ## NSGA-III Bare Process
-#' @export
+# @export
 nsga_iii <- function(object, nObj) {
   popSize <- object@popSize
+  Pop <- object@population
+  p_fit <- object@fitness
+
   object@ideal_point <- UpdateIdealPoint(object, nObj)
   object@worst_point <- UpdateWorstPoint(object, nObj)
 

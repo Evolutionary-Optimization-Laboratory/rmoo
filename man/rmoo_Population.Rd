@@ -1,22 +1,22 @@
-\name{nsga_Population}
-\alias{nsga_Population}
+\name{rmoo_Population}
+\alias{rmoo_Population}
 %
-\alias{nsgabin_Population}
+\alias{rmoobin_Population}
 %
-\alias{nsgareal_Population}
+\alias{rmooreal_Population}
 %
-\alias{nsgaperm_Population}
+\alias{rmooperm_Population}
 
 \title{Population initialization in non-dominated genetic algorithms}
 
 \description{Functions for creating a random initial population to be used in non-dominated genetic algorithms.}
 
 \usage{
-  nsgabin_Population(object)
+  rmoobin_Population(object)
 
-  nsgareal_Population(object)
+  rmooreal_Population(object)
 
-  nsgaperm_Population(object)
+  rmooperm_Population(object)
 }
 
 \arguments{
@@ -26,11 +26,11 @@
 }
 
 \details{
-  \code{nsgabin_Population} generates a random population of \code{object@nBits} binary values;
+  \code{rmoobin_Population} generates a random population of \code{object@nBits} binary values;
 
-  \code{nsgareal_Population} generates a random (uniform) population of real values in the range [\code{object@lower}, \code{object@upper}];
+  \code{rmooreal_Population} generates a random (uniform) population of real values in the range [\code{object@lower}, \code{object@upper}];
 
-  \code{nsgaperm_Population} generates a random (uniform) population of integer values in the range [\code{object@lower}, \code{object@upper}].
+  \code{rmooperm_Population} generates a random (uniform) population of integer values in the range [\code{object@lower}, \code{object@upper}].
 }
 
 \value{Return a matrix of dimension \code{object@popSize} times the number of decision variables.}

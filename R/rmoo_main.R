@@ -167,8 +167,6 @@ rmoo <- function(type = c("binary", "real-valued", "permutation", "discrete"),
                  pmutation = 0.1,
                  popSize = 50,
                  maxiter = 100,
-                 # run = maxiter,
-                 # maxFitness = Inf,
                  nObj = NULL,
                  names = NULL,
                  suggestions = NULL,
@@ -176,7 +174,6 @@ rmoo <- function(type = c("binary", "real-valued", "permutation", "discrete"),
                  parallel = FALSE,
                  summary = FALSE,
                  seed = NULL,
-                 # dshare = NULL,
                  reference_dirs = NULL,
                  epsilon = 0.001,
                  normalization = NULL,
@@ -333,7 +330,8 @@ rmoo <- function(type = c("binary", "real-valued", "permutation", "discrete"),
 
   object@population <- Pop
 
-  Fitness <- evaluate_fitness(parallel, popSize, Fitness, fitness, Pop, callArgs)
+  # Evaluate Solution Fitness
+  Fitness <- evaluate_fitness(parallel, popSize, Fitness, fitness, Pop, `%DO%`, callArgs)
 
   object@population <- P <- Pop
   object@fitness <- p_fit <- Fitness
@@ -394,7 +392,7 @@ rmoo <- function(type = c("binary", "real-valued", "permutation", "discrete"),
     object@fitness <- q_fit <- Fitness
 
     # Evaluate Solution Fitness
-    Fitness <- evaluate_fitness(parallel, popSize, Fitness, fitness, Pop, callArgs)
+    Fitness <- evaluate_fitness(parallel, popSize, Fitness, fitness, Pop, `%DO%`, callArgs)
 
     object@population <- Q <- Pop
     object@fitness <- q_fit <- Fitness
@@ -430,7 +428,8 @@ rmoo <- function(type = c("binary", "real-valued", "permutation", "discrete"),
     }
 
     if (is.function(monitor)) {
-      monitor(object = object, number_objective = nObj)
+      # monitor(object = object, number_objective = nObj)
+      monitor(object = object, callArgs)
     }
 
     # if (max(Fitness, na.rm = TRUE) >= maxFitness)
@@ -438,7 +437,7 @@ rmoo <- function(type = c("binary", "real-valued", "permutation", "discrete"),
     if (object@iter == maxiter)
       break
   }
-  object@execution_time <- as.numeric(Sys.time() - start_time)
+  object@execution_time <- as.numeric(difftime(Sys.time() , start_time, units = "secs"))
   # solution <- object
 
   return(object)

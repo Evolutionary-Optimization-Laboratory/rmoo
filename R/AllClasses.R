@@ -39,6 +39,7 @@ setClass("algorithm", contains = "VIRTUAL")
 #' encoded optimizations.
 #' @slot names a vector of character strings providing the names of decision
 #' variables (optional).
+#' @slot nvars a
 #' @slot popSize the population size.
 #' @slot front Rank of individuals on the non-dominated front.
 #' @slot f Front of individuals on the non-dominated front.
@@ -59,6 +60,7 @@ setClass("algorithm", contains = "VIRTUAL")
 #' @slot fitnessValue the best fitness value at the final iteration.
 #' @slot solution the value(s) of the decision variables giving the best fitness
 #' at the final iteration.
+#' @slot execution_time a
 #'
 #' @examples
 #' showClass('nsga')
@@ -83,8 +85,8 @@ setClass(Class = "nsga",
                      pmutation = "numberOrNAOrMatrix",
                      fitness = "numberOrNAOrMatrix",
                      summary = "list",
-                     solution = "matrix",
                      fitnessValue = "numberOrNAOrMatrix",
+                     solution = "matrix",
                      execution_time = "numberOrNAOrMatrix"),
          contains = c("VIRTUAL", "algorithm"),
          #contains = "algorithm"

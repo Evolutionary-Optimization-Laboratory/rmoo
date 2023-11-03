@@ -73,16 +73,20 @@ DTLZ1 <- function (x, nobj = 3, ...)
     return(f)
 }
 
+ref_points <- generate_reference_points(3,12)
+
 result <- rmoo(fitness = DTLZ1,
-                type = "real-valued",
-                strategy = "NSGA-III",
-                lower = c(0,0,0),
-                upper = c(1,1,1),
-                monitor = FALSE,
-                summary = FALSE,
-                popSize = 92,
-                n_partitions = 12,
-                maxiter = 300)
+               type = "real-valued",
+               algorithm = "NSGA-III",
+               lower = c(0,0,0),
+               upper = c(1,1,1),
+               monitor = FALSE,
+               summary = FALSE,
+               parallel = FALSE,
+               nObj = 3,
+               reference_dirs = ref_points,
+               popSize = 92,
+               maxiter = 300)
 ```
 
 The rmoo package has a set of S4 method that can help the user to visualize,

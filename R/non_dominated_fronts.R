@@ -21,47 +21,59 @@
 #' @return A list with 'non-dominated fronts' and 'occupied positions' on the fronts.
 #' @export
 non_dominated_fronts <- function(object) {
-  fitness <- object@fitness
-  pop_size <- nrow(fitness)
-  dominated_count <- numeric(pop_size)
-  domination_set <- vector("list", pop_size)
-  front <- numeric(pop_size)
-  front_index <- 1
+  nondom.layers <- ecr::doNondominatedSorting(t(object@fitness))
 
-  for (i in seq_len(pop_size - 1)) {
-    for (j in seq(i + 1, pop_size)) {
-      if (all(fitness[i, ] <= fitness[j, ]) && any(fitness[i, ] < fitness[j, ])) {
-        domination_set[[i]] <- c(domination_set[[i]], j)
-        dominated_count[j] <- dominated_count[j] + 1
-      } else if (all(fitness[j, ] <= fitness[i, ]) && any(fitness[j, ] < fitness[i, ])) {
-        domination_set[[j]] <- c(domination_set[[j]], i)
-        dominated_count[i] <- dominated_count[i] + 1
-      }
-    }
-  }
+  max.rank <- max(nondom.layers$ranks)
 
-  front_index <- 1
-  q <- which(dominated_count == 0)
-  front[q] <- front_index
+  idxs.by.rank <- lapply(seq(max.rank), function(r) which(nondom.layers$ranks == r))
 
-  while (length(q) > 0) {
-    front_index <- front_index + 1
-    new_q <- integer()
-    for (i in q) {
-      for (j in domination_set[[i]]) {
-        dominated_count[j] <- dominated_count[j] - 1
-        if (dominated_count[j] == 0) {
-          new_q <- c(new_q, j)
-          front[j] <- front_index
-        }
-      }
-    }
-    q <- new_q
-  }
+  out <- list(fit = idxs.by.rank, fronts = nondom.layers$ranks)
 
-  out <- list(fit = split(seq_len(pop_size), front), fronts = front)
   return(out)
 }
+
+# non_dominated_fronts <- function(object) {
+#   fitness <- object@fitness
+#   popSize <- nrow(fitness)
+#   dominated_count <- numeric(popSize)
+#   domination_set <- vector("list", popSize)
+#   front <- numeric(popSize)
+#   front_index <- 1
+#
+#   for (i in seq_len(popSize - 1)) {
+#     for (j in seq(i + 1, popSize)) {
+#       if (all(fitness[i, ] <= fitness[j, ]) && any(fitness[i, ] < fitness[j, ])) {
+#         domination_set[[i]] <- c(domination_set[[i]], j)
+#         dominated_count[j] <- dominated_count[j] + 1
+#       } else if (all(fitness[j, ] <= fitness[i, ]) && any(fitness[j, ] < fitness[i, ])) {
+#         domination_set[[j]] <- c(domination_set[[j]], i)
+#         dominated_count[i] <- dominated_count[i] + 1
+#       }
+#     }
+#   }
+#
+#   front_index <- 1
+#   q <- which(dominated_count == 0)
+#   front[q] <- front_index
+#
+#   while (length(q) > 0) {
+#     front_index <- front_index + 1
+#     new_q <- integer()
+#     for (i in q) {
+#       for (j in domination_set[[i]]) {
+#         dominated_count[j] <- dominated_count[j] - 1
+#         if (dominated_count[j] == 0) {
+#           new_q <- c(new_q, j)
+#           front[j] <- front_index
+#         }
+#       }
+#     }
+#     q <- new_q
+#   }
+#
+#   out <- list(fit = split(seq_len(popSize), front), fronts = front)
+#   return(out)
+# }
 
 
 

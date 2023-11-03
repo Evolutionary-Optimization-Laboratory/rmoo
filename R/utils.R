@@ -1,4 +1,4 @@
-#' @export
+# @export
 check_numeric_arg <- function(arg=NULL, name, check_negative = FALSE) {
   if (is.null(arg)) stop(paste("Please, define the", name))
   if (!is.numeric(arg))
@@ -9,34 +9,29 @@ check_numeric_arg <- function(arg=NULL, name, check_negative = FALSE) {
     stop(paste(name, "must not be negative."))
 }
 
-#' @export
+# @export
 check_probability_arg <- function(arg, name) {
   if (!is.numeric(arg))
     stop(paste(name, "must be a numeric value."))
   if (arg < 0 || arg > 1)
     stop(paste(name, "must be a numeric value in [0, 1]."))
-  # if (!is.numeric(arg) || arg < 0 || arg > 1)
-  #   stop(paste(name, "must be a numeric value in [0, 1]."))
-  # , check_negative = FALSE
-  # if (!check_negative && arg < 0)
-  #   stop(paste(name, "must not be negative."))
 }
 
-#' @export
+# @export
 check_function_arg <- function(arg=NULL, name) {
   if (is.null(arg)) stop(paste("Please, define the", name))
   if (!is.function(arg))
     stop(paste(name, "must be a function."))
 }
 
-#' @export
+# @export
 check_matrix_arg <- function(arg, name) {
   if (is.null(arg)) stop(paste("Please, define the", name))
   if (!is.matrix(arg))
     stop(paste(name, "must be a matrix."))
 }
 
-#' @export
+# @export
 check_algorithm_arg <- function(nObj, algorithm, normalization=NULL, reference_dirs=NULL){
   if (algorithm == "NSGA-III"){
     check_matrix_arg(reference_dirs, "Reference points")
@@ -58,7 +53,7 @@ check_algorithm_arg <- function(nObj, algorithm, normalization=NULL, reference_d
   }
 }
 
-#' @export
+# @export
 create_object_instance <- function(algorithm, call, type, lower,
                                    upper, nBits, nvars, names, popSize,
                                    maxiter, suggestions, pcrossover,
@@ -119,8 +114,8 @@ create_object_instance <- function(algorithm, call, type, lower,
   return(object)
 }
 
-#' @export
-evaluate_fitness <- function(parallel, popSize, Fitness, fitness, Pop, callArgs) {
+# @export
+evaluate_fitness <- function(parallel, popSize, Fitness, fitness, Pop, `%DO%`, callArgs) {
   if (!parallel) {
     for (i in seq_len(popSize)) {
       if (is.na(Fitness[i])) {
@@ -138,7 +133,7 @@ evaluate_fitness <- function(parallel, popSize, Fitness, fitness, Pop, callArgs)
   return(Fitness)
 }
 
-#' @export
+# @export
 optimization_process <- function(object, algorithm, nObj, epsilon, weights, normalization, extreme_points_as_ref_dirs) {
   if (algorithm == "NSGA-II") {
     out <- nsga_ii(object, nObj)
@@ -151,3 +146,72 @@ optimization_process <- function(object, algorithm, nObj, epsilon, weights, norm
   }
   return(out)
 }
+
+
+
+get_relation <- function(a, b, cva = NULL, cvb = NULL) {
+  if (!is.null(cva) && !is.null(cvb)) {
+    if (cva < cvb) {
+      return(1)
+    } else if (cvb < cva) {
+      return(-1)
+    }
+  }
+
+  val <- 0
+  for (i in 1:length(a)) {
+    if (a[i] < b[i]) {
+      if (val == -1) {
+        return(0)
+      }
+      val <- 1
+    } else if (b[i] < a[i]) {
+      if (val == 1) {
+        return(0)
+      }
+      val <- -1
+    }
+  }
+  return(val)
+}
+
+
+compare <- function(a, a_val, b, b_val, method, return_random_if_equal = TRUE) {
+  if (method == 'larger_is_better') {
+    if (a_val > b_val) {
+      return(a)
+    } else if (a_val < b_val) {
+      return(b)
+    } else {
+      if (return_random_if_equal) {
+        return(sample(c(a, b), 1))
+      } else {
+        return(NULL)
+      }
+    }
+  } else if (method == 'smaller_is_better') {
+    if (a_val < b_val) {
+      return(a)
+    } else if (a_val > b_val) {
+      return(b)
+    } else {
+      if (return_random_if_equal) {
+        return(sample(c(a, b), 1))
+      } else {
+        return(NULL)
+      }
+    }
+  }
+}
+
+random_permutations <- function(n, l, concat = TRUE) {
+  P <- list()
+  for (i in 1:n) {
+    P[[i]] <- sample(1:l, l)
+  }
+  if (concat) {
+    P <- unlist(P)
+  }
+  return(P)
+}
+

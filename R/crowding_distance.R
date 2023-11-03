@@ -23,37 +23,98 @@
 crowding_distance <- function(object, nObj) {
   nFront <- length(object@f)
   popSize <- nrow(object@population)
-  deltaf <- apply(object@fitness, 2, max) - apply(object@fitness, 2, min)
   crowding <- matrix(NA, nrow = popSize)
   for (i in seq_len(nFront)) {
     f <- object@f[[i]]
     n <- length(f)
     costs <- object@fitness[f, ]
-    d <- matrix(0, nrow = n, ncol = nObj)
-    for (j in seq_len(nObj)) {
-      if (n > 1) {
-        ord <- order(costs[, j])
-        srt <- costs[ord, ]
-        d[ord[1], j] <- Inf
-        if (n > 2) {
-          for (k in 2:(n - 1)) {
-            d[ord[k], j] <- abs(srt[(k + 1), j] - srt[(k - 1), j]) / abs(deltaf[j])
-          }
-        }
-        d[ord[n], j] <- Inf
-      } else {
-        costs <- matrix(costs, 1)
-        ord <- order(costs[, 1])
-        srt <- costs[ord, ]
-        d[ord[1], j] <- Inf
-      }
-    }
+    d <- ecr::computeCrowdingDistance(t(costs))
     for (i in seq_len(n)) {
-      crowding[f[i]] <- sum(d[i, ])
+      crowding[f[i]] <- d[i]
     }
   }
   return(crowding)
 }
+
+# crowding_distance <- function(object, nObj) {
+#   nFront <- length(object@f)
+#   popSize <- nrow(object@population)
+#   deltaf <- apply(object@fitness, 2, max) - apply(object@fitness, 2, min)
+#   crowding <- matrix(NA, nrow = popSize)
+#   for (i in seq_len(nFront)) {
+#     f <- object@f[[i]]
+#     n <- length(f)
+#     costs <- object@fitness[f, ]
+#     d <- matrix(0, nrow = n, ncol = nObj)
+#     for (j in seq_len(nObj)) {
+#       if (n > 1) {
+#         ord <- order(costs[, j])
+#         srt <- costs[ord, ]
+#         d[ord[1], j] <- Inf
+#         if (n > 2) {
+#           for (k in 2:(n - 1)) {
+#             d[ord[k], j] <- abs(srt[(k + 1), j] - srt[(k - 1), j]) / abs(deltaf[j])
+#           }
+#         }
+#         d[ord[n], j] <- Inf
+#       } else {
+#         costs <- matrix(costs, 1)
+#         ord <- order(costs[, 1])
+#         srt <- costs[ord, ]
+#         d[ord[1], j] <- Inf
+#       }
+#     }
+#     for (i in seq_len(n)) {
+#       crowding[f[i]] <- sum(d[i, ])
+#     }
+#   }
+#   return(crowding)
+# }
+
+
+
+
+# calc_crowding_distance <- function(F) {
+#   popSize <- nrow(F)
+#   n_obj <- ncol(F)
+#
+#   F_sorted <- matrix(nrow = n_points, ncol = n_obj)
+#   dist_to_last_sorted <- matrix(nrow = n_points, ncol = n_obj)
+#   dist_to_next_sorted <- matrix(nrow = n_points, ncol = n_obj)
+#
+#   for (j in 1:n_obj) {
+#     F_sorted[,j] <- F[order(F[,j]), j]
+#   }
+#
+#   # calculate the distance from each point to the last and next
+#   dist <- rbind(F_sorted, rep(Inf, n_obj)) - rbind(rep(-Inf, n_obj), F_sorted)
+#
+#   # calculate the norm for each objective - set to NaN if all values are equal
+#   norm <- apply(F_sorted, 2, max) - apply(F_sorted, 2, min)
+#   norm[norm == 0] <- NA
+#
+#   # prepare the distance to last and next vectors
+#   dist_to_last <- dist_to_next <- dist
+#   dist_to_last <- dist_to_last[-nrow(dist_to_last),] / norm
+#   dist_to_next <- dist_to_next[-1,] / norm
+#
+#   # if we divide by zero because all values in one columns are equal replace by none
+#   dist_to_last[is.na(dist_to_last)] <- 0.0
+#   dist_to_next[is.na(dist_to_next)] <- 0.0
+#
+#   # sum up the distance to next and last and norm by objectives - also reorder from sorted list
+#   J <- apply(I, 2, order)
+#
+#   for (j in 1:n_obj) {
+#     dist_to_last_sorted[,j] <- dist_to_last[J[,j], j]
+#     dist_to_next_sorted[,j] <- dist_to_next[J[,j], j]
+#   }
+#
+#   cd <- rowSums(dist_to_last_sorted + dist_to_next_sorted) / n_obj
+#
+#   return(cd)
+# }
+
 
 
 # library(Rcpp)

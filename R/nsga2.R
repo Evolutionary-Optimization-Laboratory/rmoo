@@ -33,17 +33,17 @@
 #' @param nBits a value specifying the number of bits to be used in binary
 #' encoded optimizations
 #' @param population an R function for randomly generating an initial population.
-#' See [nsga_Population()] for available functions.
+#' See [rmoo_Population()] for available functions.
 #' @param selection an R function performing selection, i.e. a function which
 #' generates a new population of individuals from the current population
-#' probabilistically according to individual fitness. See [nsga_Selection()]
+#' probabilistically according to individual fitness. See [rmoo_Selection()]
 #' for available functions.
 #' @param crossover an R function performing crossover, i.e. a function which
 #' forms offsprings by combining part of the genetic information from their
-#' parents. See [nsga_Crossover()] for available functions.
+#' parents. See [rmoo_Crossover()] for available functions.
 #' @param mutation an R function performing mutation, i.e. a function which
 #' randomly alters the values of some genes in a parent chromosome.
-#' See [nsga_Mutation()] for available functions.
+#' See [rmoo_Mutation()] for available functions.
 #' @param popSize the population size.
 #' @param nObj number of objective in the fitness function.
 #' @param pcrossover the probability of crossover between pairs of chromosomes.
@@ -494,30 +494,73 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
 }
 
 ## NSGA-II Bare Process
-#' @export
+# @export
 nsga_ii <- function(object, nObj) {
-  cd <- crowding_distance(object, nObj)
-  object@crowdingDistance <- cd
+  fitness <- t(object@fitness)
+  popSize <- object@popSize
+  new.pop.idxs <- integer()
 
-  populationsorted <- object@population[order(object@front, -object@crowdingDistance), ]
-  fitnesssorted <- object@fitness[order(object@front, -object@crowdingDistance), ]
+  max.rank = max(object@front)
 
-  object@population <- P <- Pop <- populationsorted[1:object@popSize, ]
-  object@fitness <- p_fit <- fitnesssorted[1:object@popSize, ]
+  idxs.by.rank = object@f
+
+  front.len <- sapply(idxs.by.rank, length)
+  cum.front.len <- cumsum(front.len)
+
+  front.first.nonfit <- BBmisc::which.first(cum.front.len > popSize)
+
+  if (front.first.nonfit > 1L) {
+    new.pop.idxs <- unlist(idxs.by.rank[1:(front.first.nonfit - 1L)])
+  }
+
+  n.diff = popSize - length(new.pop.idxs)
+
+  if (n.diff > 0L) {
+    idxs.first.nonfit <- idxs.by.rank[[front.first.nonfit]]
+    cds <- ecr::computeCrowdingDistance(fitness[, idxs.first.nonfit, drop = FALSE])
+    idxs2 <- order(cds, decreasing = TRUE)[1:n.diff]
+    new.pop.idxs <- c(new.pop.idxs, idxs.first.nonfit[idxs2])
+  }
+
+  object@population <- p_pop <- object@population[new.pop.idxs,]
+  object@fitness <- p_fit <- object@fitness[new.pop.idxs,]
 
   out <- non_dominated_fronts(object)
   object@f <- out$fit
   object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
 
-  cd <- crowding_distance(object, nObj)
-  object@crowdingDistance <- cd
+  object@crowdingDistance <- crowding_distance(object, nObj)
+  # object@crowdingDistance <- ecr::computeCrowdingDistance(t(object@fitness))
 
   out <- list(object = object,
-              p_pop = Pop,
+              p_pop = p_pop,
               p_fit = p_fit)
 
   return(out)
 }
+# nsga_ii <- function(object, nObj) {
+#   cd <- crowding_distance(object, nObj)
+#   object@crowdingDistance <- cd
+#
+#   populationsorted <- object@population[order(object@front, -object@crowdingDistance), ]
+#   fitnesssorted <- object@fitness[order(object@front, -object@crowdingDistance), ]
+#
+#   object@population <- P <- Pop <- populationsorted[1:object@popSize, ]
+#   object@fitness <- p_fit <- fitnesssorted[1:object@popSize, ]
+#
+#   out <- non_dominated_fronts(object)
+#   object@f <- out$fit
+#   object@front <- matrix(unlist(out$fronts), ncol = 1, byrow = TRUE)
+#
+#   cd <- crowding_distance(object, nObj)
+#   object@crowdingDistance <- cd
+#
+#   out <- list(object = object,
+#               p_pop = Pop,
+#               p_fit = p_fit)
+#
+#   return(out)
+# }
 
 # @export
 #' @rdname progress-methods

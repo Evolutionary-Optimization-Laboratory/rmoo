@@ -1,35 +1,35 @@
-\name{nsga_Selection}
-\alias{nsga_Selection}
+\name{rmoo_Selection}
+\alias{rmoo_Selection}
 %
 %
-\alias{nsga_lrSelection}
-\alias{nsga_tourSelection}
+\alias{rmoo_lrSelection}
+\alias{rmoo_tourSelection}
 %
-\alias{nsgabin_lrSelection}
-\alias{nsgabin_tourSelection}
+\alias{rmoobin_lrSelection}
+\alias{rmoobin_tourSelection}
 %
-\alias{nsgareal_lrSelection}
-\alias{nsgareal_tourSelection}
+\alias{rmooreal_lrSelection}
+\alias{rmooreal_tourSelection}
 %
-\alias{nsgaperm_lrSelection}
-\alias{nsgaperm_tourSelection}
+\alias{rmooperm_lrSelection}
+\alias{rmooperm_tourSelection}
 
 \title{Selection operators in non-dominated genetic algorithms}
 
 \description{Functions implementing selection non-dominated genetic operator.}
 
 \usage{
-  nsga_lrSelection(object, r, q)
-  nsga_tourSelection(object, k = 3, \dots)
+  rmoo_lrSelection(object, r, q)
+  rmoo_tourSelection(object, k = 2, \dots)
 
-  nsgabin_lrSelection(object, r, q)
-  nsgabin_tourSelection(object, k = 3, \dots)
+  rmoobin_lrSelection(object, r, q)
+  rmoobin_tourSelection(object, k = 2, \dots)
 
-  nsgareal_lrSelection(object, r, q)
-  nsgareal_tourSelection(object, k = 3, \dots)
+  rmooreal_lrSelection(object, r, q)
+  rmooreal_tourSelection(object, k = 2, \dots)
 
-  nsgaperm_lrSelection(object, r, q)
-  nsgaperm_tourSelection(object, k = 3, \dots)
+  rmooperm_lrSelection(object, r, q)
+  rmooperm_tourSelection(object, k = 2, \dots)
 }
 
 \arguments{

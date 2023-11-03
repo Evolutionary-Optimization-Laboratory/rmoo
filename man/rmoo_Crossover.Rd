@@ -1,28 +1,28 @@
-\name{nsga_Crossover}
-\alias{nsga_Crossover}
+\name{rmoo_Crossover}
+\alias{rmoo_Crossover}
 %
-\alias{nsga_spCrossover}
+\alias{rmoo_spCrossover}
 %
-\alias{nsgabin_spCrossover}
+\alias{rmoobin_spCrossover}
 %
-\alias{nsgareal_spCrossover}
-\alias{nsgareal_sbxCrossover}
+\alias{rmooreal_spCrossover}
+\alias{rmooreal_sbxCrossover}
 %
-\alias{nsgaperm_oxCrossover}
+\alias{rmooperm_oxCrossover}
 
 \title{Crossover operators in non-dominated genetic algorithms}
 
 \description{Functions implementing crossover non-dominated genetic operator.}
 
 \usage{
-  nsga_spCrossover(object, parents)
+  rmoo_spCrossover(object, parents)
 
-  nsgabin_spCrossover(object, parents)
+  rmoobin_spCrossover(object, parents)
 
-  nsgareal_spCrossover(object, parents)
-  nsgareal_sbxCrossover(object, parents, nc = 20)
+  rmooreal_spCrossover(object, parents)
+  rmooreal_sbxCrossover(object, parents, nc = 20)
 
-  nsgaperm_oxCrossover(object, parents)
+  rmooperm_oxCrossover(object, parents)
 }
 
 \arguments{

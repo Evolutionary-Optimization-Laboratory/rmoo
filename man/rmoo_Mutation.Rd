@@ -1,24 +1,24 @@
-\name{nsga_Mutation}
-\alias{nsga_Mutation}
+\name{rmoo_Mutation}
+\alias{rmoo_Mutation}
 %
-\alias{nsgabin_raMutation}
+\alias{rmoobin_raMutation}
 %
-\alias{nsgareal_raMutation}
-\alias{nsgareal_polMutation}
+\alias{rmooreal_raMutation}
+\alias{rmooreal_polMutation}
 %
-\alias{nsgaperm_simMutation}
+\alias{rmooperm_simMutation}
 
 \title{Mutation operators in non-dominated genetic algorithms}
 
 \description{Functions implementing mutation non-dominated genetic operator.}
 
 \usage{
-  nsgabin_raMutation(object, parent)
+  rmoobin_raMutation(object, parent)
 
-  nsgareal_raMutation(object, parent)
-  nsgareal_polMutation(object, parent, nm = 0.20)
+  rmooreal_raMutation(object, parent)
+  rmooreal_polMutation(object, parent, nm = 0.20, indpb = 0.2)
 
-  nsgaperm_simMutation(object, parent)
+  rmooperm_simMutation(object, parent)
 }
 
 \arguments{
@@ -27,6 +27,8 @@
   \item{parent}{A vector of values for the parent from the current population where mutation should occur.}
 
   \item{nm}{Parameters of genetic operators.}
+
+  \item{indpb}{Parameters.}
 }
 
 \value{Return a vector of values containing the mutated string.}

@@ -1,12 +1,12 @@
-\name{nsgaMonitor}
-\alias{nsgaMonitor}
+\name{rmooMonitor}
+\alias{rmooMonitor}
 
-\title{Monitor non-dominated genetic algorithm evolution}
+\title{Monitor the execution of rmoo}
 
 \description{Functions to plotting fitness values at each iteration of a search for the 'rmoo' package.}
 
 \usage{
-  nsgaMonitor(object, number_objectives, \dots)
+  rmooMonitor(object, number_objectives, \dots)
 }
 
 \arguments{
@@ -17,7 +17,7 @@
 
 \value{
   These functions plot the fitness values of the current step of the nsga3 on the console. \cr
-  By default, \code{nsgaMonitor} is called in interactive sessions by \code{\link{nsga}}, \code{\link{nsga2}}, or \code{\link{nsga3}}. \cr
+  By default, \code{rmooMonitor} is called in interactive sessions by \code{\link{nsga}}, \code{\link{nsga2}}, or \code{\link{nsga3}}. \cr
   The function can be modified by the user to plot or print the values it considers by iteration. \cr
 }
 

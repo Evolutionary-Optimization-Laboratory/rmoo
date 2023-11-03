@@ -66,20 +66,20 @@ encoded optimizations.}
 encoded optimizations}
 
 \item{population}{an R function for randomly generating an initial population.
-See \code{\link[=nsga_Population]{nsga_Population()}} for available functions.}
+See \code{\link[=rmoo_Population]{rmoo_Population()}} for available functions.}
 
 \item{selection}{an R function performing selection, i.e. a function which
 generates a new population of individuals from the current population
-probabilistically according to individual fitness. See \code{\link[=nsga_Selection]{nsga_Selection()}}
+probabilistically according to individual fitness. See \code{\link[=rmoo_Selection]{rmoo_Selection()}}
 for available functions.}
 
 \item{crossover}{an R function performing crossover, i.e. a function which
 forms offsprings by combining part of the genetic information from their
-parents. See \code{\link[=nsga_Crossover]{nsga_Crossover()}} for available functions.}
+parents. See \code{\link[=rmoo_Crossover]{rmoo_Crossover()}} for available functions.}
 
 \item{mutation}{an R function performing mutation, i.e. a function which
 randomly alters the values of some genes in a parent chromosome.
-See \code{\link[=nsga_Mutation]{nsga_Mutation()}} for available functions.}
+See \code{\link[=rmoo_Mutation]{rmoo_Mutation()}} for available functions.}
 
 \item{reference_dirs}{Function to generate reference points using Das and
 Dennis approach or matrix with supplied reference points.}

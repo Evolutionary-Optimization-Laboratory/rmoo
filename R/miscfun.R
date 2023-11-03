@@ -1,5 +1,5 @@
 #' @export
-rmooMonitor <- function(object, number_objectives, ...) {
+rmooMonitor <- function(object, ...) {
   if (!requireNamespace("rgl", quietly = TRUE)){
     stop("packages 'rgl' required for Monitor, please install it!")
   }
@@ -7,6 +7,7 @@ rmooMonitor <- function(object, number_objectives, ...) {
   #         requireNamespace("grDevices", quietly = TRUE))){
   #   stop("packages 'rgl' and 'grDevices' required for Monitor, please install it!")
   # }
+  number_objectives <- ncol(object@fitness)
   fitness <- object@fitness
   iter <- object@iter
   cl <- grDevices::rainbow(object@popSize)

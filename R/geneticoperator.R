@@ -85,40 +85,66 @@ rmooint_Population <- function(object) {
 #' @export
 rmoo_tourSelection <- function(object, k = 2, ...) {
   class_object <- class(object)[1]
-
   if (class_object == "nsga2") {
-    popSize <- object@popSize
-    front <- object@front
-    cd <- crowding_distance(object, ncol(object@fitness))
-    sel <- rep(NA, popSize)
-    for (i in seq_len(popSize)) {
-      s <- sample(seq_len(popSize), size = k)
-      s <- s[which.min(front[s, ])]
-      if (!anyNA(cd[s, ])) {
-        sel[i] <- s[which.max(cd[s, ])]
-      } else {
-        sel[i] <- s[which.min(front[s, ])]
-      }
-    }
+    sel <- binary_tournament(object, k)
   } else if (class_object == "rnsga2" || class_object == "nsga3") {
-    popSize <- object@popSize
-    front <- object@front
-    fit <- object@fitness
-    sel <- rep(NA, popSize)
-    for (i in seq_len(popSize)) {
-      s <- sample(seq_len(popSize), size = k)
-      s <- s[which.min(front[s, ])]
-      if (length(s) > 1 & !anyNA(fit[s, ])) {
-        sel[i] <- s[which.max(front[s, ])]
-      } else {
-        sel[i] <- s[which.min(front[s, ])]
-      }
-    }
+    sel <- comp_by_cv_then_random(object, k)
+    # popSize <- object@popSize
+    # front <- object@front
+    # fit <- object@fitness
+    # sel <- rep(NA, popSize)
+    # for (i in seq_len(popSize)) {
+    #   s <- sample(seq_len(popSize), size = k)
+    #   s <- s[which.min(front[s, ])]
+    #   if (length(s) > 1 & !anyNA(fit[s, ])) {
+    #     sel[i] <- s[which.max(front[s, ])]
+    #   } else {
+    #       sel[i] <- s[which.min(front[s, ])]
+    #   }
+    # }
   }
   out <- list(population = object@population[sel, ],
               fitness = object@fitness[sel, ])
   return(out)
 }
+
+
+# rmoo_tourSelection <- function(object, k = 2, ...) {
+#   class_object <- class(object)[1]
+#
+#   if (class_object == "nsga2") {
+#     popSize <- object@popSize
+#     front <- object@front
+#     cd <- crowding_distance(object, ncol(object@fitness))
+#     sel <- rep(NA, popSize)
+#     for (i in seq_len(popSize)) {
+#       s <- sample(seq_len(popSize), size = k)
+#       s <- s[which.min(front[s, ])]
+#       if (!anyNA(cd[s, ])) {
+#         sel[i] <- s[which.max(cd[s, ])]
+#       } else {
+#         sel[i] <- s[which.min(front[s, ])]
+#       }
+#     }
+  # } else if (class_object == "rnsga2" || class_object == "nsga3") {
+  #   popSize <- object@popSize
+  #   front <- object@front
+  #   fit <- object@fitness
+  #   sel <- rep(NA, popSize)
+  #   for (i in seq_len(popSize)) {
+  #     s <- sample(seq_len(popSize), size = k)
+  #     s <- s[which.min(front[s, ])]
+  #     if (length(s) > 1 & !anyNA(fit[s, ])) {
+  #       sel[i] <- s[which.max(front[s, ])]
+  #     } else {
+  #       sel[i] <- s[which.min(front[s, ])]
+  #     }
+  #   }
+  # }
+#   out <- list(population = object@population[sel, ],
+#               fitness = object@fitness[sel, ])
+#   return(out)
+# }
 
 # rmoo_tourSelection <- function(object, k = 3, ...) {
 #     switch(class(object)[1], nsga1 = {
@@ -232,71 +258,134 @@ rmooint_lrSelection <- rmoo_lrSelection
 
 ## Crossover Operators ----
 #' @export
-rmooreal_sbxCrossover <- function(object, parents, nc = 20) {
-    parents <- object@population[parents, ]
-    n <- ncol(parents)
-    nObj <- ncol(object@fitness)
-    children <- matrix(NA_real_, nrow = 2, ncol = n)
-    for (j in 1:n) {
-        parent1 <- parents[1, j]
-        parent2 <- parents[2, j]
-        yl <- object@lower[j]
-        yu <- object@upper[j]
-        rnd <- runif(1)
-        if (rnd <= 0.5) {
-            if (abs(parent1 - parent2) > 1e-06) {
-                if (parent2 > parent1) {
-                  y2 <- parent2
-                  y1 <- parent1
-                } else {
-                  y2 <- parent1
-                  y1 <- parent2
-                }
-                if ((y1 - yl) > (yu - y2)) {
-                  beta <- 1 + (2 * (yu - y2) / (y2 - y1))
-                } else {
-                  beta <- 1 + (2 * (y1 - yl) / (y2 - y1))
-                }
-                alpha <- 2 - (beta^(-(1 + nc)))
-                rnd <- runif(1)
-                if (rnd <= 1 / alpha) {
-                  alpha <- alpha * rnd
-                  betaq <- alpha^(1 / (1 + nc))
-                } else {
-                  alpha <- alpha * rnd
-                  alpha <- 1 / (2 - alpha)
-                  betaq <- alpha^(1 / (1 + nc))
-                }
-                child1 <- 0.5 * ((y1 + y2) - betaq * (y2 - y1))
-                child2 <- 0.5 * ((y1 + y2) + betaq * (y2 - y1))
-            } else {
-                betaq <- 1
-                y1 <- parent1
-                y2 <- parent2
-                child1 <- 0.5 * ((y1 + y2) - betaq * (y2 - y1))
-                child2 <- 0.5 * ((y1 + y2) + betaq * (y2 - y1))
-            }
-            if (child1 > yu) {
-                child1 <- yu
-            } else if (child1 < yl) {
-                child1 <- yl
-            }
-            if (child2 > yu) {
-                child2 <- yu
-            } else if (child2 < yl) {
-                child2 <- yl
-            }
+rmooreal_sbxCrossover <- function(object, parents, eta = 20, indpb = 0.5) {
+  parents <- object@population[parents, ]
+  n <- ncol(parents)
+  nObj <- ncol(object@fitness)
+  children <- matrix(NA_real_, nrow = 2, ncol = n)
+
+  parent1 <- parents[1, ]
+  parent2 <- parents[2, ]
+
+  yl <- object@lower
+  yu <- object@upper
+
+  for (i in 1:n) {
+    if (runif(1) <= indpb) {
+      if (abs(parent1[i] - parent2[i]) > 1e-4) {
+        x1 <- min(parent1[i], parent2[i])
+        x2 <- max(parent1[i], parent2[i])
+        rand <- runif(1)
+
+        beta <- 1 + 2 * (x1 - yl[i]) / (x2 - x1)
+        alpha <- 2 - beta^(-(eta + 1))
+
+        if (rand <= (1 / alpha)) {
+          beta_q <- (rand * alpha)^(1 / (eta + 1))
         } else {
-            child1 <- parent1
-            child2 <- parent2
+          beta_q <- (1 / (2 - rand * alpha))^(1 / (eta + 1))
         }
-        children[1, j] <- child1
-        children[2, j] <- child2
+
+        c1 <- 0.5 * (x1 + x2 - beta_q * (x2 - x1))
+
+        beta <- 1 + 2 * (yu[i] - x2) / (x2 - x1)
+        alpha <- 2 - beta^-(eta + 1)
+
+        if (rand <= (1 / alpha)) {
+          beta_q <- (rand * alpha)^(1 / (eta + 1))
+        } else {
+          beta_q <- (1 / (2 - rand * alpha))^(1 / (eta + 1))
+        }
+
+        c2 <- 0.5 * (x1 + x2 + beta_q * (x2 - x1))
+
+        c1 <- pmin(pmax(c1, yl[i]), yu[i])
+        c2 <- pmin(pmax(c2, yl[i]), yu[i])
+
+        if (runif(1) <= 0.5) {
+          parent1[i] <- c2
+          parent2[i] <- c1
+        } else {
+          parent1[i] <- c1
+          parent2[i] <- c2
+        }
+      }
     }
-    out <- list(children = children,
-                fitness = matrix(NA_real_, ncol = nObj))
-    return(out)
+  }
+  children[1, ] <- parent1
+  children[2, ] <- parent2
+
+  out <- list(children = children,
+              fitness = matrix(NA_real_, ncol = nObj))
+
+  return(out)
 }
+
+# rmooreal_sbxCrossover <- function(object, parents, nc = 20) {
+#     parents <- object@population[parents, ]
+#     n <- ncol(parents)
+#     nObj <- ncol(object@fitness)
+#     children <- matrix(NA_real_, nrow = 2, ncol = n)
+#     for (j in 1:n) {
+#         parent1 <- parents[1, j]
+#         parent2 <- parents[2, j]
+#         yl <- object@lower[j]
+#         yu <- object@upper[j]
+#         rnd <- runif(1)
+#         if (rnd <= 0.5) {
+#             if (abs(parent1 - parent2) > 1e-06) {
+#                 if (parent2 > parent1) {
+#                   y2 <- parent2
+#                   y1 <- parent1
+#                 } else {
+#                   y2 <- parent1
+#                   y1 <- parent2
+#                 }
+#                 if ((y1 - yl) > (yu - y2)) {
+#                   beta <- 1 + (2 * (yu - y2) / (y2 - y1))
+#                 } else {
+#                   beta <- 1 + (2 * (y1 - yl) / (y2 - y1))
+#                 }
+#                 alpha <- 2 - (beta^(-(1 + nc)))
+#                 rnd <- runif(1)
+#                 if (rnd <= 1 / alpha) {
+#                   alpha <- alpha * rnd
+#                   betaq <- alpha^(1 / (1 + nc))
+#                 } else {
+#                   alpha <- alpha * rnd
+#                   alpha <- 1 / (2 - alpha)
+#                   betaq <- alpha^(1 / (1 + nc))
+#                 }
+#                 child1 <- 0.5 * ((y1 + y2) - betaq * (y2 - y1))
+#                 child2 <- 0.5 * ((y1 + y2) + betaq * (y2 - y1))
+#             } else {
+#                 betaq <- 1
+#                 y1 <- parent1
+#                 y2 <- parent2
+#                 child1 <- 0.5 * ((y1 + y2) - betaq * (y2 - y1))
+#                 child2 <- 0.5 * ((y1 + y2) + betaq * (y2 - y1))
+#             }
+#             if (child1 > yu) {
+#                 child1 <- yu
+#             } else if (child1 < yl) {
+#                 child1 <- yl
+#             }
+#             if (child2 > yu) {
+#                 child2 <- yu
+#             } else if (child2 < yl) {
+#                 child2 <- yl
+#             }
+#         } else {
+#             child1 <- parent1
+#             child2 <- parent2
+#         }
+#         children[1, j] <- child1
+#         children[2, j] <- child2
+#     }
+#     out <- list(children = children,
+#                 fitness = matrix(NA_real_, ncol = nObj))
+#     return(out)
+# }
 
 #' @export
 rmoo_spCrossover <- function(object, parents) {
@@ -408,34 +497,66 @@ rmoobin_huxCrossover <- rmoo_huxCrossover
 
 ## Mutation Operator ----
 #' @export
-rmooreal_polMutation <- function(object, parent, nm = 0.2, indpb = 0.2) {
-  mutate <- parent <- as.vector(object@population[parent, ])
+rmooreal_polMutation <- function(object, parent, eta=20, indpb=0.5) {
+  mutate <- as.vector(object@population[parent, ])
   n <- length(parent)
-  upper <- object@upper
   lower <- object@lower
-  delta <- upper - lower
-  delta1 <- (mutate - lower) / (upper - lower)
-  delta2 <- (upper - mutate) / (upper - lower)
-  mut_pow <- 1/(nm + 1)
-  for (i in seq_len(n)) {
-    if(runif(1) <= indpb) {
-      x <- parent[i]
-      u <- runif(1)
-      if (u <= 0.5) {
-        xy <- 1 - delta1[i]
-        val <- 2 * u + (1 - 2 * u) * (xy^(nm + 1))
-        deltaq <- (val^mut_pow) - 1
+  upper <- object@upper
+
+  for (i in 1:n) {
+    if (runif(1) <= indpb) {
+      x <- mutate[i]
+      delta_1 <- (x - lower[i]) / (upper[i] - lower[i])
+      delta_2 <- (upper[i] - x) / (upper[i] - lower[i])
+      mut_pow <- 1 / (eta + 1)
+
+      rand <- runif(1)
+      if (rand < 0.5) {
+        xy <- 1 - delta_1
+        val <- 2 * rand + (1 - 2 * rand) * (xy^(eta + 1))
+        delta_q <- (val^mut_pow) - 1
       } else {
-        xy <- 1 - delta2[i]
-        val <- 2 * (1 - u) + 2 * (u - 0.5) * (xy^(nm + 1))
-        deltaq <- 1 - (val^mut_pow)
+        xy <- 1 - delta_2
+        val <- 2 * (1 - rand) + 2 * (rand - 0.5) * (xy^(eta + 1))
+        delta_q <- 1 - (val^mut_pow)
       }
-      mutate[i] <- deltaq * delta[i]
-      mutate[i] <- min(max(c(x[1], lower[i])), upper[i])
+
+      x <- x + delta_q * (upper[i] - lower[i])
+      x <- min(max(x, lower[i]), upper[i])
+      mutate[i] <- x
     }
   }
+
   return(mutate)
 }
+# rmooreal_polMutation <- function(object, parent, nm = 0.2, indpb = 0.2) {
+#   mutate <- parent <- as.vector(object@population[parent, ])
+#   n <- length(parent)
+#   upper <- object@upper
+#   lower <- object@lower
+#   delta <- upper - lower
+#   delta1 <- (mutate - lower) / (upper - lower)
+#   delta2 <- (upper - mutate) / (upper - lower)
+#   mut_pow <- 1/(nm + 1)
+#   for (i in seq_len(n)) {
+#     if(runif(1) <= indpb) {
+#       x <- parent[i]
+#       u <- runif(1)
+#       if (u <= 0.5) {
+#         xy <- 1 - delta1[i]
+#         val <- 2 * u + (1 - 2 * u) * (xy^(nm + 1))
+#         deltaq <- (val^mut_pow) - 1
+#       } else {
+#         xy <- 1 - delta2[i]
+#         val <- 2 * (1 - u) + 2 * (u - 0.5) * (xy^(nm + 1))
+#         deltaq <- 1 - (val^mut_pow)
+#       }
+#       mutate[i] <- deltaq * delta[i]
+#       mutate[i] <- min(max(c(x[1], lower[i])), upper[i])
+#     }
+#   }
+#   return(mutate)
+# }
 
 #' @export
 rmooreal_raMutation <- function(object, parent) {
@@ -499,6 +620,163 @@ crossover_mask <- function(X, M) {
   parent[2,][M[1,]] <- X[1,][M[1,]]
   return(parent)
 }
+
+rmoobin_fbMutation <- function(object, parent, indpb=0.2) {
+  mutate <- parent <- as.vector(object@population[parent, ])
+
+  mutate <- as.logical(mutate)
+  for (i in seq_along(parent)) {
+    if (runif(1) < indpb) {
+      mutate[i] <- !mutate[i]
+    }
+  }
+  mutate <- as.numeric(mutate)
+  storage.mode(mutate) <- "integer"
+  return(mutate)
+}
+
+# Two Point Cx
+rmoo_tpCrossover <- function(object, parents) {
+  parents <- object@population[parents, ]
+  n <- ncol(parents)
+  children <- matrix(NA_integer_, nrow = 2, ncol = n)
+  fitnessChildren <- matrix(NA_real_, ncol = ncol(object@fitness))
+
+  ind1 <- parents[1, ]
+  ind2 <- parents[2, ]
+
+  size <- min(sum(ind1), sum(ind2))
+  cxpoint1 <- sample(1:size, 1)
+  cxpoint2 <- sample(1:(size - 1), 1)
+
+  if (cxpoint2 >= cxpoint1) {
+    cxpoint2 <- cxpoint2 + 1
+  } else {
+    temp <- cxpoint1
+    cxpoint1 <- cxpoint2
+    cxpoint2 <- temp
+  }
+
+  temp <- ind1[cxpoint1:cxpoint2]
+  ind1[cxpoint1:cxpoint2] <- ind2[cxpoint1:cxpoint2]
+  ind2[cxpoint1:cxpoint2] <- temp
+
+  children[1,] <- ind1
+  children[2,] <- ind2
+
+  storage.mode(children) <- "integer"
+  out <- list(children = children,
+              fitness = fitnessChildren)
+  return(out)
+}
+
+pointCrossover <- function(object, parents, n_points=2) {
+  parents <- object@population[parents, ]
+  n_matings <- nrow(parents)
+  n <- ncol(parents)
+
+  fitnessChildren <- matrix(NA_real_, ncol = ncol(object@fitness))
+
+  r <- t(replicate(n_matings, sample(n - 1)))
+  r <- r[, 1:n_points]
+  r <- apply(r, 1, sort)
+  r <- cbind(r, rep(n, n_matings))
+
+  M <- matrix(FALSE, nrow = n_matings, ncol = n)
+
+  for (i in seq_len(n_matings)) {
+    j <- 1
+    while (j < (ncol(r) - 1)) {
+      a <- r[i, j]
+      b <- r[i, j + 1]
+      M[i, a:b] <- TRUE
+      j <- j + 1
+    }
+  }
+  # for (i in seq_len(n_matings)) {
+  #   j <- seq(1, (ncol(r) - 1), by=2)
+  #   a <- r[i, j]
+  #   b <- r[i, j + 1]
+  #   M[i, a:b] <- TRUE
+  # }
+  children <- crossover_mask(parents, M)
+
+  storage.mode(children) <- "integer"
+  out <- list(children = children,
+              fitness = fitnessChildren)
+  return(out)
+}
+
+
+binary_tournament <- function(object, k=2, tournament_type = "comp_by_rank_and_crowding"){
+  sel <- rep(NA, object@popSize)
+  s <- random_permutations(k, object@popSize)
+  s <- matrix(s, nrow = object@popSize, ncol = k)
+
+  for(i in seq_len(object@popSize)) {
+    a <- s[i, 1]
+    b <- s[i, 2]
+
+    a_f <- object@fitness[a, ]
+    rank_a <- object@front[a, ]
+    cd_a <- object@crowdingDistance[a]
+
+    b_f <- object@fitness[b, ]
+    rank_b <- object@front[b, ]
+    cd_b <- object@crowdingDistance[b]
+
+    if (tournament_type == 'comp_by_dom_and_crowding') {
+      rel <- get_relation(a=a_f, b=b_f)
+      if (rel == 1) {
+        sel[i] <- a
+      } else if (rel == -1) {
+        sel[i] <- b
+      }
+    } else if (tournament_type == 'comp_by_rank_and_crowding') {
+      sel[i] <- compare(a, rank_a, b, rank_b, method = 'smaller_is_better')
+    } else {
+      stop("Unknown tournament type.")
+    }
+
+    if (is.na(sel[i])) {
+      sel[i] <- compare(a, cd_a, b, cd_b, method = 'larger_is_better', return_random_if_equal = TRUE)
+    }
+
+  }
+  # out <- list(population = object@population[sel, ],
+  #             fitness = object@fitness[sel, ])
+  return(sel)
+}
+
+
+comp_by_cv_then_random <- function(object, k=2) {
+  sel <- rep(NA, object@popSize)
+  s <- random_permutations(k, object@popSize)
+  s <- matrix(s, nrow = object@popSize, ncol = k)
+
+  for(i in seq_len(object@popSize)) {
+    a <- s[i, 1]
+    b <- s[i, 2]
+
+    a_f <- object@fitness[a, ]
+    rank_a <- object@front[a, ]
+    # cv_a <- object@cv[a]
+
+    b_f <- object@fitness[b, ]
+    rank_b <- object@front[b, ]
+    # cv_b <- object@cv[b]
+
+    # if (cv_a > 0.0 || cv_b > 0.0) {
+    #   sel[i] <- compare(a, cv_a, b, cv_b, method = 'smaller_is_better', return_random_if_equal = TRUE)
+    # } else {
+    sel[i] <- compare(a, rank_a, b, rank_b, method = 'smaller_is_better')
+    # sel[i] <- sample(c(a, b), 1)
+    # }
+  }
+  return(sel)
+}
+
+
 
 # roundingRepair <- function(pop) {
 #   pop[] <- as.integer(round(pop))

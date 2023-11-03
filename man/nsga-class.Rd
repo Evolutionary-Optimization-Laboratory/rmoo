@@ -27,6 +27,8 @@ encoded optimizations.}
 \item{\code{names}}{a vector of character strings providing the names of decision
 variables (optional).}
 
+\item{\code{nvars}}{a}
+
 \item{\code{popSize}}{the population size.}
 
 \item{\code{front}}{Rank of individuals on the non-dominated front.}
@@ -60,6 +62,8 @@ iteration (along the rows).}
 
 \item{\code{solution}}{the value(s) of the decision variables giving the best fitness
 at the final iteration.}
+
+\item{\code{execution_time}}{a}
 }}
 
 \section{Objects from the Class}{
