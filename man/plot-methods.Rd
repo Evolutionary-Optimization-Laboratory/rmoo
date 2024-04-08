@@ -55,10 +55,10 @@ of the algorithms.
 The following plots are available:
 
 \itemize{
-\item{}{"Scatter Plot"}
-\item{}{"Parallel Coordinate Plot"}
-\item{}{"Heat Map"}
-\item{}{"Polar Coordinate"}
+\item "Scatter Plot"
+\item "Parallel Coordinate Plot"
+\item "Heat Map"
+\item "Polar Coordinate"
 }
 }
 \examples{

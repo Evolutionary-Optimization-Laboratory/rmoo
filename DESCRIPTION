@@ -61,7 +61,8 @@ Imports:
     GA,
     grDevices,
     ggplot2,
-    plotly
+    plotly,
+    BBmisc
 URL: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/
 BugReports: https://github.com/Evolutionary-Optimization-Laboratory/rmoo/issues/
 Suggests: 

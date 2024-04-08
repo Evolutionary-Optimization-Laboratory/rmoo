@@ -99,10 +99,10 @@ setGeneric("getFitness", function(obj) standardGeneric("getFitness"))
 #' The following plots are available:
 #'
 #' \itemize{
-#'  \item{}{"Scatter Plot"}
-#'  \item{}{"Parallel Coordinate Plot"}
-#'  \item{}{"Heat Map"}
-#'  \item{}{"Polar Coordinate"}
+#'  \item "Scatter Plot"
+#'  \item "Parallel Coordinate Plot"
+#'  \item "Heat Map"
+#'  \item "Polar Coordinate"
 #' }
 #'
 #' @param x,y Objects of either class \linkS4class{nsga1},

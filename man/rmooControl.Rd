@@ -15,38 +15,39 @@
   }}
 
 \details{
-  If the function is called with no arguments returns the current default settings, i.e., a list with the following default components:
-    \itemize{
+  If the function is called with no arguments returns the current default
+  settings, i.e., a list with the following default components:
+    \describe{
       \item{\code{"binary"}}{
         \itemize{
-          \item{\code{population}} = \code{"rmoobin_Population"}
-          \item{\code{selection}} = \code{"rmoobin_tourSelection"}
-          \item{\code{crossover}} = \code{"rmoobin_spCrossover"}
-          \item{\code{mutation}} = \code{"rmoobin_raMutation"}
+          \item \code{population} = \code{"rmoobin_Population"}
+          \item \code{selection} = \code{"rmoobin_tourSelection"}
+          \item \code{crossover} = \code{"rmoobin_spCrossover"}
+          \item \code{mutation} = \code{"rmoobin_raMutation"}
         }
       }
       \item{\code{"real-valued"}}{
         \itemize{
-          \item{\code{population}} = \code{"rmooreal_Population"}
-          \item{\code{selection}} = \code{"rmooreal_tourSelection"}
-          \item{\code{crossover}} = \code{"rmooreal_sbxCrossover"}
-          \item{\code{mutation}} = \code{"rmooreal_polMutation"}
+          \item \code{population} = \code{"rmooreal_Population"}
+          \item \code{selection} = \code{"rmooreal_tourSelection"}
+          \item \code{crossover} = \code{"rmooreal_sbxCrossover"}
+          \item \code{mutation} = \code{"rmooreal_polMutation"}
         }
       }
       \item{\code{"permutation"}}{
         \itemize{
-          \item{\code{population}} = \code{"rmooperm_Population"}
-          \item{\code{selection}} = \code{"rmooperm_tourSelection"}
-          \item{\code{crossover}} = \code{"rmooperm_oxCrossover"}
-          \item{\code{mutation}} = \code{"rmooperm_simMutation"}
+          \item \code{population} = \code{"rmooperm_Population"}
+          \item \code{selection} = \code{"rmooperm_tourSelection"}
+          \item \code{crossover} = \code{"rmooperm_oxCrossover"}
+          \item \code{mutation} = \code{"rmooperm_simMutation"}
         }
       }
       \item{\code{"discrete"}}{
         \itemize{
-          \item{\code{population}} = \code{"rmooint_Population"}
-          \item{\code{selection}} = \code{"rmooint_tourSelection"}
-          \item{\code{crossover}} = \code{"rmooint_uxCrossover"}
-          \item{\code{mutation}} = \code{"rmooint_uxMutation"}
+          \item \code{population} = \code{"rmooint_Population"}
+          \item \code{selection} = \code{"rmooint_tourSelection"}
+          \item \code{crossover} = \code{"rmooint_uxCrossover"}
+          \item \code{mutation} = \code{"rmooint_uxMutation"}
         }
       }
 

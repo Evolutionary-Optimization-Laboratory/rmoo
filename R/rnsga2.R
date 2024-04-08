@@ -525,7 +525,8 @@ rnsga2 <- function(type = c("binary", "real-valued", "permutation"),
 
       # Plot front non-dominated by iteration
       if (is.function(monitor)) {
-        monitor(object = object, number_objective = nObj)
+        monitor(object = object, callArgs)
+        # monitor(object = object, number_objective = nObj)
       }
 
       if (max(Fitness, na.rm = TRUE) >= maxFitness)

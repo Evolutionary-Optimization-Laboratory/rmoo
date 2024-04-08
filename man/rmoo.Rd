@@ -3,7 +3,7 @@
 \name{rmoo_main}
 \alias{rmoo_main}
 \alias{rmoo}
-\alias{rmoo-main,rmoo-function}
+\alias{rmoo,rmoo-main,rmoo-function}
 \title{R Multi-Objective Optimization Main Function}
 \usage{
 rmoo(
@@ -38,14 +38,121 @@ rmoo(
 )
 }
 \arguments{
+\item{type}{the type of genetic algorithm to be run depending on the nature
+of decision variables. Possible values are:
+\describe{
+\item{'binary'}{for binary representations of decision variables.}
+\item{'real-valued'}{for optimization problems where the decision
+variables are floating-point representations of real numbers.}
+\item{'permutation'}{for problems that involves reordering of a list of
+objects.}
+\item{'discrete'}{for discrete representations of decision variables.}
+}}
+
+\item{algorithm}{the type of genetic algorithm to be run depending on the nature
+of decision variables. Possible values are:
+\describe{
+\item{'NSGA-II'}{for .}
+\item{'NSGA-III'}{for .}
+\item{'R-NSGA-II'}{for .}
+}}
+
+\item{fitness}{the fitness function, any allowable R function which takes as
+input an individual string representing a potential solution, and returns a
+numerical value describing its 'fitness'.}
+
 \item{...}{argument in which all the values necessary for the configuration
-will be passed as parameters. The user is encouraged to see the documentations
+will be passed as parameters. The user is encouraged to see the documentations.}
+
+\item{lower}{a vector of length equal to the decision variables providing the
+lower bounds of the search space in case of real-valued or permutation
+encoded optimizations.}
+
+\item{upper}{a vector of length equal to the decision variables providing the
+upper bounds of the search space in case of real-valued or permutation
+encoded optimizations.}
+
+\item{nBits}{a value specifying the number of bits to be used in binary
+encoded optimizations.}
+
+\item{nvars}{a value .}
+
+\item{population}{an R function for randomly generating an initial population.
+See \code{\link[=rmoo_Population]{rmoo_Population()}} for available functions.}
+
+\item{selection}{an R function performing selection, i.e. a function which
+generates a new population of individuals from the current population
+probabilistically according to individual fitness. See \code{\link[=rmoo_Selection]{rmoo_Selection()}}
+for available functions.}
+
+\item{crossover}{an R function performing crossover, i.e. a function which
+forms offsprings by combining part of the genetic information from their
+parents. See \code{\link[=rmoo_Crossover]{rmoo_Crossover()}} for available functions.}
+
+\item{mutation}{an R function performing mutation, i.e. a function which
+randomly alters the values of some genes in a parent chromosome.
+See \code{\link[=rmoo_Mutation]{rmoo_Mutation()}} for available functions.}
+
+\item{pcrossover}{the probability of crossover between pairs of chromosomes.
+Typically this is a large value and by default is set to 0.8.}
+
+\item{pmutation}{the probability of mutation in a parent chromosome. Usually
+mutation occurs with a small probability, and by default is set to 0.1.}
+
+\item{popSize}{the population size.}
+
+\item{maxiter}{the maximum number of iterations to run before the NSGA search
+is halted.}
+
+\item{nObj}{number of objective in the fitness function.}
+
+\item{names}{a vector of character strings providing the names of decision
+variables.}
+
+\item{suggestions}{a matrix of solutions strings to be included in the
+initial population. If provided the number of columns must match the number
+of decision variables.}
+
+\item{monitor}{a logical or an R function which takes as input the current
+state of the nsga-class object and show the evolution of the search. By
+default, for interactive sessions the function rmooMonitor prints the average
+and best fitness values at each iteration. If set to plot these information
+are plotted on a graphical device. Other functions can be written by the user
+and supplied as argument. In non interactive sessions, by default
+monitor = FALSE so any output is suppressed.}
+
+\item{parallel}{An optional argument which allows to specify if the NSGA-II
+should be run sequentially or in parallel.}
+
+\item{summary}{If there will be a summary generation after generation.}
+
+\item{seed}{an integer value containing the random number generator state.
+This argument can be used to replicate the results of a NSGA search. Note
+that if parallel computing is required, the doRNG package must be installed.}
+
+\item{reference_dirs}{Function to generate reference points using Das and
+Dennis approach or matrix with supplied reference points.}
+
+\item{epsilon}{controls the extent of obtained solutions by grouping all
+solutions that have a normalized difference sum in objective values of epsilon or less.}
+
+\item{normalization}{of the ideal points and nadir. They can be:
+\describe{
+\item{'ever'}{.}
+\item{'front'}{.}
+\item{'no'}{.}
+}}
+
+\item{extreme_points_as_ref_dirs}{flag to use extreme points as reference points.}
+
+\item{weights}{vector specifies the importance of one objective function over
+the other, by default all objectives have equal weights.
 of \code{\link[=nsga2]{nsga2()}}, \code{\link[=rnsga2]{rnsga2()}}, \code{\link[=nsga3]{nsga3()}} in which the necessary parameters for each
 algorithm are cited, in addition, the chosen strategy to execute must be
 passed as an argument. This can be seen more clearly in the examples.}
 }
 \value{
-Returns an object of class nsga2-class, nsga3-class or rnsga2-class.
+Returns an object of class nsga2-class, rnsga2-class or nsga3-class.
 See \linkS4class{nsga2}, \linkS4class{rnsga2}, \linkS4class{nsga3} for a description of
 available slots information.
 }
@@ -70,10 +177,11 @@ K. Deb and H. Jain in 2013.
 The purpose of the algorithms is to find an efficient way to optimize
 multi-objectives functions (more than three).
 
-The R-NSGA-II is a meta-heuristic proposed by K. Deb and J. Sundar in 2006.
-It is a modification of NSGA-II based on reference points in which the
-decision-maker supplies one or more preference points and a weight vector
-that will guide the solutions towards regions desired by the user.
+The Reference point-based Non-dominated genetic algorithms II (R-NSGA-II) is
+a meta-heuristic proposed by K. Deb and J. Sundar in 2006. It is a modification
+of NSGA-II based on reference points in which the decision-maker supplies one
+or more preference points and a weight vector that will guide the solutions
+towards regions desired by the user.
 }
 \examples{
 #Example 1
@@ -171,11 +279,10 @@ Scrucca, L. (2017) On some extensions to 'GA' package: hybrid
 optimisation, parallelisation and islands evolution. The R Journal, 9/1, 187-206.
 doi: 10.32614/RJ-2017-008
 
-Kalyanmoy Deb and J. Sundar. 2006. Reference point based
-multi-objective optimization using evolutionary algorithms. In Proceedings of
-the 8th annual conference on Genetic and evolutionary computation (GECCO '06).
-Association for Computing Machinery, New York, NY, USA, 635–642.
-doi: 10.1145/1143997.1144112
+Kalyanmoy Deb and J. Sundar. 2006. Reference point based multi-objective
+optimization using evolutionary algorithms. In Proceedings of the 8th annual
+conference on Genetic and evolutionary computation (GECCO '06). Association
+for Computing Machinery, New York, NY, USA, 635–642. doi: 10.1145/1143997.1144112
 
 K. Deb, A. Pratap, S. Agarwal and T. Meyarivan, 'A fast and
 elitist multiobjective genetic algorithm: NSGA-II,' in IEEE Transactions on

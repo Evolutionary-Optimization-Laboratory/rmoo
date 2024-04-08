@@ -3,6 +3,7 @@ check_numeric_arg <- function(arg=NULL, name, check_negative = FALSE) {
   if (is.null(arg)) stop(paste("Please, define the", name))
   if (!is.numeric(arg))
     stop(paste(name, "must be a numeric value."))
+  # checkmate::assertCount(arg)
   if ((arg %% 1 != 0))
     stop(paste(name, "must be a non-negative integer."))
   if (!check_negative && arg < 0)

@@ -11,4 +11,5 @@
 #' @importFrom ggplot2 element_text
 #' @importFrom plotly %>%
 #' @importFrom plotly add_markers
+#' @importFrom BBmisc which.first
 NULL

@@ -479,7 +479,9 @@ nsga2 <- function(type = c("binary", "real-valued", "permutation"),
 
         # Plot front non-dominated by iteration
         if (is.function(monitor)) {
-            monitor(object = object, number_objective = nObj)
+          monitor(object = object, callArgs)
+            # monitor(object = object, number_objective = nObj)
+
         }
 
         if (max(Fitness, na.rm = TRUE) >= maxFitness)
@@ -507,7 +509,7 @@ nsga_ii <- function(object, nObj) {
   front.len <- sapply(idxs.by.rank, length)
   cum.front.len <- cumsum(front.len)
 
-  front.first.nonfit <- BBmisc::which.first(cum.front.len > popSize)
+  front.first.nonfit <- which.first(cum.front.len > popSize)
 
   if (front.first.nonfit > 1L) {
     new.pop.idxs <- unlist(idxs.by.rank[1:(front.first.nonfit - 1L)])
