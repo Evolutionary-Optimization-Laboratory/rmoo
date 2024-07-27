@@ -16,7 +16,7 @@
   rmoobin_raMutation(object, parent)
 
   rmooreal_raMutation(object, parent)
-  rmooreal_polMutation(object, parent, nm = 0.20, indpb = 0.2)
+  rmooreal_polMutation(object, parent, eta = 20, indpb = 0.5)
 
   rmooperm_simMutation(object, parent)
 }
@@ -26,9 +26,9 @@
 
   \item{parent}{A vector of values for the parent from the current population where mutation should occur.}
 
-  \item{nm}{Parameters of genetic operators.}
+  \item{eta}{Distribution parameter for mutation operator.}
 
-  \item{indpb}{Parameters.}
+  \item{indpb}{Independent mutation probability.}
 }
 
 \value{Return a vector of values containing the mutated string.}

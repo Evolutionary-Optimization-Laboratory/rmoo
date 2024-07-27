@@ -5,8 +5,12 @@
 #' The crowded-comparison operator guides the selection process at the various
 #' stages of the algorithm toward a uniformly spread-out Pareto-optimal front
 #'
-#' @param object,nObj An object of class 'nsga2', usually resulting from a call
-#' to function nsga2. Fitness Function Objective Numbers
+#' @param object An object of class 'rnsga2', usually resulting from a call
+#' to function r-nsga2. Fitness Function Objective Numbers
+#' @param epsion
+#' @param weights
+#' @param normalization
+#' @param extreme_points_as_ref_dirs
 #'
 #' @author Francisco Benitez
 #' \email{benitezfj94@gmail.com}

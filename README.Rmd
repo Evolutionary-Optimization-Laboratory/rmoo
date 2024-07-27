@@ -158,3 +158,15 @@ BibTeX entries for LaTeX users:
     url = {https://CRAN.R-project.org/package=rmoo/},
 }
 ```
+or
+```
+@INPROCEEDINGS{10418638,
+    author={Francisco, J. Benítez and Diego, P. Pinto-Roa and Miguel, García-Torres and Parameshachari, B. D.},
+    booktitle={2023 IEEE CHILEAN Conference on Electrical, Electronics Engineering, Information and Communication Technologies (CHILECON)}, 
+    title={A Hybrid Approach for Many-Objective Feature Selection in Intrusion Detection on Windows Operating Systems}, 
+    year={2023},
+    volume={},
+    number={},
+    pages={1-6},
+    doi={10.1109/CHILECON60335.2023.10418638/}}
+```

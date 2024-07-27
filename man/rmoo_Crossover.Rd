@@ -20,7 +20,7 @@
   rmoobin_spCrossover(object, parents)
 
   rmooreal_spCrossover(object, parents)
-  rmooreal_sbxCrossover(object, parents, nc = 20)
+  rmooreal_sbxCrossover(object, parents, eta = 20, indpb = 0.5)
 
   rmooperm_oxCrossover(object, parents)
 }
@@ -30,7 +30,9 @@
 
   \item{parents}{A two-rows matrix of values indexing the parents from the current population.}
 
-  \item{nc}{Parameters of non-dominated genetic operators.}
+  \item{eta}{Distribution parameter for crossover operator.}
+
+  \item{indpb}{Independent crossover probability.}
 }
 
 \value{
