@@ -13,8 +13,10 @@ modifiedCrowdingDistance(
 )
 }
 \arguments{
-\item{object, nObj}{An object of class 'nsga2', usually resulting from a call
-to function nsga2. Fitness Function Objective Numbers}
+\item{object}{An object of class 'rnsga2', usually resulting from a call
+to function r-nsga2. Fitness Function Objective Numbers}
+
+\item{extreme_points_as_ref_dirs}{}
 }
 \value{
 A vector with the crowding-distance between individuals of a population.
