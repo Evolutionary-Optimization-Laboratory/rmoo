@@ -316,7 +316,7 @@ rmooreal_sbxCrossover <- function(object, parents, eta = 20, indpb = 0.5) {
   children[2, ] <- parent2
 
   out <- list(children = children,
-              fitness = matrix(NA_real_, ncol = nObj))
+              fitness = matrix(NA_real_, nrow = 2, ncol = nObj))
 
   return(out)
 }
@@ -402,7 +402,7 @@ rmoo_spCrossover <- function(object, parents) {
         children <- parents
         fitnessChildren <- fitness
     } else {
-        fitnessChildren <- rep(NA, 2)
+        fitnessChildren <- matrix(NA_real_, nrow = 2, ncol = ncol(fitness))
         children[1, ] <- c(parents[1, 1:crossOverPoint], parents[2, (crossOverPoint + 1):n])
         children[2, ] <- c(parents[2, 1:crossOverPoint], parents[1, (crossOverPoint + 1):n])
     }
@@ -446,7 +446,7 @@ rmoo_uxCrossover <- function(object, parents) {
   n <- ncol(parents)
 
   M <- matrix(runif(n_matings * n) < 0.5, nrow = n_matings)
-  fitnessChildren <- matrix(NA_integer_, ncol = ncol(object@fitness))
+  fitnessChildren <- matrix(NA_integer_, nrow = 2, ncol = ncol(object@fitness))
 
   children <- crossover_mask(parents, M)
 
@@ -469,7 +469,7 @@ rmoo_huxCrossover <- function(object, parents, prob_hux=0.5) {
   n <- ncol(parents)
 
   M <- matrix(FALSE, nrow = n_matings, ncol = n)
-  fitnessChildren <- matrix(NA_integer_, ncol = ncol(object@fitness))
+  fitnessChildren <- matrix(NA_integer_, nrow = 2, ncol = ncol(object@fitness))
 
   not_equal <- (parents[1, ] != parents[2, ])
 
@@ -640,7 +640,7 @@ rmoo_tpCrossover <- function(object, parents) {
   parents <- object@population[parents, ]
   n <- ncol(parents)
   children <- matrix(NA_integer_, nrow = 2, ncol = n)
-  fitnessChildren <- matrix(NA_real_, ncol = ncol(object@fitness))
+  fitnessChildren <- matrix(NA_real_, nrow = 2, ncol = ncol(object@fitness))
 
   ind1 <- parents[1, ]
   ind2 <- parents[2, ]
@@ -675,7 +675,7 @@ pointCrossover <- function(object, parents, n_points=2) {
   n_matings <- nrow(parents)
   n <- ncol(parents)
 
-  fitnessChildren <- matrix(NA_real_, ncol = ncol(object@fitness))
+  fitnessChildren <- matrix(NA_real_, nrow = 2, ncol = ncol(object@fitness))
 
   r <- t(replicate(n_matings, sample(n - 1)))
   r <- r[, 1:n_points]
