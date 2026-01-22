@@ -88,7 +88,12 @@ modifiedCrowdingDistance <- function(object,
     if(length(fronts[[i]]) > 1){
       # rank_by_distance <- apply(apply(distance_to_ref_points[fronts[[i]],], 2, order), 2, order)
       rank_by_distance <- apply(apply(as.matrix(distance_to_ref_points[fronts[[i]],]), 2, order), 2, order) #We use as.matrix in the case when the distance ob to the reference points has one dimension
-      ref_point_of_best_rank <- apply(rank_by_distance, 1, which.min)
+      ref_point_of_best_rank <- vapply(seq_len(nrow(rank_by_distance)),
+                                        function(i) {
+                                          idx <- which.min(rank_by_distance[i, ])
+                                          if (length(idx) == 0L) 1L else idx
+                                        },
+                                        integer(1L))
     }else{
       rank_by_distance <-  order(order(distance_to_ref_points[fronts[[i]],]))
       rank_by_distance <- t(rank_by_distance)

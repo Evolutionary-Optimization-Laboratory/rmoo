@@ -8,6 +8,13 @@
 # population member from each reference line.
 # This code section corresponds to Algorithm 3 of the referenced paper.
 
+# Safe wrapper for which.min that handles all-NaN rows
+# Returns 1L as default when no valid minimum exists
+safe_which_min <- function(x) {
+  idx <- which.min(x)
+  if (length(idx) == 0L) 1L else idx
+}
+
 #' @export
 associate_to_niches <- function(object, utopian_epsilon = 0) {
   fitness <- object@fitness
@@ -31,7 +38,9 @@ associate_to_niches <- function(object, utopian_epsilon = 0) {
                                    simplify = FALSE)) * sqrt(1 - dist_matrix^2)
 
   dist_to_niche <- apply(dist_matrix, 1, min)
-  niche_of_individuals <- apply(dist_matrix, 1, which.min)
+  niche_of_individuals <- vapply(seq_len(nrow(dist_matrix)),
+                                  function(i) safe_which_min(dist_matrix[i, ]),
+                                  integer(1L))
 
   dist_to_niche <- dist_matrix[cbind(seq_along(niche_of_individuals), niche_of_individuals)]
 
