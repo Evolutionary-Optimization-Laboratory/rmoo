@@ -37,7 +37,6 @@
 #' @param selection an R function performing selection, i.e. a function which
 #' generates a new population of individuals from the current population
 #' probabilistically according to individual fitness.
-#' See [rmoo_Selection()] for available functions.
 #' @param crossover an R function performing crossover, i.e. a function which
 #' forms offsprings by combining part of the genetic information from
 #' their parents. See [rmoo_Crossover()] for available functions.

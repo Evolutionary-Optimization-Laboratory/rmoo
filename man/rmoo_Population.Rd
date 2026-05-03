@@ -6,6 +6,8 @@
 \alias{rmooreal_Population}
 %
 \alias{rmooperm_Population}
+%
+\alias{rmooint_Population}
 
 \title{Population initialization in non-dominated genetic algorithms}
 
@@ -17,6 +19,8 @@
   rmooreal_Population(object)
 
   rmooperm_Population(object)
+
+  rmooint_Population(object)
 }
 
 \arguments{
@@ -30,7 +34,9 @@
 
   \code{rmooreal_Population} generates a random (uniform) population of real values in the range [\code{object@lower}, \code{object@upper}];
 
-  \code{rmooperm_Population} generates a random (uniform) population of integer values in the range [\code{object@lower}, \code{object@upper}].
+  \code{rmooperm_Population} generates a random (uniform) population of permutation values in the range [\code{object@lower}, \code{object@upper}].
+
+  \code{rmooint_Population} generates a random (uniform) population of integer values in the range [\code{object@lower}, \code{object@upper}].
 }
 
 \value{Return a matrix of dimension \code{object@popSize} times the number of decision variables.}

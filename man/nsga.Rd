@@ -65,8 +65,7 @@ See \code{\link[=rmoo_Population]{rmoo_Population()}} for available functions.}
 
 \item{selection}{an R function performing selection, i.e. a function which
 generates a new population of individuals from the current population
-probabilistically according to individual fitness.
-See \code{\link[=rmoo_Selection]{rmoo_Selection()}} for available functions.}
+probabilistically according to individual fitness.}
 
 \item{crossover}{an R function performing crossover, i.e. a function which
 forms offsprings by combining part of the genetic information from

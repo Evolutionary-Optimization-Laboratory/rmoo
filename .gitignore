@@ -8,3 +8,6 @@
 *.knit.md
 
 revdep/
+
+renv/library/
+renv/staging/

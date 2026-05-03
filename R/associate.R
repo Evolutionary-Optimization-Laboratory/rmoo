@@ -10,33 +10,55 @@
 
 #' @export
 associate_to_niches <- function(object, utopian_epsilon = 0) {
-  fitness <- object@fitness
-  ideal_point <- object@ideal_point
-  niches <- object@reference_points
-  nadir_point <- object@nadir_point
+  fitness      <- object@fitness
+  ideal_point  <- object@ideal_point
+  niches       <- object@reference_points
+  nadir_point  <- object@nadir_point
+
   utopian_point <- ideal_point - utopian_epsilon
-  denom <- nadir_point - utopian_point
-  denom[denom == 0] <- 1 * 10^(-12)
+  denom         <- nadir_point - utopian_point
+  denom[denom == 0] <- 1e-12
 
   delta <- sweep(fitness, 2, utopian_point)
-  N <- sweep(delta, 2, denom, FUN = "/")
+  N     <- sweep(delta,   2, denom, FUN = "/")
+
+  # cos(θ) between each normalised individual and each reference direction
   dist_matrix <- 1 - compute_perpendicular_distance(N, niches)
 
   # Use the C++ function to compute dist_matrix
   # dist_matrix <- 1 - compute_perpendicular_distance_cpp(N, niches)
 
-  dist_matrix <- do.call(cbind,
-                         replicate(nrow(niches),
-                                   sqrt(rowSums(fitness^2)),
-                                   simplify = FALSE)) * sqrt(1 - dist_matrix^2)
+  # Perpendicular distance = ‖fitness‖ · sin(θ)
+  fitness_norms <- sqrt(rowSums(fitness^2))
+
+  norm_matrix <- matrix(fitness_norms,
+                        nrow = nrow(fitness),
+                        ncol = nrow(niches))
+
+  dist_matrix <- norm_matrix * sqrt(pmax(1 - dist_matrix^2, 0))
+
+  # Replace vapply + safe_which_min loop with vectorised max.col.
+  # Handle all-NaN rows by substituting Inf so max.col still picks column 1.
+  safe_dist <- dist_matrix
+  safe_dist[is.nan(safe_dist)] <- Inf
+  niche_of_individuals <- max.col(-safe_dist, ties.method = "first")
 
   dist_to_niche <- apply(dist_matrix, 1, min)
-  niche_of_individuals <- apply(dist_matrix, 1, which.min)
+  # niche_of_individuals <- apply(dist_matrix, 1, which.min)
 
-  dist_to_niche <- dist_matrix[cbind(seq_along(niche_of_individuals), niche_of_individuals)]
+  safe_which_min <- function(x) {
+    idx <- which.min(x)
+    if (length(idx) == 0L) 1L else idx
+  }
 
-  out <- list(distance = dist_to_niche, niches = niche_of_individuals)
-  return(out)
+  niche_of_individuals <- vapply(seq_len(nrow(dist_matrix)),
+                                 function(i) safe_which_min(dist_matrix[i, ]),
+                                 integer(1L))
+
+  dist_to_niche <- dist_matrix[cbind(seq_along(niche_of_individuals),
+                                     niche_of_individuals)]
+
+  list(distance = dist_to_niche, niches = niche_of_individuals)
 }
 # associate_to_niches <- function(object, utopian_epsilon = 0) {
 #     fitness <- object@fitness
@@ -76,12 +98,9 @@ associate_to_niches <- function(object, utopian_epsilon = 0) {
 
 #' @export
 compute_perpendicular_distance <- function(x, y) {
-  xx <- sqrt(rowSums(x^2))
-  x <- x / xx
-  yy <- sqrt(rowSums(y^2))
-  y <- y / yy
-  D <- x %*% t(y)
-  return(1 - D)
+  x <- x / sqrt(rowSums(x^2))
+  y <- y / sqrt(rowSums(y^2))
+  1 - x %*% t(y)
 }
 # compute_perpendicular_distance <- function(x, y) {
 #     p <- ncol(x)
@@ -114,7 +133,7 @@ compute_perpendicular_distance <- function(x, y) {
 
 #' @export
 compute_niche_count <- function(n_niches, niche_of_individuals) {
-  return(tabulate(niche_of_individuals, nbins = n_niches))
+  tabulate(niche_of_individuals, nbins = n_niches)    # drop redundant return()
 }
 # compute_niche_count <- function(n_niches, niche_of_individuals) {
 #     niche_count <- rep(0, n_niches)
